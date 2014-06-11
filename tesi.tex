@@ -1,0 +1,98 @@
+\documentclass[11pt,a4paper,twoside,openright]{report}
+
+%frontespizio
+\providecommand{\coursename}{Progetto di Ingegneria Informatica}
+\providecommand{\annoacc}{2013-2014}
+\providecommand{\principaladviser}{Prof. Andrea Bonarini}
+\providecommand{\firstauthor}{Davide Tateo}
+\providecommand{\firstauthorid}{799311}
+\title{Cognitive SLAM: knowledge-based self-localization and mapping}
+\author{\firstauthor}
+
+\usepackage{settings/frontesp}
+
+%
+
+%\usepackage[dvips]{graphicx}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{afterpage}
+\usepackage{amsmath,amssymb}            
+\usepackage{rotating}  
+\usepackage{fancyhdr}  
+\usepackage[scriptsize]{caption} 
+\hyphenation{a-gen-tiz-za-zio-ne}
+
+\setlength{\paperwidth}{16cm}
+\setlength{\paperheight}{24cm}
+\setlength{\oddsidemargin} {2. cm}
+\setlength{\evensidemargin} {2. cm}
+\addtolength{\oddsidemargin} {-0.4 cm}
+\addtolength{\evensidemargin} {-0.4 cm}
+\linespread{1.1}
+
+\usepackage[italian]{babel}
+\usepackage[latin1]{inputenc}
+\renewcommand{\captionfont}{\normalfont \sffamily \itshape \small}
+
+\pagestyle{empty}
+
+\begin{document}
+%\include{altro/frontespizio}
+\titlep
+\thispagestyle{empty} \normalfont \cleardoublepage
+\include{altro/dedica}
+\thispagestyle{empty}  \cleardoublepage
+\pagenumbering{Roman}
+\include{altro/sommario}
+\thispagestyle{empty} \vspace*{.75truecm} \cleardoublepage
+\include{altro/ringraziamenti}
+\thispagestyle{empty} \vspace*{.75truecm} \normalfont \cleardoublepage
+\pagestyle{plain}\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}} 
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}         
+\fancyhead[LE,RO]{\bfseries\thepage}    
+                                        
+\fancyhead[RE]{\bfseries\leftmark}    
+\fancyhead[LO]{\bfseries\rightmark}     
+\renewcommand{\headrulewidth}{0.3pt} 
+
+\include{capitoli/capitolo1}
+\include{capitoli/capitolo2}
+\include{capitoli/capitolo3}
+\include{capitoli/capitolo4}
+\include{capitoli/capitolo5}
+\include{capitoli/capitolo6}
+\include{capitoli/capitolo7}
+
+\cleardoublepage
+% ---- Bibliography ----
+\addcontentsline{toc}{chapter}{Bibliografia}
+\bibliographystyle{plain}
+\bibliography{bibl_tesi}
+%\nocite{*}
+
+\appendix
+
+\pagestyle{fancy} 
+\fancyfoot{}                                               
+\renewcommand{\chaptermark}[1]{\markboth{\appendixname\ \thechapter.\ #1}{}} 
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}         
+\fancyhead[LE,RO]{\bfseries\thepage}    
+                                        
+\fancyhead[RE]{\bfseries\leftmark}    
+\fancyhead[LO]{\bfseries\rightmark}     
+\renewcommand{\headrulewidth}{0.3pt} 
+
+\include{appendici/appendiceA}
+\include{appendici/appendiceB}
+\include{appendici/appendiceC}
+\include{appendici/appendiceD}
+\include{appendici/appendiceE}
+\include{appendici/appendiceF}
+
+\end{document}
+
+
+
+
+
