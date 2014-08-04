@@ -11,9 +11,15 @@
 
 \usepackage{settings/frontesp}
 
-%
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 
-%\usepackage[dvips]{graphicx}
 \usepackage{tabularx}
 \usepackage{subfigure}
 \usepackage{afterpage}
@@ -45,6 +51,8 @@
 \pagenumbering{Roman}
 \include{altro/sommario}
 \thispagestyle{empty} \vspace*{.75truecm} \cleardoublepage
+\tableofcontents
+\clearpage
 \include{altro/ringraziamenti}
 \thispagestyle{empty} \vspace*{.75truecm} \normalfont \cleardoublepage
 \pagestyle{plain}\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}} 
