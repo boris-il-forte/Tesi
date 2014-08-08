@@ -1,0 +1,54 @@
+-- Scaletta  --
+
+0a- Sommario
+L'abstract in italiano
+
+0b- Abstract
+l'abstract in inglese
+
+1 - introduzione
+Spiego brevemente cosa devo fare e perchè
+
+2 - Stato dell'arte
+SLAM, FastSLAM, PTAM, SVO per la parte di localizzazzione
+reti neurali convoluzionali, haar, SVM & Discriminatively Trained Part Based Models, YEF∗ Real-Time Object Detection per l'object detection
+CLIPS & owl per reasoning
+
+3 - Impostazione del problema di ricerca
+qua lo schema dice:
+"In questa sezione si deve descrivere l’obiettivo della ricerca, le problematiche
+affrontate ed eventuali definizioni preliminari nel caso la tesi sia di carattere
+teorico."
+ma io parlerei più che della prima parte, userei la sezione per le definizioni, dato che questa tesi è più teorica che pratica.
+
+4 - architettura del sistema
+Metetrei insieme i capityoli 4/5 dello schema in un unico capitolo in cui spiego bene com'è progettato il sistema, perchè è concepito così, e 
+come sono fatti i moduli in generale (sostanzialmente lo schema disegnato alla lavagna o poco più)
+
+5 - Reasoning
+spiego come è fatto il reasoner, la grammatica del linguaggio, l'implementazione a grandi linee.
+
+6 - Object detection
+spiego come funziona la parte di visione, sia l'algoritmo per riconoscere quadrati e pali, che il clustering di keypoints
+
+7 - Tracking
+Spiego come sfrutto il CMT, come gestisco le detection rispetto alle track già presenti, come mi interfaccio con la mappa (che è ancora da fare).
+
+8 - mapping
+Non so bene cosa scriverò, poichè lo devo implementare. Ho delle idee da provare...
+sicuramente si parlerà dell'analisi nelle ROI, del raffinamento della track, dela geometria e delle info addizionali dati dalla semantica degli oggetti.
+
+9 - Sviluppi futuri
+Parlo di tutto quello che avrei voluto implementare: maggiore ragionamento, navigazione semantica tra oggetti, eliminazione del pavimento, riconoscimento delle pareti...
+
+-- Appendice --
+
+Farei in maniera diversa da quanto propone il template.
+- il listato è ridicolo solo pensare di inserirlo, nemmeno parte di esso.
+- documentazione della programmazione, non so che scrivere, e sinceramente credo che non basterebbero 150 pagine solo per quella, se dovessi farlo.
+- gli schemi a blocchi non gli metterei in fondo, confondono e basta il lettore (ma se lei preferisce gli metto qui)
+- Manuale utente molto ridotto, comunque si stratta di una tesi "Teorica"
+- Esempio di impiego, si potrebbe parlare minimamente del quadrotor, ma non più di 3/4 pagine...
+- Datasheet non ne ho, se non quelli riguardanti il quadrotor, che comunque non è il centro della tesi, ma solo un modo di provarlo, quindi non lo metetrei nemmeno...
+
+
