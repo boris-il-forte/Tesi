@@ -17,31 +17,26 @@ Douglas Adams, Mostly Harmless
 \end{quotation}
 \vspace{0.5cm}
 
-\section{Inquadramento generale}
 Uno dei problemi chiave della robotica è la localizzazione di un robot in un ambiente sconosciuto. Questo problema è noto come ``SLAM'', Simultaneus localization and Mapping, ed è attualmente una delle aree più importanti della ricerca riguardante i robot autonomi. 
-In particolare, questo problema risulta ancora più difficile se applicato a robot dotati di sensori a basso costo, quali webcam e unità di misura inerziale economiche, restrizione fondamentale per la diffusione di applicazioni di robotica autonoma nel mondo reale.
-Lo scopo della tesi è di sviluppare un framework per risolvere il problema della localizzazione di robot autonomi dotati di sensori a basso costo, quali ad esempio i quadricotteri
+In particolare, questo problema risulta ancora più difficile se applicato a robot dotati di sensori a basso costo, quali webcam e unità di misura inerziale economiche, restrizione fondamentale per la diffusione di applicazioni di robotica autonoma nel mondo reale. \\
+Lo scopo della tesi è di sviluppare un framework per risolvere il problema della localizzazione di robot autonomi dotati di sensori a basso costo, quali ad esempio i quadricotteri. L'idea è di sviluppare una metodologia che non solo permetta al robot di localizzarsi nella mappa in maniera efficiente, ma anche di interagire con l'ambiente in maniera avanzata, di compiere ragionamenti, di adattarsi a eventuali cambiamenti ed agli eventi che possono occorrere, quali la presenza di persone o altri agenti. \\
+Basandosi principalmente sulle informazioni provenienti da una videocamera monoculare, è stato sviluppato un sistema che è in grado di processare informazioni provenienti da un esperto, espresse in un linguaggio formale, di estrarre feature di basso livello e aggregarle, grazie alla base di conoscenza, per riconoscere e tracciare feature di alto livello, quali porte e armadi, e di basare conseguentemente su di essi il processo di localizzazzione.
+Per permettere all'esperto di trasmettere la sua conoscenza all'agente, è stato sviluppato un linguaggio formale, basato sulla logica fuzzy, che permetta di esprimere sia regole fuzzy linguistiche, sia di definire un classificatore fuzzy ad albero in grado di definire una gerarchia di modelli e le relazioni tra di essi. \\
+%%TODO aggiungere altro appena possibile... sulla localizazione e sui risultati...
 
+%Poi vi devono essere una o due frasi che contengano una breve spiegazione di cosa e come \`e stato fatto, delle attivit\`a  sperimentali, dei risultati ottenuti con una valutazione e degli sviluppi futuri. La prima parte deve essere circa una facciata e mezza o due
 
+%\section{Breve descrizione del lavoro} (TODO ancora??)
+%La seconda parte deve essere una esplosione della prima e deve quindi mostrare in maniera pi\`u esplicita l'area dove si svolge il lavoro, le fonti bibliografiche pi\`u importanti su cui si fonda il lavoro in maniera sintetica (una pagina) evidenziando i lavori in letteratura che presentano attinenza con il lavoro affrontato in modo da mostrare da dove e perch\'e \`e sorta la tematica di studio. Poi si mostrano esplicitamente le realizzazioni, le direttive future di ricerca, quali sono i problemi aperti e quali quelli affrontati e si ripete lo scopo della tesi. Questa parte deve essere piena (ma non grondante come la sezione due) di citazioni bibliografiche e deve essere lunga circa 4 facciate.
 
-La prima parte contiene una frase che spiega l'area generale dove si svolge il lavoro; una che spiega la sottoarea pi\`u specifica dove si svolge il lavoro e la terza, che dovrebbe cominciare con le seguenti parole ``lo scopo della tesi \`e \dots'', illustra l'obbiettivo del lavoro. Poi vi devono essere una o due frasi che contengano una breve spiegazione di cosa e come \`e stato fatto, delle attivit\`a  sperimentali, dei risultati ottenuti con una valutazione e degli sviluppi futuri. La prima parte deve essere circa una facciata e mezza o due
-
-\section{Breve descrizione del lavoro}
-La seconda parte deve essere una esplosione della prima e deve quindi mostrare in maniera pi\`u esplicita l'area dove si svolge il lavoro, le fonti bibliografiche pi\`u importanti su cui si fonda il lavoro in maniera sintetica (una pagina) evidenziando i lavori in letteratura che presentano attinenza con il lavoro affrontato in modo da mostrare da dove e perch\'e \`e sorta la tematica di studio. Poi si mostrano esplicitamente le realizzazioni, le direttive future di ricerca, quali sono i problemi aperti e quali quelli affrontati e si ripete lo scopo della tesi. Questa parte deve essere piena (ma non grondante come la sezione due) di citazioni bibliografiche e deve essere lunga circa 4 facciate.
-
-\section{Struttura della tesi}
-La terza parte contiene la descrizione della struttura della tesi ed \`e organizzata nel modo seguente.
-``La tesi \`e strutturata nel modo seguente.
-
-Nella sezione due si mostra \dots
-
-Nella sez. tre si illustra \dots
-
-Nella sez. quattro si descrive \dots
-
-Nelle conclusioni si riassumono gli scopi, le valutazioni di questi e le prospettive future \dots
-
-Nell'appendice A si riporta \dots (Dopo ogni sezione o appendice ci vuole un punto).''
-
-I titoli delle sezioni da 2 a M-1 sono indicativi, ma bisogna cercare di mantenere un significato equipollente nel caso si vogliano cambiare. Queste sezioni possono contenere eventuali sottosezioni.
+\noindent
+La tesi è strutturata nel modo seguente: \\
+\textbf{Nel capitolo 2} si illustra lo stato dell'arte. \\ 
+\textbf{Nel capitolo 3} si illustrano le basi teoriche necessarie. \\
+\textbf{Nel capitolo 4} si descrive l'architettura generale del sistema. \\
+\textbf{Nel capitolo 5} si parla del reasoner e del linguaggio formale utilizzato. \\
+\textbf{Nel capitolo 6} si descrive l'estrazione delle feature di basso livello. \\
+\textbf{Nel capitolo 7} si mostra come gli oggetti riconosciuti sono tracciati. \\
+\textbf{Nel capitolo 8} si illustra la creazione della mappa e la localizzazione. \\
+\textbf{Nel capitolo 9} si riassumono gli scopi, le valutazioni di questi e le prospettive future. 
 
