@@ -164,10 +164,10 @@ order=-1
 
 [item:capitoli/capitolo1.tex]
 archive=true
-column=581
+column=55
 encoding=ISO-8859-15
 highlight=LaTeX
-line=29
+line=37
 mode=LaTeX
 open=true
 order=0
@@ -293,10 +293,10 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:capitoli/capitolo1.tex]
-CursorColumn=581
-CursorLine=29
+CursorColumn=55
+CursorLine=37
 JumpList=
-ViMarks=.,-1,-1,[,-1,-1,],-1,-1
+ViMarks=.,22,443,[,22,443,],22,443
 
 [view-settings,view=0,item:capitoli/capitolo7.tex]
 CursorColumn=1
