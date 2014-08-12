@@ -12,6 +12,7 @@ Spiego brevemente cosa devo fare e perchè
 2 - Stato dell'arte
 SLAM, FastSLAM, PTAM, SVO per la parte di localizzazzione
 reti neurali convoluzionali, haar, SVM & Discriminatively Trained Part Based Models, YEF∗ Real-Time Object Detection per l'object detection
+Kinect
 CLIPS & owl per reasoning
 
 3 - Impostazione del problema di ricerca
@@ -38,7 +39,10 @@ Spiego come sfrutto il CMT, come gestisco le detection rispetto alle track già 
 Non so bene cosa scriverò, poichè lo devo implementare. Ho delle idee da provare...
 sicuramente si parlerà dell'analisi nelle ROI, del raffinamento della track, dela geometria e delle info addizionali dati dalla semantica degli oggetti.
 
-9 - Sviluppi futuri
+9 - Risultati sperimentali
+
+
+10 - Conclusioni e sviluppi futuri
 Parlo di tutto quello che avrei voluto implementare: maggiore ragionamento, navigazione semantica tra oggetti, eliminazione del pavimento, riconoscimento delle pareti...
 
 -- Appendice --
