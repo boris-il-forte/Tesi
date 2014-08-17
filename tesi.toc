@@ -1,0 +1,19 @@
+\select@language {italian}
+\select@language {italian}
+\contentsline {chapter}{Sommario}{I}{chapter*.1}
+\contentsline {chapter}{Abstract}{III}{chapter*.2}
+\contentsline {chapter}{Ringraziamenti}{VII}{chapter*.4}
+\contentsline {chapter}{\numberline {1}Introduzione}{1}{chapter.1}
+\contentsline {chapter}{\numberline {2}Stato dell'arte}{3}{chapter.2}
+\contentsline {chapter}{\numberline {3}Impostazione del problema di ricerca}{5}{chapter.3}
+\contentsline {chapter}{\numberline {4}Progetto logico della soluzione del problema}{7}{chapter.4}
+\contentsline {chapter}{\numberline {5}Architettura del sistema}{9}{chapter.5}
+\contentsline {chapter}{\numberline {6}Realizzazioni sperimentali e valutazione}{11}{chapter.6}
+\contentsline {chapter}{\numberline {7}Direzioni future di ricerca e conclusioni}{13}{chapter.7}
+\contentsline {chapter}{Bibliografia}{15}{chapter.7}
+\contentsline {chapter}{\numberline {A}Documentazione del progetto logico}{17}{appendix.Alph1}
+\contentsline {chapter}{\numberline {B}Documentazione della programmazione}{19}{appendix.Alph2}
+\contentsline {chapter}{\numberline {C}Listato}{21}{appendix.Alph3}
+\contentsline {chapter}{\numberline {D}Il manuale utente}{23}{appendix.Alph4}
+\contentsline {chapter}{\numberline {E}Esempio di impiego}{25}{appendix.Alph5}
+\contentsline {chapter}{\numberline {F}Datasheet}{27}{appendix.Alph6}
