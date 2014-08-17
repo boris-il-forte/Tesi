@@ -26,6 +26,7 @@
 \usepackage{amsmath,amssymb}            
 \usepackage{rotating}  
 \usepackage{fancyhdr}  
+\usepackage[nottoc,notlot,notlof]{tocbibind}
 \usepackage[scriptsize]{caption} 
 \hyphenation{a-gen-tiz-za-zio-ne}
 
@@ -49,6 +50,7 @@
 \pagenumbering{Roman}
 \include{altro/sommario}
 \thispagestyle{empty} \vspace*{.75truecm} \cleardoublepage
+\phantomsection\pdfbookmark{Indice}{indice}
 \tableofcontents
 \clearpage
 \include{altro/ringraziamenti}
@@ -76,7 +78,6 @@
 
 \cleardoublepage
 % ---- Bibliography ----
-\addcontentsline{toc}{chapter}{Bibliografia}
 \bibliographystyle{plain}
 \bibliography{altro/bibliografia}
 %\nocite{*}
