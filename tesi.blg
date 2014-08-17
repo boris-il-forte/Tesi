@@ -18,44 +18,49 @@ The style file: plain.bst
 A level-1 auxiliary file: appendici/appendiceA.aux
 A level-1 auxiliary file: appendici/appendiceB.aux
 Database file #1: altro/bibliografia.bib
-You've used 2 entries,
+A bad cross reference---entry "conf/iccv/NewcombeLD11"
+refers to entry "conf/iccv/2011", which doesn't exist
+Warning--I didn't find a database entry for "conf/iccv/2011"
+Warning--empty booktitle in Viola01rapidobject
+You've used 7 entries,
             2118 wiz_defined-function locations,
-            527 strings with 4860 characters,
-and the built_in function-call counts, 902 in all, are:
-= -- 88
-> -- 36
-< -- 1
-+ -- 14
-- -- 12
-* -- 59
-:= -- 139
-add.period$ -- 7
-call.type$ -- 2
-change.case$ -- 12
+            561 strings with 5777 characters,
+and the built_in function-call counts, 3113 in all, are:
+= -- 311
+> -- 120
+< -- 5
++ -- 46
+- -- 38
+* -- 189
+:= -- 457
+add.period$ -- 23
+call.type$ -- 7
+change.case$ -- 38
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 39
-empty$ -- 77
-format.name$ -- 12
-if$ -- 202
+cite$ -- 8
+duplicate$ -- 146
+empty$ -- 267
+format.name$ -- 38
+if$ -- 715
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 4
-pop$ -- 18
+int.to.str$ -- 7
+missing$ -- 7
+newline$ -- 38
+num.names$ -- 16
+pop$ -- 60
 preamble$ -- 1
-purify$ -- 10
+purify$ -- 31
 quote$ -- 0
-skip$ -- 29
+skip$ -- 118
 stack$ -- 0
-substring$ -- 64
-swap$ -- 14
-text.length$ -- 1
+substring$ -- 218
+swap$ -- 59
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 8
-warning$ -- 0
-while$ -- 6
-width$ -- 3
-write$ -- 25
+type$ -- 28
+warning$ -- 1
+while$ -- 27
+width$ -- 8
+write$ -- 81
+(There was 1 error message)
