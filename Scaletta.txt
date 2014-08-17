@@ -15,7 +15,7 @@ reti neurali convoluzionali, haar, SVM & Discriminatively Trained Part Based Mod
 Kinect
 CLIPS & owl per reasoning
 
-3 - Impostazione del problema di ricerca
+3 - Concetti Fondamentali
 qua lo schema dice:
 "In questa sezione si deve descrivere l’obiettivo della ricerca, le problematiche
 affrontate ed eventuali definizioni preliminari nel caso la tesi sia di carattere

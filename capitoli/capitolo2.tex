@@ -4,18 +4,37 @@
 
 \begin{quotation}
 {\footnotesize
-\noindent{\emph{``Terence: Tu lo reggi il whisky? \\
-Bud: Beh, i primi due galloni si, al terzo divento nostalgico e ci pu\`o scappare la lite... E tu lo reggi? \\
-Terence: Eh, che domande, io sono stato allattato a whisky!''
+\noindent{\emph{Doc: Ecco perché non ha funzionato: c'è scritto ``Made in Japan''. \\
+Marty: E che vuol dire Doc? Tutta la roba migliore è fatta in Giappone. \\
+Doc: Incredibile!
 } }
 \begin{flushright}
-I due superpiedi quasi piatti
+Ritorno al Futuro, parte III
 \end{flushright}
 }
 \end{quotation}
 \vspace{0.5cm}
 
-Il problema della localizzazione di un robot in un ambiete sconosciuto è stato affrontato fin dagli anni 90' a partire da \cite{174711}, articolo nel quale per la prima volta si delineava un framework per localizzare un robot costruendo contemporaneamente la mappa dell'ambiente.Tramite l'utilizzo di sonar, venivano estratte feature geometriche con cui veniva costruita la mappa, nella quale il robot si localizzava. Il problema principale della localizzazione è il ``problema della correlazione'': se la posizione della feature rispetto alla quale ci si localizza è affetta da incertezza, la conseguente stima della posizione effettuata rispetto a tale feature sarà affetta da un errore che dipende dall'errore della posizione della feature %stessa. Questo problema diventa tanto più grave se si pensa che la posizione del robot in ogni istante non è nota a priori, ma deve essere stimata sulla base delle osservazioni precedenti. Come è facile vedere, è necessario risolvere questo problema per evitare che l'errore 
-della generazione della mappa e l'errore della stima della posizione divergano nel tempo. Per risolvere questo problema, gli autori hanno utilizzato un filtro di Kalman esteso.
-Come è noto, il filtro di Kalman è uno stimatore Bayesiano ricorsivo, che, supposto noto il modello lineare che regola la generazione dei dati e la loro osservazione, supposto che l'errore di misura e di modello siano gaussiani, restituisce la densità di probabilità del sistema osservato. Il filtro di Kalman, se utilizzato secondo le ipotesi, è uno stimatore ottimo dello stato del sistema osservato, secondo i minimi quadrati.
-Tuttavia, nell'ambito della robotica, e in particolare nel problema della localizzazione, il modello di %generazione e osservazione dei dati non può essere considerato lineare. E' quindi necessario utilizzare un'estensione del filtro di kalman al caso non lineare: il filtro di Kalman esteso (EKF) è una delle possibili soluzioni al problema. L'idea alla base del filtro di Kalmen esteso è quella di lavorare sul modello linearizzato, stimato ricorsivamente dal modello non lineare sulla base della stima corrente.
+Il problema della localizzazione di un robot in un ambiete sconosciuto è stato affrontato fin dagli anni 90' a partire da \cite{174711}, articolo nel quale per la prima volta si delineava un framework per localizzare un robot costruendo contemporaneamente la mappa dell'ambiente.
+Tramite l'utilizzo di sonar, venivano estratte feature geometriche con cui veniva costruita la mappa, nella quale il robot si localizzava. 
+Il problema principale della localizzazione è il ``problema della correlazione'': se la posizione della feature rispetto alla quale ci si localizza è affetta da incertezza, la conseguente stima della posizione effettuata rispetto a tale feature sarà affetta da un errore che dipende dall'errore della posizione della feature stessa. 
+Questo problema diventa tanto più grave se si pensa che la posizione del robot in ogni istante non è nota a priori, ma deve essere stimata sulla base delle osservazioni precedenti. 
+Come è facile vedere, è necessario risolvere questo problema per evitare che l'errore della generazione della mappa e l'errore della stima della posizione divergano nel tempo. 
+Per risolvere questo problema, gli autori hanno utilizzato un filtro di Kalman esteso.
+
+Come è noto, il filtro di Kalman è uno stimatore Bayesiano ricorsivo, che, supposto noto il modello lineare che regola la generazione dei dati e la loro osservazione, supposto che l'errore di misura e di modello siano gaussiani, restituisce la densità di probabilità del sistema osservato. 
+Il filtro di Kalman, se utilizzato secondo le ipotesi, è uno stimatore ottimo dello stato del sistema osservato, secondo i minimi quadrati.
+Tuttavia, nell'ambito della robotica, e in particolare nel problema della localizzazione, il modello di generazione e osservazione dei dati non può essere considerato lineare.
+E' quindi necessario utilizzare un'estensione del filtro di kalman al caso non lineare: il filtro di Kalman esteso (EKF) è una delle possibili soluzioni al problema. 
+L'idea alla base del filtro di Kalmen esteso è quella di lavorare sul modello linearizzato, stimato ricorsivamente dal modello non lineare sulla base della stima corrente.
+
+Per avere una buona stima della posizione è necessario utilizzare un gran numero di feature, numero che cresce molto rapidamente con l'aumentare della dimensione dell'ambiente.
+La complessità computazionale dell'approccio tradizionale basato sul filtro di Kalman esteso è $\mathcal{O}(N^3)$, con $N$ numero di feature, e quindi il tempo di calcolo diventa ben presto inaccettabile.
+Per risolvere questo problema è stato introdotto in \cite{Montemerlo02a}  un nuovo algoritmo detto FastSLAM, che consiste nell'utilizzo del Particle Filter, un'altro stimatore bayesiano ricorsivo, e del filtro di Kalman esteso in combinazione.
+Per ogni feature considerata, viene associato un filtro di Kalman esteso. 
+la densità di probabilità congiunta, invece, viene calcolata sfruttando il Particle filter. 
+Il risultato è un algoritmo che ha complessità computazionale $\mathcal{O}(N\log M)$, con $M$ numero di feature e $N$ è il numero di particelle usate dal Particle Filter. 
+Questo approccio rende il problema trattabile nella maggior parte dei casi, pur essendo pesante computazionalmente, essendo necessario un elevato numero di particelle per avere una buona localizzazione.
+
+
+

@@ -1,3 +1,18 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{174711}
+J.J. Leonard and H.F. Durrant-Whyte.
+\newblock Simultaneous map building and localization for an autonomous mobile
+  robot.
+\newblock In {\em Intelligent Robots and Systems '91. 'Intelligence for
+  Mechanical Systems, Proceedings IROS '91. IEEE/RSJ International Workshop
+  on}, pages 1442--1447 vol.3, Nov 1991.
+
+\bibitem{Montemerlo02a}
+M.~Montemerlo, S.~Thrun, D.~Koller, and B.~Wegbreit.
+\newblock {FastSLAM}: {A} factored solution to the simultaneous localization
+  and mapping problem.
+\newblock In {\em Proceedings of the AAAI National Conference on Artificial
+  Intelligence}, Edmonton, Canada, 2002. AAAI.
 
 \end{thebibliography}
