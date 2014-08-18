@@ -48,6 +48,18 @@ Un altro approccio alternativo è quello di usare tutti i dati dell'immagine per
 
 Si sono dimostrati efficaci anche i metodi semi-diretti, come SVO, Semi Direct Visual Odometry, un algoritmo che riesce a ottenere altissime prestazioni limitando l'estrazione delle feature ad alto livello ai soli keyframe, operando direttamente sulle intensità dei pixel nei frame successivi, eliminando le fasi computazionalmente più onerose, che sono l'estrazione e l'abbinamento delle feature. SVO si basa sulle idee di PTAM, ma migliora sia le prestazioni, riuscendo a essere computazionalmente più leggero, sia la precisione della mappa e della localizzazione riducendo di molto gli outlier.
 
+Recentemente stanno avendo molto successo i sistemi basati su sensori RGB-D \cite{izadi2011kinectfusion} \cite{henry2012rgb}. Questi sensori vengono utilizzati come scanner laser a basso costo per creare una mappa dell'ambiente. Tuttavia, sono soggetti a molte limitazioni, non essendo stati progettati per questo scopo, e soffrono tra l'altro di un raggio d'azione limitato. Nonostante queste limitazioni i sistemi riescono comunque a ottenere buone prestazioni in ambienti indoor \cite{sturm2012benchmark}.
+
+\section{Rappresentazione del Mondo}
+
+Sono noti diversi modi per rappresentare un ambiente tridimensionale.
+Il più semplice possibile è quello di usare delle nuvole di punti, direttamente estratte dai sensori. Un'altra rappresentazione comune è quella di filtrare le nuvole di punti ottenute tramite una griglia di voxel, come ad esempio in \cite{30724}.
+Metodi più avanzati permettono una rappresentazione geometrica dell'ambiente con un minor uso di memoria, come ad esempio le mappe di quota, in cui una mappa a due dimensoni è estesa con il calcolo del valore medio di altezza di ciascun punto 2D come in \cite{herbert1989terrain}, le mappe di quota estese, che tengono conto di possibili aperture attraversabili dai robot oppure le mappe di quota multilivello, che riescono a descrivere complesse geometrie multilivello \cite{4058725}.
+
+Tra le mappe più promettenti esistono le mappe basate sugli octree, che permettono una efficiente rappresentazione in memoria sia dello spazio occupato che dello spazio libero, pur potendo descrivere geometrie complesse. Inoltre questo tipo di rappresentazione permette di scalare facilmente la risoluzione della mappa, permettendo di utilizzare la stessa mappa per compiti che richiedono un sensibilità differente. Una efficiente implementazione di questo tipo di mappa può essere trovata in \cite{hornung13auro}.
+
+Recentemente si sta sviluppando l'idea di rappresentare il mondo ad alto livello, incorporando informazioni semantiche e geometriche che possano essere utilizzate non solo dagli algoritmi di navigazione, ma anche per svolgere compiti ad alto livello e ragionamenti. Una possibile soluzione al problema è l'approccio basato su Scene Graph, come descritto in \cite{6630614}. Sono stati sviluppati anche DSL per poter interagire ad alto livello, ad esempio generando istanze di oggetti a partire da un modello generico, come ad esempio in \cite{blumenthal2014towards}.
+
 \section{Riconoscimento di Oggetti}
 
 La quasi totalità degli algoritmi di riconoscimento di oggetti nell'immagine è basata su tecniche di machine learning.
@@ -62,12 +74,16 @@ Su queste feature si basa l'algoritmo descritto in \cite{lsvm-pami}. Questo algo
 Più recenti sono i metodi basati sul deep learning. Tra questi, i più promettenti nel riconoscimento di oggetti sono basati sulle reti neurali convoluzionali. La particolarità di queste reti è di essere basata su kernel di nodi collegati in maniera fissa, e ripetuti per coprire tutta l'immagine. La struttura rigida sfrutta la località dell'informazione nell'immagine, e permette un training più efficiente.
 Un esempio di applicazione si può trovare in \cite{NIPS2012_4824}.
 
+Metodi recenti, sfruttano sensori RGB-D, come ad esempio Kinect, per riconoscere oggetti nella scena, come ad esempio in \cite{lai2012detection}. 
+
 %%TODO bag of words?
 
 \section{Reasoning}
 
 I sistemi esperti sono stati per lungo tempo una delle branche dell'intelligenza artificiale più attive. 
-In particolare si può citare il noto strumento per la creazione di sistemi esperti, CLIPS, e la sua estensione alla logica fuzzy, FuzzyCLIPS. Entrambi permettono di descrivere delle classi di oggetti e di definire predicati tra di essi, in modo da poter compiere inferenza sui dati in ingresso.
+In particolare si può citare il noto strumento per la creazione di sistemi esperti, CLIPS, e la sua estensione alla logica fuzzy, FuzzyCLIPS. Entrambi permettono di descrivere delle classi di oggetti e di definire predicati tra di essi, in modo da poter compiere inferenza sui dati in ingresso. Una risorsa sui sistemi esperti in generale, e CLIPS in particolare può essere trovata in \cite{joseph1994riley}.
 La ricerca sui sistemi di deduzione formale tuttavia si è spostata da i sistemi esperti al web semantico.
 L'attuale standard per i sistemi di inferenza è il linguaggio OWL 2, descritto in \cite{owl2-overview} e \cite{owl2-primer}, linguaggio fortemente basato sulle logiche descrittive che permettono un buon compromesso tra espressività, complessità computazionale e mantengono la logica utilizzata decidibile.
 Un esempio di reasoning applicato al riconoscimento delle immagini può essere trovato in \cite{DBLP:journals/ivc/MaillotT08}, in cui feature a basso livello vengono estratte da un meccanismo di machine learning, e utilizzate da un sistema di inferenza che sfrutta una ontologia per l'analisi ad alto livello dell'immagine.
+
+
