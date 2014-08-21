@@ -17,73 +17,109 @@ Ritorno al Futuro, parte III
 
 \section{SLAM}
 
-Il problema della localizzazione di un robot in un ambiente sconosciuto è stato affrontato fin dagli anni 90' a partire da \cite{174711}, articolo nel quale per la prima volta si delineava un framework per localizzare un robot costruendo contemporaneamente la mappa dell'ambiente.
+Il problema della localizzazione di un robot in un ambiente sconosciuto è stato affrontato fin dagli anni '90 a partire da \cite{174711}, articolo nel quale per la prima volta si delineava un framework per localizzare un robot costruendo contemporaneamente la mappa dell'ambiente.
+%%% Sicuro che sia' quello il punto di partenza? Forse per lo SLAM, ma per la localizzazione penso che ci abbiano pensato quasi da subito (Shakey, http://en.wikipedia.org/wiki/Shakey_the_robot) Forse e' il caso di dire "localizzazione e costruzione della mappa in contemporanea"
 Tramite l'utilizzo di sonar, venivano estratte feature geometriche con cui veniva costruita la mappa, nella quale il robot si localizzava. 
 Il problema principale della localizzazione è il ``problema della correlazione'': se la posizione della feature rispetto alla quale ci si localizza è affetta da incertezza, la conseguente stima della posizione effettuata rispetto a tale feature sarà affetta da un errore che dipende dall'errore della posizione della feature stessa. 
 Questo problema diventa tanto più grave se si pensa che la posizione del robot in ogni istante non è nota a priori, ma deve essere stimata sulla base delle osservazioni precedenti. 
-Come è facile vedere, è necessario risolvere questo problema per evitare che l'errore della generazione della mappa e l'errore della stima della posizione divergano nel tempo. 
-Per risolverlo, gli autori hanno utilizzato un filtro di Kalman esteso.
+%Come è facile realizzare, è 
+\`E necessario risolvere questo problema per evitare che l'errore della generazione della mappa e l'errore della stima della posizione divergano nel tempo. 
+Per risolverlo, gli autori hanno spesso utilizzato un filtro di Kalman esteso.
 
-Come è noto, il filtro di Kalman è uno stimatore Bayesiano ricorsivo, che, supposto noto il modello lineare che regola la generazione dei dati e la loro osservazione, supposto che l'errore di misura e di modello siano gaussiani, restituisce la densità di probabilità del sistema osservato. 
+%Come è noto, i >>In generale, evita questo tipo di frasi dato che non portano contenuto  
+Il filtro di Kalman è uno stimatore Bayesiano ricorsivo, che, supposto noto il modello lineare che regola la generazione dei dati e la loro osservazione, supposto che l'errore di misura e di modello siano gaussiani, restituisce la densità di probabilità del sistema osservato. 
 Il filtro di Kalman, se utilizzato secondo le ipotesi, è uno stimatore ottimo dello stato del sistema osservato, secondo i minimi quadrati.
 Tuttavia, nell'ambito della robotica, e in particolare nel problema della localizzazione, il modello di generazione e osservazione dei dati non può essere considerato lineare.
 E' quindi necessario utilizzare un'estensione del filtro di Kalman al caso non lineare: il filtro di Kalman esteso (EKF) è una delle possibili soluzioni al problema. 
 L'idea alla base del filtro di Kalman esteso è quella di lavorare sul modello linearizzato, stimato ricorsivamente dal modello non lineare sulla base della stima corrente.
 
 Per avere una buona stima della posizione è necessario utilizzare un gran numero di feature, numero che cresce molto rapidamente con l'aumentare della dimensione dell'ambiente.
-La complessità computazionale dell'approccio tradizionale basato sul filtro di Kalman esteso è $\mathcal{O}(N^3)$, con $N$ numero di feature, e quindi il tempo di calcolo diventa ben presto inaccettabile.
-Per risolvere questo problema è stato introdotto in \cite{Montemerlo02a}  un nuovo algoritmo detto FastSLAM, che consiste nell'utilizzo del Particle Filter, e del filtro di Kalman esteso in combinazione. L'algoritmo associa ad ogni feature considerata, un filtro di Kalman esteso; la densità di probabilità congiunta, invece, viene calcolata sfruttando il Particle filter. 
+La complessità computazionale dell'approccio tradizionale basato sul filtro di Kalman esteso è $\mathcal{O}(N^3)$, con $N$ numero di feature, e quindi il tempo di calcolo diventa ben presto inaccettabile per prestazioni in tempo reale.
+Per risolvere questo probleema è stato introdotto in~\cite{Montemerlo02a} un nuovo algoritmo detto FastSLAM, che consiste nell'utilizzo del Particle Filter, e del filtro di Kalman esteso in combinazione. L'algoritmo associa ad ogni feature considerata, un filtro di Kalman esteso; la densità di probabilità congiunta, invece, viene calcolata sfruttando il Particle filter. 
 Il Particle Filter è un altro stimatore Bayesiano ricorsivo, che, invece di un modello e dell'assunzione di rumore gaussiano, sfrutta metodi di tipo Monte Carlo per stimare la densità di probabilità del sistema che genera i dati.
-Il risultato è un algoritmo che ha complessità computazionale $\mathcal{O}(N\log M)$, con $M$ numero di feature e $N$ è il numero di particelle usate dal Particle Filter. 
-Questo approccio rende il problema trattabile nella maggior parte dei casi, pur essendo pesante computazionalmente, essendo necessario un elevato numero di particelle per avere una buona localizzazione.
+Il risultato è un algoritmo che ha complessità computazionale $\mathcal{O}(N\log M)$, con $M$ numero di feature e $N$ il numero di particelle usate dal Particle Filter. 
+Questo approccio rende il problema trattabile nella maggior parte dei casi, pur essendo pesante computazionalmente, dato che \`e necessario un elevato numero di particelle per avere una buona localizzazione.
 
 Vista la particolarità del problema quando il sensore utilizzato è una videocamera monoculare, sono stati sviluppati algoritmi ad hoc.
-Uno degli algoritmi più usati è PTAM, descritto in \cite{klein07parallel} e \cite{klein08improving}.
+Uno degli algoritmi più usati è PTAM~\cite{klein07parallel},~\cite{klein08improving}.
 L'idea alla base di questo algoritmo è dividere in due thread separati il tracking e la creazione della mappa: un thread si occupa del tracking robusto di feature a basso livello, mentre l'altro thread si occupa della creazione della mappa. 
 Per rendere efficiente il processo di mapping, solo i keyframe, ossia i frame che contengono maggiore informazione rispetto a quella già presente, vengono considerati.
-Per rendere il processo di mapping robusto, vengono utilizzate tecniche batch per costruire la mappa, come ad esempio il bundle adjustment.
+Per rendere il processo di mapping robusto, vengono utilizzate tecniche batch per costruire la mappa, come ad esempio il bundle adjustment. %Qui o dici cos'e' o metti una citazione. Se riesci a dirlo in 2 parole e' meglio
 PTAM, tuttavia, nasce per applicazioni di realtà aumentata, e quindi necessita di una inizializzazione, per risolvere i problemi dell'acquisizione del primo keyframe e per gestire la scala della mappa.
 
-Un altro approccio alternativo è quello di usare tutti i dati dell'immagine per eseguire la localizzazione, questo approccio è alla base ad esempio di DTAM, Dense Tracking and Mapping, descritto in \cite{conf/iccv/NewcombeLD11}.
+Un approccio alternativo consiste nell'usare tutti i dati dell'immagine per eseguire la localizzazione, questo approccio è alla base, ad esempio, di DTAM, Dense Tracking and Mapping~\cite{conf/iccv/NewcombeLD11}.% una frase per dire che fa
 
-Si sono dimostrati efficaci anche i metodi semi-diretti, come SVO, Semi Direct Visual Odometry, un algoritmo che riesce a ottenere altissime prestazioni limitando l'estrazione delle feature ad alto livello ai soli keyframe, operando direttamente sulle intensità dei pixel nei frame successivi, eliminando le fasi computazionalmente più onerose, che sono l'estrazione e l'abbinamento delle feature. SVO si basa sulle idee di PTAM, ma migliora sia le prestazioni, riuscendo a essere computazionalmente più leggero, sia la precisione della mappa e della localizzazione riducendo di molto gli outlier.
+Si sono dimostrati efficaci anche i metodi semi-diretti, come SVO % CITARE
+, Semi Direct Visual Odometry, un algoritmo che riesce a ottenere altissime prestazioni limitando l'estrazione delle feature ad alto livello ai soli keyframe, operando direttamente sulle intensità dei pixel nei frame successivi, eliminando le fasi computazionalmente più onerose, che sono l'estrazione e l'abbinamento delle feature. SVO si basa sulle idee di PTAM, ma ne migliora sia le prestazioni, riuscendo a essere computazionalmente più leggero, sia la precisione della mappa e della localizzazione riducendo di molto gli outlier.
 
-Recentemente stanno avendo molto successo i sistemi basati su sensori RGB-D \cite{izadi2011kinectfusion} \cite{henry2012rgb}. Questi sensori vengono utilizzati come scanner laser a basso costo per creare una mappa dell'ambiente. Tuttavia, sono soggetti a molte limitazioni, non essendo stati progettati per questo scopo, e soffrono tra l'altro di un raggio d'azione limitato. Nonostante queste limitazioni i sistemi riescono comunque a ottenere buone prestazioni in ambienti indoor \cite{sturm2012benchmark}.
+Recentemente, stanno avendo molto successo i sistemi basati su sensori RGB-D~\cite{izadi2011kinectfusion},~\cite{henry2012rgb}. Questi sensori vengono utilizzati come scanner laser a basso costo per creare una mappa dell'ambiente. Tuttavia, sono soggetti a molte limitazioni, non essendo stati progettati per questo scopo, e soffrono tra l'altro di un raggio d'azione limitato. Nonostante queste limitazioni i sistemi riescono comunque a ottenere buone prestazioni in ambienti indoor \cite{sturm2012benchmark}.
 
 \section{Rappresentazione del Mondo}
 
 Sono noti diversi modi per rappresentare un ambiente tridimensionale.
-Il più semplice possibile è quello di usare delle nuvole di punti, direttamente estratte dai sensori. Un'altra rappresentazione comune è quella di filtrare le nuvole di punti ottenute tramite una griglia di voxel, come ad esempio in \cite{30724}.
-Metodi più avanzati permettono una rappresentazione geometrica dell'ambiente con un minor uso di memoria, come ad esempio le mappe di quota, in cui una mappa a due dimensioni è estesa con il calcolo del valore medio di altezza di ciascun punto 2D come in \cite{herbert1989terrain}, le mappe di quota estese, che tengono conto di possibili aperture attraversabili dai robot oppure le mappe di quota multi livello, che riescono a descrivere complesse geometrie multi livello \cite{4058725}.
+Il più semplice possibile è quello di usare delle nuvole di punti, direttamente estratte dai sensori. Un'altra rappresentazione comune è quella di filtrare le nuvole di punti ottenute tramite una griglia di voxel, come, ad esempio, in~\cite{30724}.
+Metodi più avanzati permettono una rappresentazione geometrica dell'ambiente con un minor uso di memoria, come, ad esempio, le mappe di quota, in cui una mappa a due dimensioni è estesa con il calcolo del valore medio di altezza di ciascun punto 2D~\cite{herbert1989terrain}, le mappe di quota estese %citazione
+, che tengono conto di possibili aperture attraversabili dai robot, oppure le mappe di quota multi livello~\cite{4058725}, che riescono a descrivere complesse geometrie multi livello.
 
-Tra le mappe più promettenti esistono le mappe basate sugli octree, che permettono una efficiente rappresentazione in memoria sia dello spazio occupato che dello spazio libero, pur potendo descrivere geometrie complesse. Inoltre questo tipo di rappresentazione permette di scalare facilmente la risoluzione della mappa, permettendo di utilizzare la stessa mappa per compiti che richiedono un sensibilità differente. Una efficiente implementazione di questo tipo di mappa può essere trovata in \cite{hornung13auro}.
+Tra le mappe più promettenti esistono le mappe basate sugli octree, che permettono un'efficiente rappresentazione in memoria sia dello spazio occupato sia dello spazio libero, pur potendo descrivere geometrie complesse. Inoltre, questo tipo di rappresentazione permette di scalare facilmente la risoluzione della mappa, permettendo di utilizzare la stessa mappa per compiti che richiedono un sensibilità differente.
+% Sensbilita' e' corretto? Da wikipedia: In metrologia, sensibilità si riferisce, nel caso ideale, al rapporto tra la variazione del valore misurato R e la variazione del valore reale E, o in altri termini è la derivata della funzione y(s) che è la risposta del sensore allo stimolo s, pertanto se la funzione non è una retta la sensibilità varia da punto a punto. 
+Un'efficiente implementazione di questo tipo di mappa può essere trovata in \cite{hornung13auro}.
 
-Recentemente si sta sviluppando l'idea di rappresentare il mondo ad alto livello, incorporando informazioni semantiche e geometriche che possano essere utilizzate non solo dagli algoritmi di navigazione, ma anche per svolgere compiti ad alto livello e ragionamenti. Una possibile soluzione al problema è l'approccio basato su Scene Graph, come descritto in \cite{6630614}. Sono stati sviluppati anche DSL per poter interagire ad alto livello, ad esempio generando istanze di oggetti a partire da un modello generico, come ad esempio in \cite{blumenthal2014towards}.
+Recentemente, si sta sviluppando l'idea di rappresentare il mondo ad alto livello, incorporando informazioni semantiche e geometriche che possano essere utilizzate non solo dagli algoritmi di navigazione, ma anche per svolgere compiti ad alto livello e ragionamenti. Una possibile soluzione al problema è l'approccio basato su Scene Graph~\cite{6630614}. Sono stati sviluppati anche DSL % la prima volta che metti una sigla mettila per esteso
+per poter interagire ad alto livello, ad esempio generando istanze di oggetti a partire da un modello generico, come ad esempio in \cite{blumenthal2014towards}.
 
 \section{Riconoscimento di Oggetti}
 
 La quasi totalità degli algoritmi di riconoscimento di oggetti nell'immagine è basata su tecniche di machine learning.
-Una delle classi di algoritmi più usati sono quelli basati sulle Haar-like feature, descritte in \cite{710772}.
+Una delle classi di algoritmi più usati sono quelli basati sulle Haar-like feature~\cite{710772}.
 Queste feature sono calcolate in aree rettangolari, all'interno delle quali vengono sommati i valori dell'intensità dei pixel. Le somme sono in seguito usate per calcolare differenze tra aree di interesse, per poter riconoscere feature geometriche quali angoli, linee o bordi.
-Un efficiente algoritmo per il riconoscimento di oggetti è descritto in \cite{Viola01rapidobject} ed è stato ampliato in \cite{Lienhart02anextended}, e consiste nell'utilizzare in cascata una serie di classificatori via via più restrittivi; ognuno dei classificatori di ogni stadio è costruito attraverso una tecnica di boosting, ossia sono formati da un insieme di classificatori deboli che creano un classificatore complessivo più restrittivo. I classificatori di base sono solitamente alberi di decisione. Il classificatore complessivo da una risposta binaria, per riconoscere effettivamente l'oggetto deve essere applicato tramite una finestra mobile su tutta l'immagine. \\
-Un algoritmo simile può essere trovato in \cite{journals/ijista/AbramsonSG07}, dove però invece che feature Haar-like, vengono utilizzati direttamente un insieme di pixel nell'immagine.
+Un efficiente algoritmo per il riconoscimento di oggetti è descritto in~\cite{Viola01rapidobject} ed è stato ampliato in~\cite{Lienhart02anextended}, e consiste nell'utilizzare in cascata una serie di classificatori via via più restrittivi; ognuno dei classificatori di ogni stadio è costruito attraverso una tecnica di boosting, ossia sono formati da un insieme di classificatori deboli che creano un classificatore complessivo più restrittivo. I classificatori di base sono solitamente alberi di decisione. Il classificatore complessivo d\`a una risposta binaria; per riconoscere effettivamente l'oggetto deve essere applicato tramite una finestra mobile su tutta l'immagine. \\
+Un algoritmo simile \`e descritto in~\cite{journals/ijista/AbramsonSG07}, dove, però, invece che feature Haar-like, vengono utilizzati direttamente un insieme di pixel selezionati nell'immagine.
 
-Un'altra importante classe di algoritmi è basato sulle feature HOG (Histogram of Oriented Gradients). Queste feature sono ricavate contando le occorrenze dell'orientamento dei gradienti in sotto blocchi dell'immagine.
-Su queste feature si basa l'algoritmo descritto in \cite{lsvm-pami}. Questo algoritmo è in grado di definire un oggetto a partire dalle sue parti, e quindi è robusto anche a occlusioni parziali dell'oggetto. Tuttavia è computazionalmente molto più pesante dell'approccio basato su feature Haar-like.
+Un'altra importante classe di algoritmi è basata sulle feature HOG (Histogram of Oriented Gradients). %CITAZIONE
+
+Queste feature sono ricavate contando le occorrenze dell'orientamento dei gradienti in sotto-blocchi dell'immagine.
+Su queste feature si basa l'algoritmo descritto in~\cite{lsvm-pami}. Questo algoritmo è in grado di definire un oggetto a partire dalle sue parti, e quindi è robusto anche a occlusioni parziali dell'oggetto. Tuttavia è computazionalmente molto più pesante dell'approccio basato su feature Haar-like.
 
 Più recenti sono i metodi basati sul deep learning. Tra questi, i più promettenti nel riconoscimento di oggetti sono basati sulle reti neurali convoluzionali. La particolarità di queste reti è di essere basata su kernel di nodi collegati in maniera fissa, e ripetuti per coprire tutta l'immagine. La struttura rigida sfrutta la località dell'informazione nell'immagine, e permette un training più efficiente.
-Un esempio di applicazione si può trovare in \cite{NIPS2012_4824}.
+Un esempio di applicazione si può trovare in~\cite{NIPS2012_4824}.
 
-Metodi recenti, sfruttano sensori RGB-D, come ad esempio Kinect, per riconoscere oggetti nella scena, come ad esempio in \cite{lai2012detection}. 
+Metodi recenti, sfruttano sensori RGB-D, come ad esempio Kinect, per riconoscere oggetti nella scena, come ad esempio in~\cite{lai2012detection}. %Due parole sulle tecniche usate. 
 
 %%TODO bag of words?
 
 \section{Reasoning}
 
-I sistemi esperti sono stati per lungo tempo una delle branche dell'intelligenza artificiale più attive. 
-In particolare si può citare il noto strumento per la creazione di sistemi esperti, CLIPS, e la sua estensione alla logica fuzzy, FuzzyCLIPS. Entrambi permettono di descrivere delle classi di oggetti e di definire predicati tra di essi, in modo da poter compiere inferenza sui dati in ingresso. Una risorsa sui sistemi esperti in generale, e CLIPS in particolare può essere trovata in \cite{joseph1994riley}.
-La ricerca sui sistemi di deduzione formale tuttavia si è spostata da i sistemi esperti al web semantico.
-L'attuale standard per i sistemi di inferenza è il linguaggio OWL 2, descritto in \cite{owl2-overview} e \cite{owl2-primer}, linguaggio fortemente basato sulle logiche descrittive che permettono un buon compromesso tra espressività, complessità computazionale e mantengono la logica utilizzata decidibile.
-Un esempio di reasoning applicato al riconoscimento delle immagini può essere trovato in \cite{DBLP:journals/ivc/MaillotT08}, in cui feature a basso livello vengono estratte da un meccanismo di machine learning, e utilizzate da un sistema di inferenza che sfrutta una ontologia per l'analisi ad alto livello dell'immagine.
+I sistemi di ragionamento sono stati alla base dell'Intelligenza Artificiale fin dalla nascita ed hanno trovato sbocco in diverse applicazioni tra cui i sistemi esperti, per lungo tempo una delle branche dell'intelligenza artificiale più attive.
+%Questa citazione di CLIPS mi sembra un po' fuori luogo. Semmai cita libri su expert systems
+%@book{buchanan1984rule,
+%  title={Rule-based expert systems},
+%  author={Buchanan, Bruce G and Shortliffe, Edward Hance and others},
+%  volume={3},
+%  year={1984},
+%  publisher={Addison-Wesley Reading, MA}
+%}
+%@article{davis1977production,
+%  title={Production rules as a representation for a knowledge-based consultation program},
+%  author={Davis, Randall and Buchanan, Bruce and Shortliffe, Edward},
+%  journal={Artificial intelligence},
+%  volume={8},
+%  number={1},
+%  pages={15--45},
+%  year={1977},
+%  publisher={Elsevier}
+%}
+%%
+% \cite{joseph1994riley}
+%Toglierei quanto segue
+%In particolare si può citare il noto strumento per la creazione di sistemi esperti, CLIPS, e la sua estensione alla logica fuzzy, FuzzyCLIPS. Entrambi permettono di descrivere delle classi di oggetti e di definire predicati tra di essi, in modo da poter compiere inferenza sui dati in ingresso. Una risorsa sui sistemi esperti in generale, e CLIPS in particolare può essere trovata in \cite{joseph1994riley}.
+Con la maturazione della tecnologia per lo sviluppo dei sistemi esperti, e l'avvento di Internet, l'attenzione della ricerca collegata ai sistemi di ragionamento formale si è spostata dai sistemi esperti al web semantico.
+L'attuale standard %non credo sia uno standard in senso formale, ma si puo' dire che e' tra i piu' diffusi
+per i sistemi di inferenza è il linguaggio OWL 2~\cite{owl2-overview},~\cite{owl2-primer}, linguaggio fortemente basato sulle logiche descrittive che permettono un buon compromesso tra espressività, e complessità computazionale e mantengono la logica utilizzata decidibile.
+
+Fin dai primi sistemi esperti si \`e riconosciuta l'importanza del trattamento dell'incertezza in sistemi di ragionamento che avessero a che fare con il mondo reale~\cite{davis1977production}, ed in particolare si \`e avuta una larga diffusione  in moltissimi settori della logica fuzzy~\cite{}, adottata anche nel nostro lavoro.
+% LA Zadeh, "Fuzzy sets," Information and Control, vol. 8, pp. 338-353, 1965
+Un esempio di reasoning applicato al riconoscimento delle immagini può essere trovato in~\cite{DBLP:journals/ivc/MaillotT08}, in cui feature a basso livello vengono estratte da un meccanismo di machine learning, e utilizzate da un sistema di inferenza che sfrutta una ontologia per l'analisi ad alto livello dell'immagine.
+% beh, ci dovrebbe essere di piu' prova a vedere se trovi cose piu' recenti.
 
 
