@@ -2,4 +2,99 @@
 \label{app:manuale}
 \thispagestyle{empty}
 
-\noindent Manuale utente per l'utilizzo del sistema
+\section{Installazione e compilazione}
+
+Per compilare il sistema in maniera completa è necessaria una istallazione completa di ROS. Si veda la guida ufficiale di ROS per conoscere i dettagli dell'istallazione del sistema. \`E necessario utilizzare ROS Hydro Medusa o superiore.  %%TODO link?
+Inoltre è necessario installare i generatori di parser Flex e Bison.
+\`E possibile compilare la libreria che implementa l'algoritmo di reasoning anche al di fuori di ROS, utilizzando semplicemente CMake. In tal caso si raccomanda di installare anche le librerie Boost.
+
+Una volta installate le dipendenze necessarie, è possibile compilare i sorgenti. Per farlo, create un workspace di catkin, aggiungete i package nella cartella src, e lanciate catkin\_make. Le compilazione avverrà nell'ordine corretto, rispettando le dipendenze tra i package.
+\`E necessario aggiungere il file setup.bash nella cartella devel/ del workspace come script da eseguire nel vostro file .bashrc, ad esempio, se il workspace  si chiama catkin\_ws, e si trova nella home, basterà aggiungere al file .bashrc la linea:
+source ~/catkin\_ws/devel/setup.bash
+
+Per lanciare i singoli nodi si può utilizzare il programma rosrun. Ricordarsi di aggiungere gli argomenti da linea di comando e i parametri privati necessari subito dopo il nome del package e del nodo che si vuole lanciare. 
+I parametri privati vengono specificati aggiungendo un ``\_'' prima del nome del parametro; il cui valore viene assegnato con il token ``:=''.
+
+Ad esempio per lanciare il nodo c\_fuzzy\_reasoner nel package c\_fuzzy si può utilizzare il comando:
+
+rosrun c\_fuzzy c\_fuzzy\_reasoner -c knowledgebase.kb classifier.fuzzy -r knowledgebaseReasoner.kb
+
+Una alternativa per lanciare tutti i nodi contemporaneamente è usare un launchfile. Launchfile di esempio sono presenti nel package c\_slam.
+
+Per lanciare l'intero sistema si può utilizzare il comando:
+
+roslaunch c\_slam c\_slam.launch
+
+
+
+
+\section{Parametri e argomenti}
+
+Di seguito sono elencati e spiegati i parametri utilizzati dai nodi. si veda il \autoref{cap:concetti} per informazioni riguardo agli algoritmi.
+
+\subsection{c\_vision\_detector e c\_vision\_slam}
+
+Questi nodi hanno bisogno necessariamente di parametri privati, senza i quali il loro funzionamento non è garantito.
+
+\subsubsection{Canny}
+
+Questi parametri sono utilizzati dall'algoritmo Canny Edge detector.
+
+\begin{description}
+ \item [canny/alpha] rappresenta il valore della soglia bassa, in proporzione alla soglia alta.
+ \item [canny/apertureSize] rappresenta la dimensione del kernel con il quale applicare l'operatore di Sobel. Deve essere necessariamente un intero dispari e maggiore o uguale a 3. 
+\end{description}
+
+\subsubsection{Hough}
+
+Questi parametri sono utilizzati per l'algoritmo di riconoscimento delle linee, detto trasformata di Hough probabilistica.
+
+\begin{description}
+ \item [hough/rho] risoluzione della distanza dall'origine delle rette espressa in pixel.
+ \item [hough/teta] risoluzione dell'inclinazione delle rette, espressa in gradi.
+ \item [hough/threshold] threshold per l'algoritmo Canny.
+ \item [hough/minLineLenght] minima lunghezza delle linee riconosciute, espressa in pixel.
+ \item [hough/maxLineGap] massima distanza tra due punti appartenenti alla stessa linea.
+\end{description}
+
+\subsubsection{Line filtering}
+
+Questi parametri vengono utilizzati dall'algoritmo che distingue le linee orizzontali e verticali dal rumore.
+
+\begin{description}
+ \item [filter/maxDeltaHorizontal] massima inclinazione delle rette orizzontali rispetto alla linea dell'orizzonte.
+ \item [filter/maxDeltaVertical] massima inclinazione delle rette verticali rispetto alla linea perpendicolare all'orizzonte.
+\end{description}
+
+
+\subsubsection{Clustering}
+
+Questi parametri servono per tarare il riconoscimento dei cluster. Sono utilizzati dagli algoritmi FAST, per riconoscere i keypoints, e DBSCAN per estrarre da essi i cluster.
+
+\begin{description}
+ \item [cluster/threshold] threshold per l'estrazione di keypoints dall'immagine.
+ \item [cluster/minPoints] numero minimo di punti necessari a definire un cluster.
+ \item [cluster/maxDistance] massima distanza tra i punti di un cluster.
+\end{description}
+
+Questi parametri non sono necessari nel nodo c\_vision\_detector.
+
+\subsubsection{classifier}
+
+Questi parametri sono utilizzati dai nodi di visione quando vengono preparate le richieste di reasoning, e quindi sono di fatto utilizzati nel classificatore fuzzy.
+
+\begin{description}
+ \item [classifier/threshold] threshold da utilizzare nella classificazione delle feature.
+\end{description}
+
+\subsection{c\_fuzzy\_reasoner}
+
+Per lanciare il reasoner è necessario specificare dei parametri da linea di comando.
+
+\begin{description}
+ \item [-h] stampa il messaggio di aiuto 
+ \item [-r knowledgebase] crea il servizio di reasoning basato sulla knowledgebase specificata.  
+ \item [-c knowledgebase classifier] crea il servizio di classificazione a partire dalla knowledgebase e dal classificatore specificati. 
+
+\end{description}
+
