@@ -73,7 +73,7 @@ Il riconoscimento di feature viene descritto nel \autoref{cap:riconoscimento}, i
 
 Gli algoritmi utilizzati nel sistema, in particolare gli algoritmi di visione, hanno alcuni parametri che è possibile tarare per adattare il sistema a qualsiasi tipo di robot utilizzato.
 Per gestire i parametri abbiamo utilizzato il server dei parametri di ROS.
-Il server dei parametri è un dizionario, ossia ogni parametro, identificato una stringa, è salvato nel server dei parametri, e può essere recuperato tramite il nome. 
+Il server dei parametri è un dizionario, ossia ogni parametro, identificato da una stringa, è salvato nel server dei parametri, e può essere recuperato tramite il suo nome. 
 Il server dei parametri supporta dizionari gerarchici, in modo da poter rappresentare tipi di dati strutturati. 
 Inoltre è possibile definire parametri privati per qualsiasi nodo. I parametri privati restano accessibili da tutto il resto del sistema, ma nel dizionario vengono salvati sotto il nome del nodo a cui appartengono; questo comportamento è studiato per evitare collisioni tra parametri con lo stesso nome in nodi differenti.
 

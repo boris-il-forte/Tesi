@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=altro/bibliografia.bib
+lastDocument=altro/ringraziamenti.tex
 masterDocument=
 name=Tesi
 pkg_extIsRegExp=false
@@ -45,7 +45,7 @@ Indentation Mode=normal
 Mode=LaTeX
 
 [document-settings,item:appendici/appendiceA.tex]
-Bookmarks=
+Bookmarks=44
 Encoding=UTF-8
 Highlighting=LaTeX
 Indentation Mode=normal
@@ -144,12 +144,12 @@ Mode=LaTeX
 
 [item:altro/bibliografia.bib]
 archive=true
-column=19
+column=21
 encoding=UTF-8
 highlight=BibTeX
-line=316
+line=55
 mode=BibTeX
-open=true
+open=false
 order=1
 
 [item:altro/dedica.tex]
@@ -159,8 +159,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=6
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=7
 
 [item:altro/ringraziamenti.tex]
 archive=true
@@ -169,8 +169,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=8
 
 [item:altro/sommario.tex]
 archive=true
@@ -184,10 +184,10 @@ order=4
 
 [item:appendici/appendiceA.tex]
 archive=true
-column=18
+column=89
 encoding=UTF-8
 highlight=LaTeX
-line=1
+line=86
 mode=LaTeX
 open=false
 order=6
@@ -224,10 +224,10 @@ order=1
 
 [item:capitoli/capitolo2.tex]
 archive=true
-column=36
+column=617
 encoding=UTF-8
 highlight=LaTeX
-line=20
+line=92
 mode=LaTeX
 open=false
 order=3
@@ -239,18 +239,18 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=false
+open=true
 order=0
 
 [item:capitoli/capitolo4.tex]
 archive=true
-column=23
+column=58
 encoding=UTF-8
 highlight=LaTeX
-line=1
+line=44
 mode=LaTeX
-open=false
-order=0
+open=true
+order=1
 
 [item:capitoli/capitolo5.tex]
 archive=true
@@ -259,8 +259,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=false
-order=5
+open=true
+order=2
 
 [item:capitoli/capitolo6.tex]
 archive=true
@@ -269,8 +269,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=false
-order=7
+open=true
+order=3
 
 [item:capitoli/capitolo7.tex]
 archive=true
@@ -279,8 +279,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=false
-order=8
+open=true
+order=4
 
 [item:capitoli/capitolo8.tex]
 archive=true
@@ -289,8 +289,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=5
 
 [item:capitoli/capitolo9.tex]
 archive=true
@@ -299,8 +299,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=6
 
 [item:settings/frontesp.sty]
 archive=true
@@ -324,19 +324,19 @@ order=-1
 
 [item:tesi.tex]
 archive=true
-column=16
+column=27
 encoding=UTF-8
 highlight=LaTeX
-line=53
+line=73
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [view-settings,view=0,item:altro/bibliografia.bib]
-CursorColumn=19
-CursorLine=316
+CursorColumn=21
+CursorLine=55
 JumpList=
-ViMarks=.,353,0,[,344,0,],353,0
+ViMarks=.,55,21,[,55,21,],55,21
 
 [view-settings,view=0,item:altro/dedica.tex]
 CursorColumn=0
@@ -357,10 +357,10 @@ JumpList=
 ViMarks=.,5,199,[,5,199,],5,199
 
 [view-settings,view=0,item:appendici/appendiceA.tex]
-CursorColumn=18
-CursorLine=1
+CursorColumn=89
+CursorLine=86
 JumpList=
-ViMarks=.,1,17,[,1,7,],1,17
+ViMarks=.,86,82,[,86,82,],86,88,a,44,0
 
 [view-settings,view=0,item:appendici/appendiceB.tex]
 CursorColumn=18
@@ -381,10 +381,10 @@ JumpList=
 ViMarks=.,1,18,[,1,7,],1,18
 
 [view-settings,view=0,item:capitoli/capitolo2.tex]
-CursorColumn=36
-CursorLine=20
+CursorColumn=617
+CursorLine=92
 JumpList=
-ViMarks=.,19,24,[,19,0,],-1,-1
+ViMarks=.,18,0,[,18,0,],18,0
 
 [view-settings,view=0,item:capitoli/capitolo3.tex]
 CursorColumn=19
@@ -393,10 +393,10 @@ JumpList=
 ViMarks=.,1,18,[,1,7,],1,18
 
 [view-settings,view=0,item:capitoli/capitolo4.tex]
-CursorColumn=23
-CursorLine=1
+CursorColumn=58
+CursorLine=44
 JumpList=
-ViMarks=.,1,22,[,1,7,],1,22
+ViMarks=.,81,101,[,81,101,],81,105
 
 [view-settings,view=0,item:capitoli/capitolo5.tex]
 CursorColumn=20
@@ -435,7 +435,7 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:tesi.tex]
-CursorColumn=16
-CursorLine=53
+CursorColumn=27
+CursorLine=73
 JumpList=
 ViMarks=.,13,19,[,13,11,],13,19

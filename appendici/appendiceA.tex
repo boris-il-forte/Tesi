@@ -5,27 +5,31 @@
 \section{Installazione e compilazione}
 
 Per compilare il sistema in maniera completa è necessaria una istallazione completa di ROS. Si veda la guida ufficiale di ROS per conoscere i dettagli dell'istallazione del sistema. \`E necessario utilizzare ROS Hydro Medusa o superiore.  %%TODO link?
-Inoltre è necessario installare i generatori di parser Flex e Bison.
-\`E possibile compilare la libreria che implementa l'algoritmo di reasoning anche al di fuori di ROS, utilizzando semplicemente CMake. In tal caso si raccomanda di installare anche le librerie Boost.
+Inoltre è necessario installare i generatori di parser \verb|Flex| e \verb|Bison|.
+\`E possibile compilare la libreria che implementa l'algoritmo di reasoning anche al di fuori di ROS, utilizzando semplicemente \verb|CMake|. In tal caso si raccomanda di installare anche le librerie \verb|Boost|.
 
-Una volta installate le dipendenze necessarie, è possibile compilare i sorgenti. Per farlo, create un workspace di catkin, aggiungete i package nella cartella src, e lanciate catkin\_make. Le compilazione avverrà nell'ordine corretto, rispettando le dipendenze tra i package.
-\`E necessario aggiungere il file setup.bash nella cartella devel/ del workspace come script da eseguire nel vostro file .bashrc, ad esempio, se il workspace  si chiama catkin\_ws, e si trova nella home, basterà aggiungere al file .bashrc la linea:
-source ~/catkin\_ws/devel/setup.bash
+Una volta installate le dipendenze necessarie, è possibile compilare i sorgenti. Per farlo, basta creare un workspace di catkin, aggiungere i package nella cartella src, e lanciare catkin\_make. Le compilazione avverrà nell'ordine corretto, rispettando le dipendenze tra i package.
+\`E necessario aggiungere il file setup.bash nella cartella \verb|devel/| del workspace come script da eseguire nel vostro file .bashrc; ad esempio, se il workspace  si chiama catkin\_ws, e si trova nella home, basterà aggiungere al file .bashrc la linea:
+\begin{verbatim}
+source ~/catkin_ws/devel/setup.bash
+\end{verbatim}
 
 Per lanciare i singoli nodi si può utilizzare il programma rosrun. Ricordarsi di aggiungere gli argomenti da linea di comando e i parametri privati necessari subito dopo il nome del package e del nodo che si vuole lanciare. 
 I parametri privati vengono specificati aggiungendo un ``\_'' prima del nome del parametro; il cui valore viene assegnato con il token ``:=''.
 
 Ad esempio per lanciare il nodo c\_fuzzy\_reasoner nel package c\_fuzzy si può utilizzare il comando:
 
-rosrun c\_fuzzy c\_fuzzy\_reasoner -c knowledgebase.kb classifier.fuzzy -r knowledgebaseReasoner.kb
+\begin{verbatim}
+rosrun c_fuzzy c_fuzzy_reasoner -c knowledgebase.kb classifier.fuzzy
+\end{verbatim}
 
 Una alternativa per lanciare tutti i nodi contemporaneamente è usare un launchfile. Launchfile di esempio sono presenti nel package c\_slam.
 
 Per lanciare l'intero sistema si può utilizzare il comando:
 
-roslaunch c\_slam c\_slam.launch
-
-
+\begin{verbatim}
+roslaunch c_slam c_slam.launch
+\end{verbatim}
 
 
 \section{Parametri e argomenti}
@@ -52,9 +56,9 @@ Questi parametri sono utilizzati per l'algoritmo di riconoscimento delle linee, 
 \begin{description}
  \item [hough/rho] risoluzione della distanza dall'origine delle rette espressa in pixel.
  \item [hough/teta] risoluzione dell'inclinazione delle rette, espressa in gradi.
- \item [hough/threshold] threshold per l'algoritmo Canny.
+ \item [hough/threshold] threshold per filtrare le linee dal rumore.
  \item [hough/minLineLenght] minima lunghezza delle linee riconosciute, espressa in pixel.
- \item [hough/maxLineGap] massima distanza tra due punti appartenenti alla stessa linea.
+ \item [hough/maxLineGap] massima distanza tra due punti appartenenti alla stessa linea, in pixel.
 \end{description}
 
 \subsubsection{Line filtering}
@@ -62,8 +66,8 @@ Questi parametri sono utilizzati per l'algoritmo di riconoscimento delle linee, 
 Questi parametri vengono utilizzati dall'algoritmo che distingue le linee orizzontali e verticali dal rumore.
 
 \begin{description}
- \item [filter/maxDeltaHorizontal] massima inclinazione delle rette orizzontali rispetto alla linea dell'orizzonte.
- \item [filter/maxDeltaVertical] massima inclinazione delle rette verticali rispetto alla linea perpendicolare all'orizzonte.
+ \item [filter/maxDeltaHorizontal] massima inclinazione delle rette orizzontali rispetto alla linea dell'orizzonte, in gradi.
+ \item [filter/maxDeltaVertical] massima inclinazione delle rette verticali rispetto alla linea perpendicolare all'orizzonte, in gradi.
 \end{description}
 
 
