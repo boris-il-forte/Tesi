@@ -12,3 +12,257 @@ Ritorno al Futuro, parte III
 }
 \end{quotation}
 \vspace{0.5cm}
+
+\section{Introduzione}
+
+In questo capitolo esporremo il funzionamento del reasoner fuzzy. Il reasoner fuzzzy si basa sulle regole fuzzy descritte da Mamdami~\cite{mamdani1975experiment}. 
+Su questa base è stato implementato un classificatore fuzzy ad albero, che, data una struttura ad albero di classi di oggetti e eventuali relazioni tra di loro, accetta in ingresso delle feature, di cui sono note le caratteristiche, e le classifica.
+Per raggiungere questo scopo sono stati implementati due linguaggi: uno per esprimere regole fuzzy, che permetta di esprimere le proprietà rispetto a classi di oggetti; l'altro per esprimere la struttura del classificatore, in grado di esprimere gerarchie di classi e relazioni tra esse.
+Inoltre è stato implementato un algoritmo di reasoning che permette di classificare un insieme di feature, restituendo non solo le classi a cui ciascuna feature appartiene, ma anche il grado di appartenenza di ciascuna feature alle stesse.
+L'algoritmo in particolare è studiato per risolvere dipendenze cicliche tra le classi e riuscire a classificare oggetti che dipendono mutuamente l'uno dall'altro.
+
+\section{Linguaggio Fuzzy}
+Il linguaggio per esprimere regole fuzzy sviluppato permette di esprimere non solo domini semplici e insiemi fuzzy su questi domini, ma anche domini complessi, chiamati classi e predicati, validi per qualunque dominio. \`E ispirato fortemente al linguaggio FCL, Fuzzy Control Language, da cui prende parte della sintassi.
+
+Tutte le variabili utilizzate dal reasoner sono assunte come variabili intere con segno, possono quindi avere valori compresi tra \verb|INT_MIN| e \verb|INT_MAX|.
+Si assume che i numeri decimali siano rappresentati semplicemente come numeri a virgola fissa.
+
+%%TODO un po' di spiegazione? oppure in concetti fondamentali?
+
+\subsection{Classi e Variabili}
+Una classe si definisce tramite la keyword \verb|FUZZIFY_CLASS|, seguita dal nome della classe, e la sua definizione termina con la keyword \verb|END_FUZZIFY_CLASS|.
+I fuzzy set riguardanti una variabile di input o output si definiscono tramite la keyword \verb|FUZZIFY|, seguita dal nome della variabile a cui si riferiscono, e terminano con la keyword \verb|END_FUZZIFY|.
+Sia le variabili di input che quelle di output possono essere definite all'interno di una classe, così facendo apparterranno alla classe in cui sono definite.
+Per definire un fuzzy set, si utilizza una etichetta per definire il nome del fuzzy set, seguito dal token ``:='' e da una etichetta per indicare la sua forma. Ciascuna definizione è terminata dal token ``;''. Le possibili etichette sono:
+
+\begin{description}
+ \item [tol] ``Triangle open left'', fuzzy set triangolare aperto a sinistra. Necessita di due parametri.
+ \item [tor] ``Triangle open right'', fuzzy set triangolare aperto a destra. Necessita di due parametri.
+ \item [tri] ``Triangle'', fuzzy set triangolare. Necessita di tre parametri.
+ \item [tra] ``Trapezoid'', fuzy set trapezoidale. Necessita di quattro parametri.
+ \item [int] ``Interval'', intervallo. Necessita di due parametri.
+ \item [sgt] ``Singleton'', singolo valore. Necessita di un parametro.
+\end{description}
+
+I parametri necessari si indicano tra parentesi, separati da virgole.
+I nomi delle classi e dei fuzzy set devono cominciare con la lettera maiuscola, mentre i nomi delle variabili possono essere anche minuscoli.
+
+
+Ad esempio per definire sulla variabile ``Input'' i fuzzy set ``Near'', ``Medium'' e ``Far'' si scrive:
+
+\begin{verbatim}
+FUZZIFY Input
+ Near := tol(100, 200);
+ Medium := tra(100, 200, 300, 400);
+ Far := tor(300, 400);
+END_FUZZIFY
+\end{verbatim}
+
+Mentre per definire una classe chiamata ``TestClass'', con due membri ``a'' e ``b'', si può procedere come segue:
+
+\begin{verbatim}
+FUZZIFY_CLASS TestClass
+ FUZZIFY a
+  Set1 := tol(100, 200);
+  Set2 := tra(100, 200, 300, 400);
+  Set3 := tor(300, 400);
+ END_FUZZIFY
+ 
+ FUZZIFY b
+   Fuzzy1 := tol(100, 200);
+   Fuzzy2 := tri(100, 200, 300);
+   Fuzzy3 := tor(200, 300);
+ END_FUZZIFY
+END_FUZZIFY_CLASS
+\end{verbatim}
+
+
+\subsection{Regole Fuzzy}
+Le regole di Mamdami sono formate da un antecedente e da un conseguente. Nel nostro linguaggio si definiscono tramite le due keyword \verb|IF| e \verb|THEN|.
+Dopo il token \verb|IF| ci deve essere una formula logica ben formata, dopo il secondo deve esserci un assegnamento a una variabile.
+
+Una formula ben formata è definita come segue:
+\begin{enumerate}
+ \item Un assegnamento è una formula ben formata
+ \item Un predicato è una formula ben formata
+ \item se A è una formula ben formata, anche not A è una formula ben formata
+ \item se A e B sono formule ben formate, anche A and B, A or B sono formule ben formate.
+ \item null'altyro è una formula ben formata
+\end{enumerate}
+
+Un assegnamento di una variabile è composto dal nome della variabile, seguita dalla keyword \verb|IS|, seguita da un fuzzy set da assegnare alla variabile, tutto racchiuso tra parentesi tonde.
+
+Un esempio di regola fuzzy è la seguente:
+
+\begin{verbatim}
+if (Input1 is Low) and (Input2 is Medium) then (Output is High); 
+\end{verbatim}
+
+
+
+\subsection{Predicati}
+Si possono anche definire predicati unari. Un predicato unario si definisce tramite la keyword \verb|FUZZIFY_PREDICATE|, seguita dal nome della variabile che si userà nel predicato (che deve necessariamente cominciare con un punto interrogativo). La definizione di un predicato unario termina con la keyword \verb|END_FUZZIFY_PREDICATE|. All'interno di un predicato si devono definire i fuzzy set della variabile usata dal predicato. Più predicati possono essere definiti sulla stessa variabile di input, per farlo basta definire ciauscun predicato con un un nome (che cominci con la lettera maiuscola), seguito dal token ``:='', seguito da una formula logica ben formata, che può usare la variabile di predicato definita, terminata dal token ``;''.
+
+Ad esempio per definire due predicati, ``Predicate1'' e ``Predicate2'', si può procedere come segue:
+\begin{verbatim}
+FUZZIFY_PREDICATE ?x
+ Predicate1 := (?x is Set1) or (?x is Set2);
+ Predicate2 := (?x is Set1) and (?x is Set2);
+ 
+ FUZZIFY ?x
+   Set1 := tol(0, 100);
+   Set2 := tor(0, 100);
+ END_FUZZIFY
+
+END_FUZZIFY_PREDICATE
+\end{verbatim}
+
+I predicati si chiamano usando il loro nome e aggiungendo tra parentesi la variabile sulla quale si vuole definire il predicato. ad esempio se si vuole valutare il predicato ``Predicate1'' sulla variabile ``a'' si scriverà:
+\begin{verbatim}
+Predicate1(a)
+\end{verbatim}
+
+
+\subsection{Grammatica}
+
+Segue la grammatica del linguaggio per specificare regole fuzzy.
+
+\begin{tiny}
+	\begin{bnf*}
+		\bnfprod{fuzzyFile}
+			{\bnfpn{fuzzyDefinitions}\bnfsp \bnfpn{ruleSet} } \\
+		\bnfprod{fuzzyDefinitions}
+			{\bnfpn{fuzzyClass }\bnfpn{fuzzyDefinitions}
+			\bnfor \bnfpn{fuzzySet}\bnfsp \bnfpn{fuzzyDefinitions}
+			\bnfor \bnfpn{fuzzyPredicate}\bnfsp \bnfpn{fuzzyDefinitions}
+			\bnfor \bnfes} \\
+		\bnfprod{fuzzyClass}
+			{\bnfts{FUZZIFY\_CLASS}\bnfsp \bnftd{ID}\bnfsp \bnfpn{fuzzyClassDefinitions}\bnfsp \bnfts{END\_FUZZIFY\_CLASS}} \\
+		\bnfprod{fuzzyClassDefinitions}
+			{\bnfpn{fuzzySet}\bnfsp \bnfpn{fuzzyClassDefinitions}
+			\bnfor \bnfpn{fuzzyPredicate}\bnfsp \bnfpn{fuzzyClassDefinitions}
+			\bnfor \bnfes} \\
+		\bnfprod{fuzzyPredicate}
+			{\bnfts{FUZZIFY\_PREDICATE} \bnfsp \bnfpn{templateVar}\bnfsp \bnfpn{fuzzyPredicateList} \bnfsp \bnfpn{fuzzyTemplateSet} \bnfsp \bnfts{END\_FUZZIFY\_PREDICATE}} \\
+		\bnfprod{fuzzyPredicateList}
+			{\bnfpn{fuzzyPredicateDef} \bnfsp \bnfpn{fuzzyPredicateList}
+			\bnfor \bnfpn{fuzzyPredicateDef}} \\
+		\bnfprod{fuzzyPredicateDef}
+			{\bnftd{ID} \bnfsp \bnfts{:=} \bnfsp \bnfpn{wellFormedFormula} \bnfsp \bnfts{;}} \\
+		\bnfprod{fuzzyTemplateSet}
+			{\bnfts{FUZZIFY} \bnfsp \bnfpn{templateVar} \bnfsp \bnfpn{fuzzyTerm} \bnfsp \bnfts{END\_FUZZIFY}} \\
+		\bnfprod{fuzzySet}
+			{\bnfts{FUZZIFY} \bnfsp \bnfpn{fuzzyId} \bnfsp \bnfpn{fuzzyTerm} \bnfsp \bnfts{END\_FUZZIFY}} \\
+		\bnfprod{fuzzyId}
+			{\bnfpn{var}
+			\bnfor \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{fuzzyId}} \\
+		\bnfprod{fuzzyTerm}
+			{\bnftd{ID} \bnfsp \bnfts{:=} F_LABEL \bnfsp \bnfpn{shape} \bnfsp \bnfts{;}
+			\bnfor \bnftd{ID} \bnfsp \bnfts{:=} F_LABEL \bnfsp \bnfpn{shape} \bnfsp \bnfts{;} \bnfsp \bnfpn{fuzzyTerm}} \\
+		\bnfprod{shape}
+			{\bnfts{(} \bnfsp \bnfpn{parametersList} \bnfsp \bnfts{)}} \\
+		\bnfprod{parametersList}
+			{\bnftd {INTEGER}
+			\bnfor \bnftd{INTEGER} \bnfsp \bnfts{,} \bnfsp \bnfpn{parametersList}} \\
+		\bnfprod{ruleSet}
+			{\bnfpn{rule} \bnfsp \bnfpn{ruleSet}
+			\bnfor \bnfes} \\
+		\bnfprod{rule}
+			{\bnfts{IF} \bnfsp \bnfpn{wellFormedFormula} \bnfsp \bnfpn{fuzzyAssignment} \bnfsp \bnfts{;}} \\
+		\bnfprod{wellFormedFormula}
+			{\bnfpn{fuzzyComparison}
+			\bnfor \bnfpn{fuzzyPredicateCall} 
+			\bnfor \bnfts{(} \bnfsp \bnfpn{wellFormedFormula} \bnfsp \bnfts{)}
+			\bnfor \bnfts{not} \bnfsp \bnfpn{wellFormedFormula}
+			\bnfor \bnfpn{wellFormedFormula} \bnfsp \bnfts{or} \bnfsp \bnfpn{wellFormedFormula}
+			\bnfor \bnfpn{wellFormedFormula} \bnfsp \bnfts{and} \bnfsp \bnfpn{wellFormedFormula}} \\
+		\bnfprod{fuzzyComparison}
+			{\bnfts{(} \bnfsp \bnfpn{variable} \bnfsp \bnfts{IS} \bnfsp \bnftd{ID} \bnfsp \bnfts{)}
+			\bnfor \bnfts{(} \bnfsp \bnfsp \bnfsp \bnfpn{templateVar} \bnfsp \bnfsp \bnfsp \bnfts{IS} \bnfsp \bnfsp \bnfsp \bnftd{ID} \bnfsp \bnfsp \bnfsp \bnfts{)}} \\
+		\bnfprod{fuzzyPredicateCall}
+			{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnftd{ID} \bnfsp \bnfts{(} \bnfsp \bnfpn{variable} \bnfsp \bnfts{)}
+			\bnfor \bnftd{ID} \bnfsp \bnfts{(} \bnfsp \bnfpn{variable} \bnfsp \bnfts{)}} \\
+		\bnfprod{fuzzyAssignment}
+			{\bnfts{THEN} \bnfsp \bnfts{(} \bnfsp \bnfpn{variable} \bnfsp \bnfts{IS} \bnfsp \bnftd{ID} \bnfsp \bnfts{)}} \\
+		\bnfprod{variable}
+			{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnfpn{var}
+			\bnfor \bnfpn{var}} \\
+		\bnfprod{var}
+			{\bnftd{ID}
+			\bnfor \bnftd{VAR\_ID}} \\
+		\bnfprod{templateVar}
+			{\bnfts{?} \bnfsp \bnfpn{var}} \\
+	\end{bnf*}
+
+\end{tiny}
+
+
+
+
+\section{Reasoning}
+%%TODO
+
+\section{Linguaggio del classificatore}
+%%TODO
+
+\subsection{Grammatica}
+
+\begin{tiny}
+	\begin{bnf*}
+	\bnfprod{fuzzyClassifiers}
+		{\bnfpn{fuzzyClass} \bnfsp \bnfpn{fuzzyClassifiers} \bnfor \bnfpn{fuzzyClass}} \\
+	\bnfprod{fuzzyClass}
+		{\bnfts{CLASS} \bnfsp \bnftd{ID} \bnfsp \bnfpn{fuzzySuperclass} \bnfsp \bnfpn{hiddenFlag} \bnfsp \bnfpn{fuzzyClassElements} \bnfsp \bnfpn{fuzzyFeatures} \bnfsp \bnfts{END\_CLASS}} \\
+	\bnfprod{fuzzySuperclass}
+		{\bnfts{EXTENDS} \bnfsp \bnftd{ID} \bnfor \bnfes} \\
+	\bnfprod{hiddenFlag}
+		{\bnfts{HIDDEN} \bnfor \bnfes} \\
+	\bnfprod{fuzzyClassElements}
+		{\bnfpn{constants} \bnfsp \bnfpn{variables}
+		\bnfor \bnfpn{variables} \bnfsp \bnfpn{constants}
+		\bnfor \bnfpn{constants} 
+		\bnfor \bnfpn{variables} 
+		\bnfor \bnfes} \\
+	\bnfprod{constants}
+		{\bnfts{CONSTANTS} \bnfsp \bnfpn{constantList} \bnfsp \bnfpn{END\_CONSTANTS}} \\
+	\bnfprod{constantList}
+		{\bnfpn{var} \bnfsp \bnfts{=} \bnfsp \bnftd{ID} \bnfsp \bnfts{;} \bnfsp \bnfpn{constantList}
+		\bnfor \bnfes} \\
+	\bnfprod{variables}{\bnfts{VARIABLES} \bnfsp \bnfpn{variableList} \bnfsp \bnfts{END\_VARIABLES}} \\
+	\bnfprod{variableList}
+		{\bnfpn{var} \bnfsp \bnfts{;} \bnfsp \bnfpn{variableList}
+		\bnfor \bnfes} \\
+	\bnfprod{fuzzyFeatures}
+		{\bnfpn{fuzzyFeature} \bnfsp \bnfts{;} \bnfsp \bnfpn{fuzzyFeatures}
+		\bnfor \bnfes} \\
+	\bnfprod{fuzzyFeature}
+		{\bnfpn{fuzzySimpleFeature}
+		\bnfor \bnfpn{fuzzySimpleRelation}
+		\bnfor \bnfpn{fuzzyComplexRelation}
+		\bnfor \bnfpn{fuzzyInverseRelation}} \\
+	\bnfprod{fuzzySimpleFeature}
+		{\bnfpn{var} \bnfsp \bnfts{IS} \bnfsp \bnftd{ID}} \\
+	\bnfprod{fuzzySimpleRelation}
+		{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnfpn{var} \bnfsp \bnfts{MATCH} \bnfsp \bnfpn{var} \bnfsp \bnfpn{fuzzyDegree}} \\
+	\bnfprod{fuzzyComplexRelation}
+		{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnfpn{var} \bnfsp \bnfpn{fuzzyConstraint} \bnfsp \bnfts{ON} \bnfsp \bnfts{)} \bnfsp \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{var} \bnfsp \bnfts{)}} \\
+	\bnfprod{fuzzyInverseRelation}
+		{\bnfpn{var} \bnfsp \bnfpn{fuzzyConstraint} \bnfsp \bnfts{ON} \bnfsp \bnftd{ID} \bnfsp \bnfts{)} \bnfsp \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{var} \bnfsp \bnfts{)}} \\
+	\bnfprod{fuzzyConstraint}
+		{\bnfts{IS} \bnfsp \bnftd{ID}
+		\bnfor \bnfes} \\
+	\bnfprod{fuzzyDegree}
+		{\bnfts{DEGREE} \bnfsp \bnftd{ID}
+		\bnfor \bnfes} \\
+	\bnfprod{var}
+		{\bnftd{ID}
+		\bnfor \bnftd{VAR\_ID}} \\
+	\end{bnf*}
+\end{tiny}
+
+
+
+\section{Classificazione}
+%%TODO
+
+
