@@ -122,10 +122,9 @@ I predicati si chiamano usando il loro nome e aggiungendo tra parentesi la varia
 Predicate1(a)
 \end{verbatim}
 
-
 \subsection{Grammatica}
 
-Segue la grammatica del linguaggio per specificare regole fuzzy.
+Segue la grammatica del linguaggio fuzzy.\\
 
 \begin{tiny}
 	\begin{bnf*}
@@ -170,12 +169,12 @@ Segue la grammatica del linguaggio per specificare regole fuzzy.
 		\bnfprod{rule}
 			{\bnfts{IF} \bnfsp \bnfpn{wellFormedFormula} \bnfsp \bnfpn{fuzzyAssignment} \bnfsp \bnfts{;}} \\
 		\bnfprod{wellFormedFormula}
-			{\bnfpn{fuzzyComparison}
-			\bnfor \bnfpn{fuzzyPredicateCall} 
-			\bnfor \bnfts{(} \bnfsp \bnfpn{wellFormedFormula} \bnfsp \bnfts{)}
-			\bnfor \bnfts{not} \bnfsp \bnfpn{wellFormedFormula}
-			\bnfor \bnfpn{wellFormedFormula} \bnfsp \bnfts{or} \bnfsp \bnfpn{wellFormedFormula}
-			\bnfor \bnfpn{wellFormedFormula} \bnfsp \bnfts{and} \bnfsp \bnfpn{wellFormedFormula}} \\
+			{\bnfpn{fuzzyComparison} \\
+			\bnfsp & \bnfsp & \bnfor \bnfpn{fuzzyPredicateCall} \\
+			\bnfsp & \bnfsp & \bnfor \bnfts{(} \bnfsp \bnfpn{wellFormedFormula} \bnfsp \bnfts{)} \\
+			\bnfsp & \bnfsp & \bnfor \bnfts{not} \bnfsp \bnfpn{wellFormedFormula} \\
+			\bnfsp & \bnfsp & \bnfor \bnfpn{wellFormedFormula} \bnfsp \bnfts{or} \bnfsp \bnfpn{wellFormedFormula} \\
+			\bnfsp & \bnfsp & \bnfor \bnfpn{wellFormedFormula} \bnfsp \bnfts{and} \bnfsp \bnfpn{wellFormedFormula}} \\
 		\bnfprod{fuzzyComparison}
 			{\bnfts{(} \bnfsp \bnfpn{variable} \bnfsp \bnfts{IS} \bnfsp \bnftd{ID} \bnfsp \bnfts{)}
 			\bnfor \bnfts{(} \bnfsp \bnfsp \bnfsp \bnfpn{templateVar} \bnfsp \bnfsp \bnfsp \bnfts{IS} \bnfsp \bnfsp \bnfsp \bnftd{ID} \bnfsp \bnfsp \bnfsp \bnfts{)}} \\
@@ -191,9 +190,8 @@ Segue la grammatica del linguaggio per specificare regole fuzzy.
 			{\bnftd{ID}
 			\bnfor \bnftd{VAR\_ID}} \\
 		\bnfprod{templateVar}
-			{\bnfts{?} \bnfsp \bnfpn{var}} \\
+			{\bnfts{?} \bnfsp \bnfpn{var}} 
 	\end{bnf*}
-
 \end{tiny}
 
 
@@ -245,9 +243,9 @@ Segue la grammatica del linguaggio per specificare regole fuzzy.
 	\bnfprod{fuzzySimpleRelation}
 		{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnfpn{var} \bnfsp \bnfts{MATCH} \bnfsp \bnfpn{var} \bnfsp \bnfpn{fuzzyDegree}} \\
 	\bnfprod{fuzzyComplexRelation}
-		{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnfpn{var} \bnfsp \bnfpn{fuzzyConstraint} \bnfsp \bnfts{ON} \bnfsp \bnfts{)} \bnfsp \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{var} \bnfsp \bnfts{)}} \\
+		{\bnftd{ID} \bnfsp \bnfts{.} \bnfsp \bnfpn{var} \bnfsp \bnfpn{fuzzyConstraint} \bnfsp \bnfts{ON} \bnfsp \bnfts{(} \bnfsp \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{var} \bnfsp \bnfts{)}} \\
 	\bnfprod{fuzzyInverseRelation}
-		{\bnfpn{var} \bnfsp \bnfpn{fuzzyConstraint} \bnfsp \bnfts{ON} \bnfsp \bnftd{ID} \bnfsp \bnfts{)} \bnfsp \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{var} \bnfsp \bnfts{)}} \\
+		{\bnfpn{var} \bnfsp \bnfpn{fuzzyConstraint} \bnfsp \bnfts{ON} \bnfsp \bnftd{ID} \bnfsp \bnfts{(} \bnfsp \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{var} \bnfsp \bnfts{)}} \\
 	\bnfprod{fuzzyConstraint}
 		{\bnfts{IS} \bnfsp \bnftd{ID}
 		\bnfor \bnfes} \\
