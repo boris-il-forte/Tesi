@@ -85,9 +85,9 @@ Una formula ben formata è definita come segue:
 \begin{enumerate}
  \item Un assegnamento è una formula ben formata
  \item Un predicato è una formula ben formata
- \item se A è una formula ben formata, anche not A è una formula ben formata
- \item se A e B sono formule ben formate, anche A and B, A or B sono formule ben formate.
- \item null'altyro è una formula ben formata
+ \item se A è una formula ben formata, anche ``not A'', ``(A)'' sono formule ben formate
+ \item se A e B sono formule ben formate, anche ``A and B'', ``A or B'' sono formule ben formate.
+ \item null'altro è una formula ben formata.
 \end{enumerate}
 
 Un assegnamento di una variabile è composto dal nome della variabile, seguita dalla keyword \verb|IS|, seguita da un fuzzy set da assegnare alla variabile, tutto racchiuso tra parentesi tonde.
@@ -157,8 +157,8 @@ Segue la grammatica del linguaggio per specificare regole fuzzy.
 			{\bnfpn{var}
 			\bnfor \bnfpn{var} \bnfsp \bnfts{,} \bnfsp \bnfpn{fuzzyId}} \\
 		\bnfprod{fuzzyTerm}
-			{\bnftd{ID} \bnfsp \bnfts{:=} F_LABEL \bnfsp \bnfpn{shape} \bnfsp \bnfts{;}
-			\bnfor \bnftd{ID} \bnfsp \bnfts{:=} F_LABEL \bnfsp \bnfpn{shape} \bnfsp \bnfts{;} \bnfsp \bnfpn{fuzzyTerm}} \\
+			{\bnftd{ID} \bnfsp \bnfts{:=} \bnfsp \bnftd{F\_LABEL} \bnfsp \bnfpn{shape} \bnfsp \bnfts{;}
+			\bnfor \bnftd{ID} \bnfsp \bnfts{:=} \bnfsp \bnftd{F\_LABEL} \bnfsp \bnfpn{shape} \bnfsp \bnfts{;} \bnfsp \bnfpn{fuzzyTerm}} \\
 		\bnfprod{shape}
 			{\bnfts{(} \bnfsp \bnfpn{parametersList} \bnfsp \bnfts{)}} \\
 		\bnfprod{parametersList}

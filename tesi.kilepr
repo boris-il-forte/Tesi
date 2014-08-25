@@ -94,7 +94,7 @@ Indentation Mode=normal
 Mode=LaTeX
 
 [document-settings,item:capitoli/capitolo5.tex]
-Bookmarks=221
+Bookmarks=
 Encoding=UTF-8
 Highlighting=LaTeX
 Indentation Mode=normal
@@ -157,10 +157,10 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=6
+line=3
 mode=LaTeX
-open=false
-order=7
+open=true
+order=2
 
 [item:altro/ringraziamenti.tex]
 archive=true
@@ -254,10 +254,10 @@ order=1
 
 [item:capitoli/capitolo5.tex]
 archive=true
-column=74
+column=45
 encoding=UTF-8
 highlight=LaTeX
-line=182
+line=86
 mode=LaTeX
 open=true
 order=0
@@ -340,7 +340,7 @@ ViMarks=.,324,0,[,314,0,],324,0
 
 [view-settings,view=0,item:altro/dedica.tex]
 CursorColumn=0
-CursorLine=6
+CursorLine=3
 JumpList=
 ViMarks=
 
@@ -399,10 +399,10 @@ JumpList=
 ViMarks=.,75,165,[,75,162,],75,165
 
 [view-settings,view=0,item:capitoli/capitolo5.tex]
-CursorColumn=74
-CursorLine=182
+CursorColumn=45
+CursorLine=86
 JumpList=
-ViMarks=.,175,54,[,175,54,],175,54,a,221,2
+ViMarks=.,87,54,[,87,54,],87,54
 
 [view-settings,view=0,item:capitoli/capitolo6.tex]
 CursorColumn=25
