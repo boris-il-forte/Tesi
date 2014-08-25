@@ -22,8 +22,9 @@ Ogni processo che viene eseguito in ROS è chiamato nodo. Per eseguire qualsiasi
 
 Il sistema sviluppato è pensato per interagire con qualsiasi tipo di robot che sia provvisto di una videocamera monoculare e una unità di misura inerziale (IMU) tramite le due interfacce standard di ROS.
 Esse consistono in tre topic: ``imu'', per i dati provenienti dall'unità di misura inerziale, ``image\_raw'', per l'immagine proveniente dalla videocamera, ``camera\_info'', che contiene i parametri intrinseci della videocamera, tra cui la matrice di calibrazione della videocamera utilizzata, necessaria per il funzionamento del sistema.
-I dati estratti dall'unità di misura inerziale devono essere riferiti al sistema di coordinate della videocamera, infatti l'algoritmo di visione implementato utilizza i dati provenienti dalla IMU per stimare approssimativamente la posa della telecamera.
-%TODO sarebbe bello non avere questo vincolo, purchè sia nota la trasformazione dal sistema di coordinate della imu al sistema di coordinate della telecamera. Provo a implementarlo, dovrebbe essere semplice... c'è già il tpic di tf con le opportune trasformazioni...
+I dati estratti dall'unità di misura inerziale devono poter essere riferiti al sistema di coordinate della videocamera, infatti l'algoritmo di visione implementato utilizza i dati provenienti dalla IMU per stimare approssimativamente la posa della telecamera.
+Per rendere l'algoritmo portabile, si utilizza a libreria tf di ROS. La libreria tf gestisce le trasformazioni da sistema di coordinate all'altro, pubblicando un albero di trasformazioni nel topic ``tf''.
+Negli header dei messaggi standard di ROS è definito il campo ``frame\_id'', che descrive il nome del sistema di coordinate rispetto al quale è riferito il contenuto del messaggio. Grazie a questo, è possibile riferire i dati della IMU rispetto alle coordinate dell'immagine, purché sia nota la trasformazione tra i due frame.
 
 \section{Diagramma del sistema}
 
