@@ -16,9 +16,9 @@ Ritorno al Futuro, parte III
 \section{Introduzione}
 
 In questo capitolo esporremo il funzionamento del reasoner fuzzy. Il reasoner fuzzzy si basa sulle regole fuzzy descritte da Mamdami~\cite{mamdani1975experiment}. 
-Su questa base è stato implementato un classificatore fuzzy ad albero, che, data una struttura ad albero di classi di oggetti e eventuali relazioni tra di loro, accetta in ingresso delle feature, di cui sono note le caratteristiche, e le classifica.
-Per raggiungere questo scopo sono stati implementati due linguaggi: uno per esprimere regole fuzzy, che permetta di esprimere le proprietà rispetto a classi di oggetti; l'altro per esprimere la struttura del classificatore, in grado di esprimere gerarchie di classi e relazioni tra esse.
-Inoltre è stato implementato un algoritmo di reasoning che permette di classificare un insieme di feature, restituendo non solo le classi a cui ciascuna feature appartiene, ma anche il grado di appartenenza di ciascuna feature alle stesse.
+Su questa base abbiamo implementato un classificatore fuzzy ad albero, che, data una struttura ad albero di classi di oggetti e eventuali relazioni tra di loro, accetta in ingresso delle feature, di cui sono note le caratteristiche, e le classifica.
+Per raggiungere questo scopo abbiamo implementato due linguaggi: uno per esprimere regole fuzzy, che permetta di esprimere le proprietà rispetto a classi di oggetti; l'altro per esprimere la struttura del classificatore, in grado di esprimere gerarchie di classi e relazioni tra esse.
+Inoltre abbiamo implementato un algoritmo di reasoning che permette di classificare un insieme di feature, restituendo non solo le classi a cui ciascuna feature appartiene, ma anche il grado di appartenenza di ciascuna feature alle stesse.
 L'algoritmo in particolare è studiato per risolvere dipendenze cicliche tra le classi e riuscire a classificare oggetti che dipendono mutuamente l'uno dall'altro.
 
 \section{Linguaggio Fuzzy}
@@ -39,7 +39,7 @@ Per definire un fuzzy set, si utilizza una etichetta per definire il nome del fu
  \item [tol] ``Triangle open left'', fuzzy set triangolare aperto a sinistra. Necessita di due parametri.
  \item [tor] ``Triangle open right'', fuzzy set triangolare aperto a destra. Necessita di due parametri.
  \item [tri] ``Triangle'', fuzzy set triangolare. Necessita di tre parametri.
- \item [tra] ``Trapezoid'', fuzy set trapezoidale. Necessita di quattro parametri.
+ \item [tra] ``Trapezoid'', fuzzy set trapezoidale. Necessita di quattro parametri.
  \item [int] ``Interval'', intervallo. Necessita di due parametri.
  \item [sgt] ``Singleton'', singolo valore. Necessita di un parametro.
 \end{description}
@@ -90,7 +90,7 @@ Una formula ben formata è definita come segue:
  \item null'altro è una formula ben formata.
 \end{enumerate}
 
-Un assegnamento di una variabile è composto dal nome della variabile, seguita dalla keyword \verb|IS|, seguita da un fuzzy set da assegnare alla variabile, tutto racchiuso tra parentesi tonde.
+Un assegnamento di una variabile è composto dal nome della variabile, seguita dalla keyword \verb|IS|, seguita da un fuzzy set da assegnare alla variabile, tutto racchiuso tra parentesi tonde. Per utilizzare una variabile di una classe si utilizza la notazione ``.'' tipica di molti linguaggi di programmazione orientati agli oggetti.
 
 Un esempio di regola fuzzy è la seguente:
 
@@ -101,7 +101,7 @@ if (Input1 is Low) and (Input2 is Medium) then (Output is High);
 
 
 \subsection{Predicati}
-Si possono anche definire predicati unari. Un predicato unario si definisce tramite la keyword \verb|FUZZIFY_PREDICATE|, seguita dal nome della variabile che si userà nel predicato (che deve necessariamente cominciare con un punto interrogativo). La definizione di un predicato unario termina con la keyword \verb|END_FUZZIFY_PREDICATE|. All'interno di un predicato si devono definire i fuzzy set della variabile usata dal predicato. Più predicati possono essere definiti sulla stessa variabile di input, per farlo basta definire ciauscun predicato con un un nome (che cominci con la lettera maiuscola), seguito dal token ``:='', seguito da una formula logica ben formata, che può usare la variabile di predicato definita, terminata dal token ``;''.
+Si possono anche definire predicati unari. Un predicato unario si definisce tramite la keyword \verb|FUZZIFY_PREDICATE|, seguita dal nome della variabile che si userà nel predicato (che deve necessariamente cominciare con un punto interrogativo). La definizione di un predicato unario termina con la keyword \verb|END_FUZZIFY_PREDICATE|. All'interno di un predicato si devono definire i fuzzy set della variabile usata dal predicato. Più predicati possono essere definiti sulla stessa variabile di input, per farlo basta definire ciascun predicato con un un nome (che cominci con la lettera maiuscola), seguito dal token ``:='', seguito da una formula logica ben formata, che può usare la variabile di predicato definita, terminata dal token ``;''.
 
 Ad esempio per definire due predicati, ``Predicate1'' e ``Predicate2'', si può procedere come segue:
 \begin{verbatim}
@@ -117,14 +117,12 @@ FUZZIFY_PREDICATE ?x
 END_FUZZIFY_PREDICATE
 \end{verbatim}
 
-I predicati si chiamano usando il loro nome e aggiungendo tra parentesi la variabile sulla quale si vuole definire il predicato. ad esempio se si vuole valutare il predicato ``Predicate1'' sulla variabile ``a'' si scriverà:
+I predicati si chiamano usando il loro nome e aggiungendo tra parentesi la variabile sulla quale si vuole valutare il predicato. ad esempio se si vuole valutare il predicato ``Predicate1'' sulla variabile ``a'' si scriverà:
 \begin{verbatim}
 Predicate1(a)
 \end{verbatim}
 
 \subsection{Grammatica}
-
-Segue la grammatica del linguaggio fuzzy.\\
 
 \begin{tiny}
 	\begin{bnf*}
@@ -198,10 +196,103 @@ Segue la grammatica del linguaggio fuzzy.\\
 
 
 \section{Reasoning}
-%%TODO
+
+Il reasoning avviene utilizzando le regole fuzzy descritte da Mamdami. Il processo può essere riassunto nel seguente modo:
+
+\begin{enumerate}
+ \item Vengono considerate tutte le variabili di input attive, ossia presenti in ingresso.
+ \item vengono attivate, nell'ordine in cui sono specificate, le regole che contengono solo le variabili attive.
+ \item viene calcolato il valore di verità del lato sinistro di ogni regola. Per farlo si calcolano i valori di verità dei fuzzy set associati alle variabili e poi si utilizzano gli operatori complemento, T-norm, S-norm per calcolare il valore di verità dell'espressione, utilizzando la normale precedenza degli operatori (not, and or).
+ \item Il valore di verità del lato destro della regola viene utilizzato come valore di verità per il fuzzy set della variabile di uscita.
+ \item I valori di verità delle variabili di uscita rispetto a un determinato fuzzy set vengono aggregati.
+ \item Viene defuzzificato il valore di ciascuna variabile di uscita. 
+\end{enumerate}
+
+Come T-norm viene utilizzato l'operatore min. Questa scelta è stata fatta perché le altre alternative conosciute, tra cui la più nota è il prodotto tra i valori di verità dei due operandi, rendono molto facilmente irrilevante il valore di verità risultante, se anche solo uno dei due operandi ha un basso valore di verità. Questo inconveniente diventa più rilevante in caso di regole lunghe, dove il valore di verità calcolato degrada di operazione in operazione. Il maggior inconveniente di questo approccio è che il valore di verità risultante dipenderà, di volta in volta, da un unico operando anziché da entrambi.
+Per le stesse ragioni, è stato preferito l'operatore max alla somma probabilistica o ad altre alternative.
+
+L'operatore di aggregazione è implementato utilizzando la media semplice.
+
+La defuzzificazione è implementata tramite l'operatore centro di massa. Per rendere più semplice ed efficiente la defuzzificazione, il reasoner si aspetta che i fuzzy set assegnati alle variabili in output siano singleton. Il vantaggio di utilizzare singleton rispetto a un generico fuzzy set è che è più semplice capire qual'è il valore massimo e minimo di una determinata variabile in uscita, infatti la relazione che lega il valore di verità di ciascuna variabile linguistica rispetto ai fuzzy set considerati con il valore calcolato in uscita è lineare. Questo in generale permette un efficiente design della knowledgebase, in quanto non si devono tenere in conto gli effetti delle non linearità delle uscite e non è quindi necessario attribuire un peso differente alle diverse regole.
+
+Il reasoner implementato non fa differenza tra variabili di ingresso e variabili di uscita. L'unico requisito per le variabili di uscita è di assegnare come etichetta a una variabile che compare nel lato destro della regola un singleton. E' quindi possibile definire per ciascuna variabile due insiemi di fuzzy set, uno per permettere di assegnare fuzzy set alle variabili linguistiche dato un valore nel dominio, l'altro per poter defuzzificare la variabile. Così facendo è possibile specificare regole che assegnano o utilizzano una variabile, anche contemporaneamente. Questo permette algoritmi di compiere ragionamenti a più livelli, oppure di implementare facilmente un anello di controllo in retroazione fuzzy. 
 
 \section{Linguaggio del classificatore}
-%%TODO
+Il linguaggio del classificatore è stato implementato per poter esprimere un classificatore ad albero. Tuttavia, poiché nel mondo reale, soprattutto nel campo dell'analisi di immagine, sono importanti anche le relazioni tra gli oggetti, la normale struttura ad albero è stata arricchita da archi che non rappresentano relazione di ereditarietà, ma relazioni tra le variabili di oggetti differenti.
+
+\subsection{Definizione delle classi}
+Per definire una classe si usa la keyword \verb|CLASS|, seguita dal nome della classe e eventualmente un modificatore. La definizione comprende la lista delle variabili e delle relazioni tra classi, ed è conclusa dalla keyword \verb|END_CLASS|.
+
+è possibile specificare due modificatori:
+\begin{description}
+ \item [extends] seguito dal nome di una classe, per definire la superclasse.
+ \item [HIDDEN] che nasconde l'appartenenza degli oggetti alla classe in output.
+\end{description}
+
+Per specificare le variabili appartenenti a una classe si utilizza la keyword \verb|VARIABLES|, seguita dal nome delle variabili utilizzate, separate dal token ``;'',  terminate dalla keyword \verb|END_VARIABLES|.
+
+All'interno delle classi è anche possibile specificare delle costanti, che sono variabili con associato un fuzzy set associati. Questa caratteristica del linguaggio non è stata tuttavia ancora espansa, e le costanti possono essere utilizzate a scopo documentativo. E' possibile espandere il loro utilizzo per aumentare le capacità di riconoscimento, ad esempio controllando che l'oggetto classificato rispetti determinate costanti, oppure utilizzando le costanti per compiere ulteriori inferenze.
+
+Non è necessario ridefinire le variabili delle superclassi nelle loro sottoclassi, le variabili infatti vengono ereditate automaticamente.
+
+Un esempio di definizione di classe è il seguente:
+
+\begin{verbatim}
+CLASS Example extends SuperClass  HIDDEN
+ VARIABLES
+  var1;
+  var2;
+ END_VARIABLES
+END_CLASS
+\end{verbatim}
+
+
+\subsection{Feature e relazioni tra classi}
+
+Per discriminare l'appartenenza di un oggetto a una determinata classe è possibile specificare alcune feature della classe.
+
+La feature di base che è possibile esprimere è il livello di appartenenza a un determinato fuzzy set definito su una variabile di una superclasse o della classe stessa. 
+Per esprimere questo tipo di feature, basta scrivere il nome della variabile su cui si vuole discriminare, seguita dalla keyword \verb|is|, seguita dal nome del fuzzy set che si vuole utilizzare.
+
+Possono essere espresse anche feature che dipendono dalla relazione di una determinata istanza della classe con altre istanze di altre classi.
+In particolare è possibile esprimere:
+
+\begin{itemize}
+ \item La relazione di matching tra due variabili di due istanze; tramite la keyword \verb|match|
+ \item La relazione di contenimento di una variabile di un'altra istanza rispetto al valore di due variabili dell'istanza; tramite la keyword \verb|on|
+ \item La relazione di contenimento inversa; sempre tramite la keyword \verb|on|
+\end{itemize}
+
+Tutti i tre tipi di relazioni possono essere qualificate, in modo da non avere il semplice contenimento o il matching esatto, ma rendere possibile un grado di matching fuzzy e di specificare in maniera più fine il contenimento, ad esempio discriminando destra/sinistra. Per farlo si utilizzano la keyword \verb|degree| per il matching e la keyword \verb|is| per il contenimento. Si veda la grammatica per sapere come definire tali relazioni con precisione.
+
+Un esempio di classe contenente queste feature è il seguente:
+
+\begin{verbatim}
+CLASS Example1
+ VARIABLES
+  a1;
+  a2;
+  b;
+  c;
+  x;
+  y;
+ END_VARIABLES
+ 
+ c IS FuzzySet1;
+ Example2.x IS Predicate1 on (a1, a2);
+ Example1.c match c degree MatchDregree;
+ Example3.b match b;
+ x is FuzzySetX on InverseRelationshpClass(a, b);
+ y on InverseRelationshpClass(c, d);
+ 
+END_CLASS
+\end{verbatim}
+
+\subsection{Utilizzo della knowledgebase}
+Il classificatore necessita di una knowledgebase per definire il significato dei fuzzy set definiti. 
+L'implementazione corrente necessita di definire una classe fuzzy per ogni classe del classificatore definita, col medesimo nome.
+Le variabili devono aver definito i fuzzy set che si intende utilizzare all'interno della classe in cui vengono definite. I fuzzy set verranno automaticamente aggiunti anche alle sottoclassi.
+Se si utilizzano relazioni tra oggetti qualificate, si deve definire un predicato omonimo nella classe che lo utilizza.
 
 \subsection{Grammatica}
 
@@ -212,7 +303,7 @@ Segue la grammatica del linguaggio fuzzy.\\
 	\bnfprod{fuzzyClass}
 		{\bnfts{CLASS} \bnfsp \bnftd{ID} \bnfsp \bnfpn{fuzzySuperclass} \bnfsp \bnfpn{hiddenFlag} \bnfsp \bnfpn{fuzzyClassElements} \bnfsp \bnfpn{fuzzyFeatures} \bnfsp \bnfts{END\_CLASS}} \\
 	\bnfprod{fuzzySuperclass}
-		{\bnfts{EXTENDS} \bnfsp \bnftd{ID} \bnfor \bnfes} \\
+		{\bnfts{extends} \bnfsp \bnftd{ID} \bnfor \bnfes} \\
 	\bnfprod{hiddenFlag}
 		{\bnfts{HIDDEN} \bnfor \bnfes} \\
 	\bnfprod{fuzzyClassElements}
@@ -261,6 +352,88 @@ Segue la grammatica del linguaggio fuzzy.\\
 
 
 \section{Classificazione}
-%%TODO
+
+L'algoritmo di classificazione si può riassumere nei seguenti passaggi:
+
+\begin{enumerate} 
+ \item Costruzione del grafo delle dipendenze.
+ \item Generazione delle regole fuzzy definite dal classificatore.
+ \item Costruzione del grafo di reasoning.
+ \item Creazione dell'albero di reasoning.
+ \item Classificazione delle istanze.
+ \item Eliminazione delle istanze irrilevanti.
+\end{enumerate}
+
+I primi tre passi dell'algoritmo sono effettuati in fase di inizializzazione, quando un classificatore fuzzy viene caricato.
+Gli ultimi tre passi vengono effettuati ogni volta che si deve classificare una serie di istanze.
+I passi 4/5 vengono ripetuti iterativamente fino ad aver esplorato tutto il grafo di reasoning.
+L'ultimo passo viene effettuato prima di restituire in output i risultati della classificazione.
+
+\subsection{Generazione delle regole fuzzy}
+
+Le regole fuzzy vengono costruite in maniera automatica a partire dal classificatore definito e dalla relativa knowledgebase. Per ogni classe, viene generata una regola che contiene la congiunzione di tutte le possibili feature che definiscono la classe, e in output una variabile, con lo stesso nome della classe, a cui viene assegnata il fuzzy set \$True, che è un singleton il cui valore è 1. Questa variabile rappresenta il grado di appartenenza delle singole istanze alla classe considerata.
+
+Le variabili che compaiono all'interno della regola sono di due tipi: variabili già presenti nella definizione della classe, e quindi aventi un nome definito dall'utente, e variabili generate automaticamente dalle relazioni tra le classi. Queste ultime variabili non sono già presenti in input, ma devono essere calcolate dal classificatore. \`E quindi necessario salvare i dati necessari a calcolarle quando verranno classificate le istanze e le loro dipendenze.
+
+Il nostro algoritmo inoltre, si assicura di estendere le variabili definite nelle superclassi alle sottoclassi.
+
+\subsection{Grafo delle dipendenze e grafo di reasoning}
+
+Il grafo delle dipendenze è costruito a partire dalla struttura del classificatore. Vengono distinti due tipi di dipendenze, quelle di superclasse e quelle di relazione tra oggetti. Il grafo può contenere autoanelli, infatti potrebbero essere definite relazioni tra istanze della stessa classe, e cicli, infatti nulla vieta di definire dipendenze cicliche tra gli oggetti.
+
+Sia gli autoanelli che i cicli sono problematici per il reasoning, perché per definire se un'istanza appartiene a una determinata classe, è necessario conoscere istanze di altre classi, che a loro volta dipendono dal fatto che sia necessario conoscere l'istanza della classe di partenza. Per risolvere questo problema abbiamo sviluppato il grafo di reasoning, che permette di risolvere le dipendenze cicliche analizzando la struttura del grafo delle dipendenze.
+
+Il grafo di reasoning è ricavato dal grafo delle dipendenze trovando tutte le componenti fortemente connesse, ossia i sottografi in cui ogni nodo è raggiungibile da ogni altro nodo. L'algoritmo per trovare le componenti fortemente connesse è descritto in~\cite{Tarjan72depthfirst}.
+Le componenti fortemente connesse contengono tutti i cicli del grafo. Questo può essere dimostrato facilmente nel seguente modo:
+
+\begin{proof}[Dimostrazione]
+Sia preso un grafo $G$ con $N$ componenti connesse.
+Supponiamo per assurdo che esista un ciclo tra elementi che appartengono a diverse componenti fortemente connesse.
+Allora esiste un insieme di nodi $I$, tutti raggiungibili tra loro a causa dell'appartenenza a un ciclo, che non appartengono alla stessa componente fortemente connessa. Assurdo.
+\end{proof}
+
+Il grafo di reasoning è definito nel seguente modo:
+
+\begin{itemize}
+ \item I nodi del grafo di reasoning sono le componenti connesse del grafo delle dipendenze.
+ \item Esiste una connessione tra due nodi $c_1$ e $c_2$ del grafo di reasoning  se e solo se esiste almeno un collegamento diretto tra un nodo $i$, appartenente alla componente fortemente connessa $c_1$ e un nodo $j$, appartenente alla componente fortemente connessa $c_2$ e $c_1\neq c_2$, dove $i$ e $j$ sono nodi del grafo delle dipendenze.
+\end{itemize}
+
+Dimostriamo l'aciclicità del grafo di reasoning come segue:
+
+\begin{proof}[Dimostrazione]
+Sia $R$ un grafo di reasoning ricavato dal grafo delle dipendenze $D$.
+Supponiamo per assurdo che il grafo $R$ sia ciclico. Allora esistono almeno due nodi del grafo R $c_1$ e $c_2$, con $c_1\neq c2$ che sono mutuamente raggiungibili tra di loro. 
+Allora esiste almeno un nodo $i\in D$ in $c_1$ con un arco entrante in un nodo di $c_2$, e un nodo $j\in D$ in $c_2$ con un arco entrante in un nodo di $c_1$. Poiché sia $c_1$ sia $c_2$ sono componenti fortemente connesse, e per transitività della relazione di raggiungibilità, ogni nodo di $c_1$ può raggiungere ogni nodo di $c_2$ e viceversa. quindi $c_1=c_2$ . Assurdo.
+\end{proof}
+
+E' possibile dunque imporre un ordinamento topologico~\cite{Kahn:1962:TSL:368996.369025} sul grafo, ed eseguire la classificazione delle istanze nell'ordine specificato, analizzando un cluster di componenti fortemente connesse alla volta. Per ogni cluster è necessario testare ogni possibile combinazione di istanze candidate a appartenere a ciascuna delle classi al suo interno. Poiché gli archi delle dipendenze vanno da sottoclasse a superclasse e da classe a dipendenza, l'ordinamento topologico preso è quello inverso.
+
+\subsection{Classificazione delle istanze}
+
+Seguendo uno dei possibili ordinamenti topologici imposti dal grafo di reasoning, Vengono classificate le istanze di ogni classe.
+
+La classificazione avviene seguendo i seguenti passi:
+
+\begin{enumerate}
+ \item Per ogni classe contenuta in un cluster di componenti connesse, si estraggono tutti i possibili candidati. Un candidato ha tutte le variabili della classe e appartiene alla eventuale superclasse.
+ \item Si enumerano tutte le possibili combinazioni di istanze nel cluster.
+ \item Per ogni combinazione di istanze, si enumerano le possibili dipendenze di ogni istanza all'esterno del cluster.
+ \item Per ogni combinazione di istanze e dipendenze si calcolano le variabili che dipendono dalle relazioni tra classi.
+ \item Tramite le variabili precedentemente note e quelle calcolate, si calcola il grado di appartenenza alla classe dell'istanza.
+ \item Per ogni istanza, si prende come grado di appartenenza il minimo tra il valore calcolato e il valore di verità della superclasse.
+ \item Si calcola il valore di verità minimo tra la corrente combinazione di cluster.
+ \item Se il grado di appartenenza è maggiore di zero e maggiore uguale alla soglia specificata come input dell'algoritmo, si assegna il grado di appartenenza alle istanze.
+ \item A ogni istanza viene assegnato come grado di appartenenza alla classe il massimo tra un eventuale grado già assegnato, e il corrente grado calcolato. 
+\end{enumerate}
+
+Per implementare questo algoritmo in pratica, abbiamo scelto di esplorare l'albero delle possibili combinazioni, e di classificare le istanze una volta raggiunte le singole foglie. le classificazioni sono salvate i una mappa accessibile dall'algoritmo, e quindi in ogni nodo si hanno tutti i dati necessari alla classificazione.
+
+Una volta completata la classificazione di un cluster, si passa alla classificazione del cluster successivo, fino a terminare tutti i cluster. Poiché il grafo di reasoning è esplorato seguendo l'ordinamento topologico, tutte le superclassi e le dipendenze esterne di un cluster vengono analizzate prima del cluster stesso.
+
+Finito di esplorare il grafo delle dipendenze, tutte le classi etichettate con la keyword \verb|HIDDEN| vengono cancellate dall'output calcolato. Questo permette di creare classi strutturali per il classificatore, particolarmente utili se il classificatore è totalmente o parzialmente appreso tramite tecniche di machine learning, ma utilizzabili anche per definire classi comuni di feature e rendere più efficiente il riconoscimento, riducendo le feature da classificare all'interno di cluster complessi. Inoltre, le classi nascoste sono una caratteristica della quasi totalità dei classificatori fuzzy ad albero presenti nella letteratura~\cite{Yuan1995125}, dove solitamente solo le foglie sono visibili in output, come nei classici alberi di decisione.
+
+
+
 
 
