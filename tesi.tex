@@ -19,6 +19,7 @@
     linkcolor=black,
     urlcolor=black
 }
+\newcommand{\autorefA}[1]{\hyperref[#1]{Algoritmo \ref{#1}}}
 
 \usepackage{tabularx}
 \usepackage{subfigure}
@@ -26,7 +27,9 @@
 \usepackage{amsmath,amssymb}
 \usepackage{amsthm}
 \usepackage{rotating}  
-\usepackage{fancyhdr}  
+\usepackage{fancyhdr}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \usepackage[epsilon]{backnaur}
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 \usepackage[scriptsize]{caption} 
@@ -49,7 +52,7 @@
 \thispagestyle{empty} \normalfont \cleardoublepage
 \include{altro/dedica}
 \thispagestyle{empty}  \cleardoublepage
-\pagenumbering{Roman}
+\pagenumbering{roman}
 \include{altro/sommario}
 \thispagestyle{empty} \vspace*{.75truecm} \cleardoublepage
 \phantomsection\pdfbookmark{Indice}{indice}
@@ -81,8 +84,8 @@
 \cleardoublepage
 % ---- Bibliography ----
 \bibliographystyle{plain}
+\pagenumbering{Roman}
 \bibliography{altro/bibliografia}
-%\nocite{*}
 
 \appendix
 
