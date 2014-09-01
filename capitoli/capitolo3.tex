@@ -4,10 +4,178 @@
 
 \begin{quotation}
 {\footnotesize
-\noindent{\emph{}}
+\noindent{\emph{Doc: Ovviamente il continuum temporale è stato interrotto creando questa nuova temporale sequenza di eventi risultanti in questa realtà alternativa. \\
+Marty: Che lingua è Doc? \\
+Doc: Ah si, si, si, si, si! Lascia che ti spieghi. Immagina, che questa linea rappresenti il tempo\dots}}
 \begin{flushright}
-
+Ritorno al Futuro, parte II
 \end{flushright}
 }
 \end{quotation}
 \vspace{0.5cm}
+
+Si illustrano di seguito i concetti fondamentali alla comprensione della tesi.
+
+\section{Logica Fuzzy}
+La logica fuzzy è una logica multivalore che permette di esprimere non solo la verità o la falsità di una affermazione, ma anche il suo valore di verità, che può essere qualsiasi numero tra 0 (ossia l'afefrmazione è falsa) e 1 (ossia l'affermazione è vera).
+
+Grazie a questa logica è possibile esprimere concetti che in una logica a due valori sono paradossali.
+Ad esempio, la frase ``sono un bugiardo'', che nella logica a due valori risulta paradossale, nella logica fuzzy essa può assumere valori consistenti.
+
+\subsection{Insiemi Fuzzy}
+La logica fuzzy è basata fortemente sul concetto di insieme fuzzy. Un insieme fuzzy è un insieme la cui funzione di appartenenza può avere valori nell'intervallo $[0, 1]$.
+I fuzzy set sono quindi definiti da una funzione di appartenenza $f$ definita su un dominio $D$, avente come codominio l'intervallo $[0,  1]$.  Formalmente un fuzzy et è definito come:
+
+\begin{equation*}
+ f:D\leftarrow [0, 1]
+\end{equation*}
+
+Si definisce altezza di un insieme fuzzy il massimo grado di verità possibile per un elemento.
+Un fuzzy set si dice normale se la sua altezza è pari a uno.
+
+Un fuzzy set si dice unimodale se esiste un unico insieme in cui le variabili hanno valore di verità pari a 1.
+
+
+%%TODO qui?? forse da spostare...
+Si definisce variabile linguistica $X$, definita sulla variabile di base $u$ una tupla così definita:
+\begin{equation*}
+$(X, T(X), U, G, M)$
+\end{equation*}
+
+dove:
+
+\begin{description}
+ \item [X] è il nome della variabile.
+ \item [T(X)] è un insieme di termini, detti anche valori linguistici.
+ \item [U] è il dominio della variabile di base $u$.
+ \item [G] è una regola sintattica per generare l'interpretazione X per ogni valore di u.
+ \item [M] è una regola semantica che associa a X il suo significato.
+\end{description}
+
+
+Data una variabile $x$, è possibile definire più fuzzy set rispetto al suo dominio. Si parla di frame of cognition quando valgono le seguenti condizioni:
+\begin{enumerate}
+ \item L'intero dominio della variabile è coperto da almeno un fuzzy set con valore di verità maggiore di zero.
+ \item Tutti i fuzzy set sono unimodali.
+ \item Tutti i fuzzy set sono normali.
+\end{enumerate}
+
+Inoltre si parla di partizione fuzzy, se la somma delle funzioni di appartenenza di ogni fuzzy set in ogni punto del dominio è uguale a 1.
+
+La normale teoria degli insiemi è contenuta nella teoria degli insiemi fuzzy: Infatti un intervallo è un insieme fuzzy, con valore di verità di tutti gli elementi pari a 1. Anche i singoli elementi possono essere trattati, tramite il fuzzy set singleton, che ha valore di verità 1 per un solo elemento del dominio, e 0 per tutti gli altri.
+
+\subsection{Operazioni sui fuzzy set}
+
+Sui fuzzy set sono definite le seguenti operazioni:
+\begin{itemize}
+ \item unione
+ \item intersezione
+ \item complemento
+\end{itemize}
+
+\subsubsection{Complemento}
+
+Dato un insieme fuzzy $A$, con funzione di appartenenza $\mu_A$ il complemento è definito come:
+
+\begin{equation*}
+ c(\mu_A(x)) = \mu_{\neg A}(x)
+\end{equation*}
+
+Il complemento di insiemi fuzzy deve rispettare i seguenti assiomi:
+\begin{enumerate}
+ \item $c(0)=1$, $c(1)=0$ (condizioni al contorno)
+ \item $c$ è una funzione continua.
+ \item $c$ è involutiva, ossia $c(c(a))=a\, \, \forall a \in [0, 1]$
+\end{enumerate}
+
+l'unica funzione che rispetta i seguenti assiomi è la funzione:
+
+\begin{equation*}
+ c(x) = 1 - x
+\end{equation*}
+
+\subsubsection{Intersezione}
+
+Dati due insiemi fuzzy $A$ e $B$, con funzione di appartenenza $\mu_A$ e $\mu_B$ l'intersezione  è definita come:
+
+\begin{equation*}
+ i(\mu_A(x), \mu_B(x)) = \mu_{A\cap B}(x)
+\end{equation*}
+
+L'intersezione di insiemi fuzzy deve rispettare i seguenti assiomi:
+
+\begin{enumerate}
+ \item $i(a, 1)=a$ (condizioni al contorno)
+ \item $d\geq b \implies  i(a,d)\geq i(a,b)$ (monotonicità)
+ \item $i(b,a) = i(a,b)$ (commutatività)
+ \item $i(i(a,b),d)=i(a,i(b,d))$ (associatività)
+ \item $i$ è una funzione continua
+ \item $a\geq i(a,a)$ (sub-idempotenza)
+ \item $a_1<a_2 \wedge b_1<b_2\implies i(a_1,b_1)<i(a_2,b_2)$ (monotonicità stretta)
+\end{enumerate}
+
+Non esiste un'unica funzione che rispetta questi assiomi. Ogni funzione che rispetta questi assiomi viene detta T-norm.
+Esempi di T-norm sono l'operatore minimo e il prdotto tra i valori di verità.
+
+\subsubsection{Unione}
+
+Dati due insiemi fuzzy $A$ e $B$, con funzione di appartenenza $\mu_A$ e $\mu_B$ l'unione è definita come:
+
+\begin{equation*}
+ u(\mu_A(x), \mu_B(x)) = \mu_{A\cup B}(x)
+\end{equation*}
+
+L'unione di insiemi fuzzy deve rispettare i seguenti assiomi:
+
+\begin{enumerate}
+ \item $u(a, 0)=a$ (condizioni al contorno)
+ \item $b \leq d implies u(a,b) \leq u(a,d)$ (monotonicità)
+ \item $u(a,b) = u(b,a)$ (commutatività)
+ \item $u(a,u(b,d)) = u(u(a,b),d)$ (associatività)
+ \item $u$ è una funzione continua
+ \item $u(a,a) \geq a$ (super-idempotenza)
+ \item $a_1< a_2 \wedge b_1 < b_2 \implies u(a_1,b_1)<u(a_2,b_2)$ (monotonicità stretta)
+\end{enumerate}
+
+Non esiste un unica funzione che rispetta questi assiomi. Ogni funzione che rispetta questi assiomi viene detta T-conorm, o S-norm.
+Esempi di S-norm sono l'operatore massimo e la somma probabilistica tra i valori di verità.
+La somma probabilistica $p$ tra due variabili $a$  e $b$ è definita come:
+
+\begin{equation*}
+ p = a+b - a\cdot b 
+\end{equation*}
+
+%%TODO aggregazione???
+
+% μA(x) = h[μA1(x), ..., μ An(x)]
+% Axioms:
+% 1. h[0,..., 0]=0, h[1,..., 1]=1 (boundary conditions)
+% 2. monotonicity
+% 3. h is continuous
+% 4. h(a,..,a) = a (idempotency)
+% 5. simmetricity
+% Example of aggregation operator: generalized average
+% h(a1, ..., an) = (a1α + ...+ anα) 1/α / n
+
+
+\subsection{Regole Fuzzy}
+
+Una regola di inferenza fuzzy può essere considerata come un modello, un mezzo per definire una funzione tra un ingresso e una uscita.
+
+Le regole fuzzy che consideriamo sono composte nel seguente modo:
+\begin{verbatim}
+ IF <antecedente> THEN <consequente>
+\end{verbatim}
+
+Dove l'antecedente è una formula logica ben formata è il conseguente è una o più proposizioni legate dall'operatore and.
+
+Una formula ben formata è definita come:
+
+\begin{itemize}
+ \item Una proposizione è una formula ben formata
+ \item Se ``A'' è una formula ben formata, anche ``not A'' è una formula ben formata.
+ \item Se ``A'' e ``B'' sono formule ben formate anche ``A and B'', ``A or B'' sono formule ben formate.
+ \item null'altro è una formula ben formata.
+\end{itemize}
+
+Una proposizione è definita come 
