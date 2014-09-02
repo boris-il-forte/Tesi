@@ -39,7 +39,7 @@ Un fuzzy set si dice unimodale se esiste un unico insieme in cui le variabili ha
 %%TODO qui?? forse da spostare...
 Si definisce variabile linguistica $X$, definita sulla variabile di base $u$ una tupla così definita:
 \begin{equation*}
-$(X, T(X), U, G, M)$
+(X, T(X), U, G, M)
 \end{equation*}
 
 dove:
@@ -71,6 +71,7 @@ Sui fuzzy set sono definite le seguenti operazioni:
  \item unione
  \item intersezione
  \item complemento
+ \item aggregazione
 \end{itemize}
 
 \subsubsection{Complemento}
@@ -129,7 +130,7 @@ L'unione di insiemi fuzzy deve rispettare i seguenti assiomi:
 
 \begin{enumerate}
  \item $u(a, 0)=a$ (condizioni al contorno)
- \item $b \leq d implies u(a,b) \leq u(a,d)$ (monotonicità)
+ \item $b \leq d \implies u(a,b) \leq u(a,d)$ (monotonicità)
  \item $u(a,b) = u(b,a)$ (commutatività)
  \item $u(a,u(b,d)) = u(u(a,b),d)$ (associatività)
  \item $u$ è una funzione continua
@@ -145,17 +146,29 @@ La somma probabilistica $p$ tra due variabili $a$  e $b$ è definita come:
  p = a+b - a\cdot b 
 \end{equation*}
 
-%%TODO aggregazione???
+\subsection{Aggregazione}
 
-% μA(x) = h[μA1(x), ..., μ An(x)]
-% Axioms:
-% 1. h[0,..., 0]=0, h[1,..., 1]=1 (boundary conditions)
-% 2. monotonicity
-% 3. h is continuous
-% 4. h(a,..,a) = a (idempotency)
-% 5. simmetricity
-% Example of aggregation operator: generalized average
-% h(a1, ..., an) = (a1α + ...+ anα) 1/α / n
+Dato un insieme di fuzzy set $(A_1, \dots, A_n)$, con funzione di appartenenza $(\mu_{A_1}, \dots, \mu_{A_n})$ l'insieme fuzzy aggregato $A$ è definito come:
+
+\begin{equation*}
+   \mu_A(x) = h(\mu_{A_1}(x), \dots, \mu_{A_n}(x))
+\end{equation*}
+
+L'aggregazione di fuzzy set deve rispettare i seguenti assiomi:
+
+\begin{enumerate}
+ \item $h(0, \dots, 0)=0, h(1, \dots, 1)=1 $ (condizioni al contorno)
+ \item $a_i \leq b_i\, \forall i \implies h(a_1, a_n) \leq h(b_1, b_n)$ (monotonicità)
+ \item $h$ è una funzione continua
+ \item $h(a, \dots,a)=a$ (idempotenza)
+ \item $h(a_1,\dots,a_n) = h(a_i, \dots, a_j)\, \forall i,\dots, j\in [1,n]$ (simmetria) %%
+\end{enumerate}
+
+Non esiste un unica funzione che rispetta questi assiomi. Un esempio di operatore di aggregazione valido è la media generalizzata:
+\begin{equation*}
+ h(a_1, \dots, a_n) = \dfrac{(a_1^\alpha + \dots + a_n^\alpha)^{1/\alpha}}{n}
+\end{equation*}
+
 
 
 \subsection{Regole Fuzzy}
@@ -178,4 +191,145 @@ Una formula ben formata è definita come:
  \item null'altro è una formula ben formata.
 \end{itemize}
 
-Una proposizione è definita come 
+Una proposizione è definita come un assegnamento di una etichetta a una variabile fuzzy, del tipo
+\begin{verbatim}
+ <VARIABLE> IS <LABEL>
+\end{verbatim}
+
+esistono due tipi di regole:
+\begin{description}
+ \item [Regole linguistiche] note anche come regole di Mamdami, dove il conseguente è la congiunzione di più clausole linguistiche. Queste regole possono essere considerate come una funzione che mappa una configurazione di input in ingresso a una interpretazione simbolica dell'output desiderato. 
+ \item [Regole di modello] note anche come regole di Takagi-Sugeno-Kosko. In questo tipo di regole le proposizioni nel conseguente sono del tipo: \verb|<VARIABLE> IS f(...)|. Questo tipo di regole legano un modello alla variabile di uscita. la funzione \verb|f| può essere definita in qualunque modo, e prende in input le variabili di base delle variabili linguistiche pesenti sul lato sinistro della regola.
+
+\end{description}
+
+
+Un insieme di regole fuzzy forma una knowledgebase. Le regole della knowledgebase possono avere diversi pesi, in modo da rendere più importanti alcune regole specifiche, oppure evitare la preponderanza delle regole lunghe rispetto a quelle corte.
+L'inferenza sulla knowledgebase viene fatta come segue: 
+
+\begin{enumerate}
+ \item Dato un insieme di fatti noti, ossia variabili linguisiche di cui si conosce il valore, vengono selezionate solo le regole il cui antecedente contiene solo le variabili note.
+ \item Viene calcolato il valore di verità del lato sinistro delle regole
+ \item Se specificato, il valore di verità viene combinato con il peso della regola.
+ \item Viene aggregato l'output da regole diverse che calcolano la stessa etichetta.
+ \item Viene defuzzyficato, eventualmente, l'output simbolico calcolato, oppure viene compiuta una approssimazione linguistica, ossia viene calcolata l'etichetta in output che meglio approssima, decisa una metrica, l'output simbolico calcolato (che può contenere più etichette per la stessa variabile)
+\end{enumerate}
+
+Esistono vari tipi di defuzzificazione. L'operazione di defuzzificazione viene applicata all'insieme di insiemi fuzzy ricavati per ciascuna variabile linguistica. I metodi più noti sono:
+\begin{itemize}
+ \item Centro di massa
+ \item Bisettrice
+ \item Media dei massimi
+ \item Minor massimo
+ \item Maggior massimo
+ \item Centro dell'area più alta
+\end{itemize}
+
+Il metodo più usato in assoluto è il centro di massa applicato a singleton.
+
+\section{Geometria della telecamera}
+
+Verrà descritta brevemente la geometria della telecamera.
+Una telecamera è un dispositivo in grado di acquisire immagini del mondo. Essa è composta da una lente e un piano dell'immagine, in grado di acquisire l'immagine. Nel nostro modello consideriamo la lente come estremamente sottile, in modo da non considerare le distorsioni radiali e tangenziali dovute alla lente. La lente è necessara in quanto essa è in grado di convogliare tutta la luce proveniente da un determinato punto dello spazio in un'unico punto (oppure in un'area di punti) nel piano immagine.
+
+Ciamiamo asse ottico l'asse perpendicolare al piano dell'immagine passante per il centro della lente. Si chiama Principal Point l'intersezione tra l'asse ottico e il piano dell'immagine.
+Chiamiamo distanza focale la distanza tra la lente e il piano dell'immagine.
+
+\subsection{Geometria proiettiva}
+
+La relazione tra le coordinate della telecamera e le coordinate dei punti del mondo è una relazione non lineare.
+Dato un punto nello spazio $P=(X,Y,Z)$, la sua proiezione nel piano dell'immagine $p=(x,y)$ avrà le seguenti coordinate:
+
+\begin{equation*}
+ \begin{aligned}
+  x = f\cdot \dfrac{X}{Z} \\
+  y = f\cdot \dfrac{Y}{Z}
+ \end{aligned}
+\end{equation*}
+
+Per semplificare il problema, viene usato un'altro sistema di coordinate in cui la relazione considerata è una relazione lineare.
+Queste coordinate sono dette coordinate omogenee, e uno spazio che le utilizza viene detto spazio proiettivo.
+
+Le coordinate omogenee sono delle coordinate che per esprimere uno spazio a $n$ dimensioni, utilizzano $n+1$ coordinate. Le coordinate spaziali sono definite a meno di un fattore moltiplicativo, ovvero $P = \alpha\cdot P$.
+La quarta coordinata ha inoltre un significato particolare. Se è diversa zero il punto rappresenta un punto reale dello spazio euclideo, altrimenti rappresenta una direzione.
+
+
+\subsubsection{Piano immagine}
+Modelliamo l'immagine con uno spazio proiettivo a due dimensioni, $\mathcal{P}^2$.
+Un punto $X$ del piano immagine è definito come:
+\begin{equation*}
+  X=\colvec{3}{x}{y}{w}
+\end{equation*}
+
+E' possibile anche definire una rettta $l$ nel piano immagine sempre utilizzando lo stesso sistema di coordinate:
+
+\begin{equation*}
+  l=\colvec{3}{a}{b}{c}
+\end{equation*}
+
+Un punto $X$ appartiene a una retta $l$ se:
+
+\begin{equation*}
+ X^T\cdot l = 0
+\end{equation*}
+
+Equivalentemente si può dire che una retta $l$ passa per un punto $X$ se:
+
+\begin{equation*}
+ l^T\cdot X = 0
+\end{equation*}
+
+l'equazione di una retta è quindi definita come:
+
+\begin{equation*}
+ a\cdot x + b \cdot y+ c \cdot w = 0
+\end{equation*}
+
+Anche la retta quindi è definita a meno di un coefficiente moltiplicativo.
+
+E' possibile esprimere anche coniche nel piano proiettivo. Una conica $C$ è definita come:
+
+\begin{equation*}
+ C = \begin{pmatrix} a & b & c \\ b & d & e \\ c & e & f \\ \end{pmatrix}
+\end{equation*}
+
+Si può notare che la matrice è simmetrica. Questo avviene senza perdita di generalità.
+Un punto appartiene a una conica se:
+
+\begin{equation*}
+ X^T\cdot C \cdot X = 0
+\end{equation*}
+
+Anche le coniche sono definite a meno di un coefficiente moltiplicativo.
+
+Infine è possibile esprimere coniche duali. Se le conichesono insieme di punti, le coniche duali sono insieme di linee.
+Si può dimostrare che la conica duale $C^*$ alla conica $C$ è:
+\begin{equation*}
+ C^*=C^{-1}
+\end{equation*}
+
+una linea appartiene alla conica duale se:
+
+\begin{equation*}
+ l^T\cdot C^* \cdot l = 0
+\end{equation*}
+
+Lo spazio proiettivo a 2 dimensioni ha due punti notevoli detti punti circolari. Tutte le possibili circonferenze si intersecano nei punti circolari, che sono due punti immaginari:
+
+\begin{equation*}
+ \begin{aligned}
+  I=\colvec{3}{1}{i}{0} & & J=\colvec{3}{1}{-i}{0}
+ \end{aligned}
+\end{equation*}
+
+Questi due punti possono essere espressi in maniera compatta dalla conica duale ai punti cicolari, una conica degenere, che può essere calcolata come:
+
+\begin{equation*}
+ C^*_\infty = I\cdot J^T + J\cdot I^T =\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \\ \end{pmatrix}
+\end{equation*}
+
+
+\subsubsection{Mondo reale}
+Modelliamo il mondo reale con uno spazio proiettivo a 3 dimensioni, $\mathcal{P}^3$.
+
+\subsection{Calibrazione}

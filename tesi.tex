@@ -33,7 +33,6 @@
 \usepackage[epsilon]{backnaur}
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 \usepackage[scriptsize]{caption} 
-\hyphenation{a-gen-tiz-za-zio-ne}
 
 \setlength{\oddsidemargin} {2. cm}
 \setlength{\evensidemargin} {2. cm}
@@ -44,6 +43,27 @@
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
 \renewcommand{\captionfont}{\normalfont \sffamily \itshape \small}
+
+%% colum vectors
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%
 
 \pagestyle{empty}
 
