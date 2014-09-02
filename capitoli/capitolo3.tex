@@ -251,7 +251,7 @@ Per semplificare il problema, viene usato un'altro sistema di coordinate in cui 
 Queste coordinate sono dette coordinate omogenee, e uno spazio che le utilizza viene detto spazio proiettivo.
 
 Le coordinate omogenee sono delle coordinate che per esprimere uno spazio a $n$ dimensioni, utilizzano $n+1$ coordinate. Le coordinate spaziali sono definite a meno di un fattore moltiplicativo, ovvero $P = \alpha\cdot P$.
-La quarta coordinata ha inoltre un significato particolare. Se è diversa zero il punto rappresenta un punto reale dello spazio euclideo, altrimenti rappresenta una direzione.
+La quarta coordinata ha inoltre un significato particolare. Se è diversa zero il punto rappresenta un punto reale dello spazio euclideo, altrimenti rappresenta una direzione, detto anche punto all'infinito.
 
 
 \subsubsection{Piano immagine}
@@ -261,7 +261,7 @@ Un punto $X$ del piano immagine è definito come:
   X=\colvec{3}{x}{y}{w}
 \end{equation*}
 
-E' possibile anche definire una rettta $l$ nel piano immagine sempre utilizzando lo stesso sistema di coordinate:
+E' possibile anche definire una rettta $l$ nel piano immagine sempre utilizzando il vettore tridimensionale:
 
 \begin{equation*}
   l=\colvec{3}{a}{b}{c}
@@ -286,6 +286,7 @@ l'equazione di una retta è quindi definita come:
 \end{equation*}
 
 Anche la retta quindi è definita a meno di un coefficiente moltiplicativo.
+La retta che contiene tutti i punti all'infinito è della linea all'infinito $l_\infty$.
 
 E' possibile esprimere anche coniche nel piano proiettivo. Una conica $C$ è definita come:
 
@@ -308,7 +309,7 @@ Si può dimostrare che la conica duale $C^*$ alla conica $C$ è:
  C^*=C^{-1}
 \end{equation*}
 
-una linea appartiene alla conica duale se:
+una retta appartiene alla conica duale se:
 
 \begin{equation*}
  l^T\cdot C^* \cdot l = 0
@@ -322,6 +323,8 @@ Lo spazio proiettivo a 2 dimensioni ha due punti notevoli detti punti circolari.
  \end{aligned}
 \end{equation*}
 
+I punti circolari appartengono a $l_\infty$.
+
 Questi due punti possono essere espressi in maniera compatta dalla conica duale ai punti cicolari, una conica degenere, che può essere calcolata come:
 
 \begin{equation*}
@@ -332,4 +335,135 @@ Questi due punti possono essere espressi in maniera compatta dalla conica duale 
 \subsubsection{Mondo reale}
 Modelliamo il mondo reale con uno spazio proiettivo a 3 dimensioni, $\mathcal{P}^3$.
 
-\subsection{Calibrazione}
+Un punto $X$ del mondo reale è definito come:
+\begin{equation*}
+  X=\colvec{4}{x}{y}{z}{w}
+\end{equation*}
+
+E' possibile anche definire piano $\pi$ nel mondo reale utilizzando il vettore quadridimensionale:
+
+\begin{equation*}
+  \pi=\colvec{4}{a}{b}{c}{d}
+\end{equation*}
+
+Un punto $X$ appartiene a una piano $\pi$ se:
+
+\begin{equation*}
+ X^T\cdot \pi = 0
+\end{equation*}
+
+Equivalentemente si può dire che un piano $\pi$ passa per un punto $X$ se:
+
+\begin{equation*}
+ \pi^T\cdot X = 0
+\end{equation*}
+
+l'equazione di un piano è quindi definita come:
+
+\begin{equation*}
+ a\cdot x + b \cdot y+ c \cdot z + d \cdot w = 0
+\end{equation*}
+
+Anche il piano quindi è definito a meno di un coefficiente moltiplicativo.
+Il piano che contiene tutti i punti all'infinito e, conseguentemente, tutti le rette all'infinito di tutti i piani dello spazio, si chiama piano all'infinito $\pi_\infty$. 
+
+E' possibile esprimere anche quadriche nel piano proiettivo. Una quadrica $Q$ è definita come:
+
+\begin{equation*}
+ Q = \begin{pmatrix} a & b & c & d \\ b & e & f & g \\ c & f & h & i \\ d & g & i & l \\ \end{pmatrix}
+\end{equation*}
+
+Si può notare che la matrice è simmetrica. Questo avviene senza perdita di generalità.
+Un punto appartiene a una quadrica se:
+
+\begin{equation*}
+ X^T\cdot Q \cdot X = 0
+\end{equation*}
+
+Anche le quadriche sono definite a meno di un coefficiente moltiplicativo.
+
+Infine è possibile esprimere quadriche duali. Se le quadriche sono insieme di punti, le quadriche duali sono insieme di piani.
+Si può dimostrare che la quadrica duale $Q^*$ alla quadrica $Q$ è:
+\begin{equation*}
+ Q^*=Q^{-1}
+\end{equation*}
+
+un piano appartiene alla quadrica duale se:
+
+\begin{equation*}
+ \pi^T\cdot C^* \cdot \pi = 0
+\end{equation*}
+
+Lo spazio proiettivo a 3 dimensioni ha una conica notevole, detta conica assoluta, $\Omega$. La conica assoluta è l'intersezione di tutte le possibili sfere nel mondo reale. La conica assoluta è formata dall'unione di tutti i possibili punti circolari calcolati lungo tutti i possibili piani dello spazio.
+La conica assoluta è contenuta in $\pi_\infty$.
+
+La conica assoluta può essere espressa in maniera sintetica con la quadrica duale assoluta $\Omega^*$:
+
+\begin{equation*}
+ \Omega^*_\infty = I\cdot J^T + J\cdot I^T =\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ \end{pmatrix}
+\end{equation*}
+
+\subsection{Trasformazioni Proiettive}
+
+Si chiama trasformazione proiettiva una qualsiasi trasformazione lineare di coordinate di uno spazio proiettivo.
+Generalmente una trasformazione proiettiva è una trasformazione non lineare rispetto allo spazio euclideo che rappresenta tutti i punti che non sono all'infinito.
+Una trasformazione proiettiva di coordinate è data dalla formula:
+\begin{equation*}
+ x' = \mathcal{H}(x) = H\cdot x
+\end{equation*}
+
+Nello spazio $\mathcal{P}^2$ le trasformazioni proiettive sono descritte da matrici $H$ $3\times3$, mentre nello spazio $\mathcal{P}^3$ le trasformazioni proiettive sono descritte da matrici $H$ $4\times4$.
+
+Ci sono alcuni sottocasi di trasformazione propettica importanti e utili anche ai fini di questa tesi:
+
+\begin{itemize}
+ \item Rotazioni
+ \item Traslazioni
+ \item Isometrie
+ \item Similitudini
+ \item Affinità
+\end{itemize}
+
+verranno discusse in seguito con i loro invarianti.
+
+\subsubsection{Isometrie}
+
+Le isometrie sono le trasformazioni prospettiche più semplici. Esse sono sostanzialmente rototraslazioni, e quindi contengono come casi particolari le rotazioni e le traslazioni pure. Gli invarianti delle isometrie sono le lunghezze, gli angoli, la forma e la dimensione, la posizione relativa tra gli oggetti. Hanno 3 gradi di libertà nel piano e 6 nello spazio.
+
+una similitudine è descritta dalla matrice:
+
+%%TODO matrice 
+
+\subsubsection{Similitudini}
+Le similitudini sono trasformazioni prospettiche più generali delle isometrie. Hanno un grado di libertà in più rispetto alle isometrie, essendo la scala degli oggetti non fissata. Gli invarianti sono il rapporto tra le lnghezze, gli angoli, la forma degli oggetti.
+
+%%TODO matrice 
+
+\subsubsection{Affinità}
+Le affinità sono ancora piùà generali rispetto alle similitudini. Hanno 6 gradi di libertà nel piano e 9 nello spazio. Gli invarianti della trasformazione sono l parallelismo e il rapporto tra due segmenti paralleli.
+
+%%TODO matrice 
+
+\subsection{Geometria della telecamera e calibrazione}
+
+La telecamera è uno strumento che trasforma dei punti nello spazio a 3 dimensioni in punti sull'immagine a 2 dimensioni. La telecamera dunque attua una trasformazione proiettiva $P$ tra i due spazi.
+L'equzione che mappa i punti tra i due spazi è la seguente:
+\begin{equation*}
+ \colvec{3}{x}{y}{w} = P\cdot\colvec{4}{X}{Y}{Z}{W}
+\end{equation*}
+
+la matrice $P$ dipende da due fattori: i parametri intrinseci della telecamera e i parametri estrinseci.
+I primi dipendono dalla costruzione della fotocamera, e sono la distanza focale, la dimensione e la forma dei pixel, la posizione del principal point. I secondi sono la posa della telecamera rispetto al mondo, ovvero la rototraslazione della telecamera rispetto al mondo.  
+Possiamo allora scrivere $P$ nel seguente modo:
+\begin{equation*}
+ P = K \cdot \left[
+    \begin{array}{c|c}
+      R & t
+    \end{array} 
+\right]
+\end{equation*}
+
+Dove la matrice $K$ è la matrice dei parametri intrinseci della telecamera, detta anche matrice di calibrazione, $R$ e $t$ sono, rispettivamente, la matrice di rotazione ($3\times3$) e traslazione ($3\times1$) della camera rispetto alle coordinate  
+La calibrazione della camera, e quindi il calcolo di $K$ si basa sulle proprietà dell'immagine della conica assoluta, $\omega$.
+L'immagine della conica assoluta è 
+
