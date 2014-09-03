@@ -15,7 +15,7 @@ Ritorno al Futuro, parte III
 
 \section{Introduzione}
 
-In questo capitolo esporremo il funzionamento del reasoner fuzzy. Il reasoner fuzzzy si basa sulle regole fuzzy descritte da Mamdami~\cite{mamdani1975experiment}. 
+In questo capitolo esporremo il funzionamento del reasoner fuzzy. Il reasoner fuzzzy si basa su regole fuzzy del tipo introdotto da Mamdami~\cite{mamdani1975experiment}. 
 Su questa base abbiamo implementato un classificatore fuzzy ad albero, che, data una struttura ad albero di classi di oggetti e eventuali relazioni tra di loro, accetta in ingresso delle feature, di cui sono note le caratteristiche, e le classifica.
 Per raggiungere questo scopo abbiamo implementato due linguaggi: uno per esprimere regole fuzzy, che permetta di esprimere le proprietà rispetto a classi di oggetti; l'altro per esprimere la struttura del classificatore, in grado di esprimere gerarchie di classi e relazioni tra esse.
 Inoltre abbiamo implementato un algoritmo di reasoning che permette di classificare un insieme di feature, restituendo non solo le classi a cui ciascuna feature appartiene, ma anche il grado di appartenenza di ciascuna feature alle stesse.
@@ -23,6 +23,8 @@ L'algoritmo in particolare è studiato per risolvere dipendenze cicliche tra le 
 
 \section{Linguaggio Fuzzy}
 Il linguaggio per esprimere regole fuzzy sviluppato permette di esprimere non solo domini semplici e insiemi fuzzy su questi domini, ma anche domini complessi, chiamati classi e predicati, validi per qualunque dominio. \`E ispirato fortemente al linguaggio FCL, Fuzzy Control Language, da cui prende parte della sintassi.
+
+%%TODO Inserire la citazione a FCL (sulle slide del corso c'e' anche il riferimento alla normativa IEEE che FCL implementa)
 
 Tutte le variabili utilizzate dal reasoner sono assunte come variabili intere con segno, possono quindi avere valori compresi tra \verb|INT_MIN| e \verb|INT_MAX|.
 Si assume che i numeri decimali siano rappresentati semplicemente come numeri a virgola fissa.
@@ -59,6 +61,8 @@ END_FUZZIFY
 \end{verbatim}
 
 Mentre per definire una classe chiamata ``TestClass'', con due membri ``a'' e ``b'', si può procedere come segue:
+
+%%TODO meglio definire una classe con semantica, come hai fatto per Input, che si capisce meglio che non set1 set2...
 
 \begin{verbatim}
 FUZZIFY_CLASS TestClass
@@ -194,28 +198,27 @@ Predicate1(a)
 
 
 
-
 \section{Reasoning}
 
-Il reasoning avviene utilizzando le regole fuzzy descritte da Mamdami. Il processo può essere riassunto nel seguente modo:
+Il reasoning avviene utilizzando le regole fuzzy espresse con la notazione sopra citata. Il processo può essere riassunto nel seguente modo:
 
 \begin{enumerate}
  \item Vengono considerate tutte le variabili di input attive, ossia presenti in ingresso.
  \item vengono attivate, nell'ordine in cui sono specificate, le regole che contengono solo le variabili attive.
- \item viene calcolato il valore di verità del lato sinistro di ogni regola. Per farlo si calcolano i valori di verità dei fuzzy set associati alle variabili e poi si utilizzano gli operatori complemento, T-norm, S-norm per calcolare il valore di verità dell'espressione, utilizzando la normale precedenza degli operatori (not, and or).
+ \item viene calcolato il valore di verità del lato sinistro di ogni regola. Per farlo si calcolano i valori di verità dei fuzzy set associati alle variabili e poi si utilizzano gli operatori complemento, T-norm, S-norm per calcolare il valore di verità dell'espressione, utilizzando la normale precedenza degli operatori (not, and, or).
  \item Il valore di verità del lato destro della regola viene utilizzato come valore di verità per il fuzzy set della variabile di uscita.
  \item I valori di verità delle variabili di uscita rispetto a un determinato fuzzy set vengono aggregati.
  \item Viene defuzzificato il valore di ciascuna variabile di uscita. 
 \end{enumerate}
 
-Come T-norm viene utilizzato l'operatore min. Questa scelta è stata fatta perché le altre alternative conosciute, tra cui la più nota è il prodotto tra i valori di verità dei due operandi, rendono molto facilmente irrilevante il valore di verità risultante, se anche solo uno dei due operandi ha un basso valore di verità. Questo inconveniente diventa più rilevante in caso di regole lunghe, dove il valore di verità calcolato degrada di operazione in operazione. Il maggior inconveniente di questo approccio è che il valore di verità risultante dipenderà, di volta in volta, da un unico operando anziché da entrambi.
+Come T-norm viene utilizzato l'operatore min. Questa scelta è stata fatta perché le altre alternative conosciute, tra cui la più nota è il prodotto tra i valori di verità dei due operandi, rendono molto facilmente irrilevante il valore di verità risultante, se anche solo uno dei due operandi ha un basso valore di verità. Questo inconveniente diventa più rilevante in caso di lunghe catene di regole, dove il valore di verità calcolato degrada di operazione in operazione. Il maggior inconveniente di questo approccio è che il valore di verità risultante dipenderà, di volta in volta, da un unico operando anziché da entrambi.
 Per le stesse ragioni, è stato preferito l'operatore max alla somma probabilistica o ad altre alternative.
 
 L'operatore di aggregazione è implementato utilizzando la media semplice.
 
-La defuzzificazione è implementata tramite l'operatore centro di massa. Per rendere più semplice ed efficiente la defuzzificazione, il reasoner si aspetta che i fuzzy set assegnati alle variabili in output siano singleton. Il vantaggio di utilizzare singleton rispetto a un generico fuzzy set è che è più semplice capire qual'è il valore massimo e minimo di una determinata variabile in uscita, infatti la relazione che lega il valore di verità di ciascuna variabile linguistica rispetto ai fuzzy set considerati con il valore calcolato in uscita è lineare. Questo in generale permette un efficiente design della knowledgebase, in quanto non si devono tenere in conto gli effetti delle non linearità delle uscite e non è quindi necessario attribuire un peso differente alle diverse regole.
+La defuzzificazione è implementata tramite l'operatore centro di massa. Per rendere più semplice ed efficiente la defuzzificazione, il reasoner si aspetta che i fuzzy set assegnati alle variabili in output siano singleton. Il vantaggio di utilizzare singleton rispetto a un generico fuzzy set è che è più semplice capire qual'è il valore massimo e minimo di una determinata variabile in uscita, infatti la relazione che lega il valore di verità di ciascuna variabile linguistica rispetto ai fuzzy set considerati con il valore calcolato in uscita è lineare. Questo in generale permette un efficiente design della knowledge base, in quanto non si devono tenere in conto gli effetti delle non linearità delle uscite e non è quindi necessario attribuire un peso differente alle diverse regole.
 
-Il reasoner implementato non fa differenza tra variabili di ingresso e variabili di uscita. L'unico requisito per le variabili di uscita è di assegnare come etichetta a una variabile che compare nel lato destro della regola un singleton. E' quindi possibile definire per ciascuna variabile due insiemi di fuzzy set, uno per permettere di assegnare fuzzy set alle variabili linguistiche dato un valore nel dominio, l'altro per poter defuzzificare la variabile. Così facendo è possibile specificare regole che assegnano o utilizzano una variabile, anche contemporaneamente. Questo permette algoritmi di compiere ragionamenti a più livelli, oppure di implementare facilmente un anello di controllo in retroazione fuzzy. 
+Il reasoner implementato non fa differenza tra variabili di ingresso e variabili di uscita. L'unico requisito per le variabili di uscita è di assegnare come etichetta a una variabile che compare nel lato destro della regola un singleton. E' quindi possibile definire per ciascuna variabile due insiemi di fuzzy set, uno per permettere di assegnare fuzzy set alle variabili linguistiche dato un valore nel dominio, l'altro per poter defuzzificare la variabile. Così facendo è possibile specificare regole che assegnano o utilizzano una variabile, anche contemporaneamente. Questo permette di compiere ragionamenti a più livelli, oppure di implementare facilmente un anello di controllo in retroazione fuzzy. 
 
 \section{Linguaggio del classificatore}
 Il linguaggio del classificatore è stato implementato per poter esprimere un classificatore ad albero. Tuttavia, poiché nel mondo reale, soprattutto nel campo dell'analisi di immagine, sono importanti anche le relazioni tra gli oggetti, la normale struttura ad albero è stata arricchita da archi che non rappresentano relazione di ereditarietà, ma relazioni tra le variabili di oggetti differenti.
@@ -231,9 +234,9 @@ Per definire una classe si usa la keyword \verb|CLASS|, seguita dal nome della c
 
 Per specificare le variabili appartenenti a una classe si utilizza la keyword \verb|VARIABLES|, seguita dal nome delle variabili utilizzate, separate dal token ``;'',  terminate dalla keyword \verb|END_VARIABLES|.
 
-All'interno delle classi è anche possibile specificare delle costanti, che sono variabili con associato un fuzzy set associati. Questa caratteristica del linguaggio non è stata tuttavia ancora espansa, e le costanti possono essere utilizzate a scopo documentativo. E' possibile espandere il loro utilizzo per aumentare le capacità di riconoscimento, ad esempio controllando che l'oggetto classificato rispetti determinate costanti, oppure utilizzando le costanti per compiere ulteriori inferenze.
+All'interno delle classi è anche possibile specificare delle costanti, che sono simboli associati ognuno a un fuzzy set. Questa caratteristica del linguaggio non è stata tuttavia ancora espansa, e le costanti possono essere utilizzate a scopo documentativo. E' possibile espandere il loro utilizzo per aumentare le capacità di riconoscimento, ad esempio controllando che l'oggetto classificato rispetti determinate relazioni con le costanti, oppure utilizzando le costanti per compiere ulteriori inferenze.
 
-Non è necessario ridefinire le variabili delle superclassi nelle loro sottoclassi, le variabili infatti vengono ereditate automaticamente.
+Non è necessario ridefinire le variabili delle superclassi nelle loro sottoclassi, dato che le variabili vengono ereditate automaticamente.
 
 Un esempio di definizione di classe è il seguente:
 
@@ -254,6 +257,8 @@ Per discriminare l'appartenenza di un oggetto a una determinata classe è possib
 La feature di base che è possibile esprimere è il livello di appartenenza a un determinato fuzzy set definito su una variabile di una superclasse o della classe stessa. 
 Per esprimere questo tipo di feature, basta scrivere il nome della variabile su cui si vuole discriminare, seguita dalla keyword \verb|is|, seguita dal nome del fuzzy set che si vuole utilizzare.
 
+%%TODO: fai esempio
+
 Possono essere espresse anche feature che dipendono dalla relazione di una determinata istanza della classe con altre istanze di altre classi.
 In particolare è possibile esprimere:
 
@@ -263,10 +268,11 @@ In particolare è possibile esprimere:
  \item La relazione di contenimento inversa; sempre tramite la keyword \verb|on|
 \end{itemize}
 
-Tutti i tre tipi di relazioni possono essere qualificate, in modo da non avere il semplice contenimento o il matching esatto, ma rendere possibile un grado di matching fuzzy e di specificare in maniera più fine il contenimento, ad esempio discriminando destra/sinistra. Per farlo si utilizzano la keyword \verb|degree| per il matching e la keyword \verb|is| per il contenimento. Si veda la grammatica per sapere come definire tali relazioni con precisione.
+Tutti i tre tipi di relazioni possono essere qualificate, in modo da non avere il semplice contenimento o il matching esatto, ma rendere possibile un grado di matching fuzzy e di specificare in maniera più fine il contenimento, ad esempio discriminando destra/sinistra. Per farlo si utilizzano la keyword \verb|degree| per il matching e la keyword \verb|is| per il contenimento. Si veda la grammatica per la notazione relativa alla definizione di tali relazioni.
 
 Un esempio di classe contenente queste feature è il seguente:
 
+%%TODO: fai esempio con significato e commenta cosa significa
 \begin{verbatim}
 CLASS Example1
  VARIABLES
@@ -288,8 +294,8 @@ CLASS Example1
 END_CLASS
 \end{verbatim}
 
-\subsection{Utilizzo della knowledgebase}
-Il classificatore necessita di una knowledgebase per definire il significato dei fuzzy set definiti. 
+\subsection{Utilizzo della knowledge base}
+Il classificatore necessita di una knowledge base per definire il significato dei fuzzy set definiti. 
 L'implementazione corrente necessita di definire una classe fuzzy per ogni classe del classificatore definita, col medesimo nome.
 Le variabili devono aver definito i fuzzy set che si intende utilizzare all'interno della classe in cui vengono definite. I fuzzy set verranno automaticamente aggiunti anche alle sottoclassi.
 Se si utilizzano relazioni tra oggetti qualificate, si deve definire un predicato omonimo nella classe che lo utilizza.
@@ -371,7 +377,7 @@ L'ultimo passo viene effettuato prima di restituire in output i risultati della 
 
 \subsection{Generazione delle regole fuzzy}
 
-Le regole fuzzy vengono costruite in maniera automatica a partire dal classificatore definito e dalla relativa knowledgebase. Per ogni classe, viene generata una regola che contiene la congiunzione di tutte le possibili feature che definiscono la classe, e in output una variabile, con lo stesso nome della classe, a cui viene assegnata il fuzzy set \$True, che è un singleton il cui valore è 1. Questa variabile rappresenta il grado di appartenenza delle singole istanze alla classe considerata.
+Le regole fuzzy vengono costruite in maniera automatica a partire dal classificatore definito e dalla relativa knowledge base. Per ogni classe, viene generata una regola che contiene la congiunzione di tutte le possibili feature che definiscono la classe, e in output una variabile, con lo stesso nome della classe, a cui viene assegnata il fuzzy set \$True, che è un singleton il cui valore è 1. Questa variabile rappresenta il grado di appartenenza delle singole istanze alla classe considerata.
 
 Le variabili che compaiono all'interno della regola sono di due tipi: variabili già presenti nella definizione della classe, e quindi aventi un nome definito dall'utente, e variabili generate automaticamente dalle relazioni tra le classi. Queste ultime variabili non sono già presenti in input, ma devono essere calcolate dal classificatore. \`E quindi necessario salvare i dati necessari a calcolarle quando verranno classificate le istanze e le loro dipendenze.
 

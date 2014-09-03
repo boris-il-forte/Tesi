@@ -2,9 +2,11 @@
 \label{cap:concetti}
 \thispagestyle{empty}
 
+%%%TODO Questo capitolo mi sembra fin troppo didattico e lo metterei semmai come appendice
+
 \begin{quotation}
 {\footnotesize
-\noindent{\emph{Doc: Ovviamente il continuum temporale è stato interrotto creando questa nuova temporale sequenza di eventi risultanti in questa realtà alternativa. \\
+\noindent{\emph{Doc: Ovviamente il continuum temporale è stato interrotto creando questa nuova sequenza temporale di eventi risultanti in questa realtà alternativa. \\
 Marty: Che lingua è Doc? \\
 Doc: Ah si, si, si, si, si! Lascia che ti spieghi. Immagina, che questa linea rappresenti il tempo\dots}}
 \begin{flushright}
@@ -14,13 +16,13 @@ Ritorno al Futuro, parte II
 \end{quotation}
 \vspace{0.5cm}
 
-Si illustrano di seguito i concetti fondamentali alla comprensione della tesi.
+Si introducono in questo capitolo di seguito i concetti fondamentali alla comprensione della tesi.
 
 \section{Logica Fuzzy}
-La logica fuzzy è una logica multi valore che permette di esprimere non solo la verità o la falsità di una affermazione, ma anche il suo valore di verità, che può essere qualsiasi numero tra 0 (ossia l'affermazione è falsa) e 1 (ossia l'affermazione è vera).
+La logica fuzzy è una logica multi valore che permette di esprimere non solo la verità o la falsità di una affermazione, ma anche un grado di verità, che può essere qualsiasi numero tra 0 (ossia l'affermazione è falsa) e 1 (ossia l'affermazione è vera). Questa propriet\`a fa della logica fuzzy uno strumento appropriato per modellare aspetti del mondo reale quando si sia in presenza di incertezza.
 
-Grazie a questa logica è possibile esprimere concetti che in una logica a due valori sono paradossali.
-Ad esempio, la frase ``sono un bugiardo'', che nella logica a due valori risulta paradossale, nella logica fuzzy essa può assumere valori consistenti.
+Tra l'altro, grazie a questa logica è anche possibile esprimere concetti che in una logica a due valori sarebbero paradossali.
+Ad esempio, la frase ``sono un bugiardo'', che nella logica a due valori risulta paradossale, nella logica fuzzy può assumere valori consistenti.
 
 \subsection{Insiemi Fuzzy}
 La logica fuzzy è basata fortemente sul concetto di insieme fuzzy. Un insieme fuzzy è un insieme la cui funzione di appartenenza può avere valori nell'intervallo $[0, 1]$.
@@ -30,10 +32,10 @@ I fuzzy set sono quindi definiti da una funzione di appartenenza $f$ definita su
  f:D\rightarrow [0, 1]
 \end{equation*}
 
-Si definisce altezza di un insieme fuzzy il massimo grado di verità possibile per un elemento.
-Un fuzzy set si dice normale se la sua altezza è pari a uno.
-
-Un fuzzy set si dice unimodale se esiste un unico insieme in cui le variabili hanno valore di verità pari a 1.
+%Si definisce altezza di un insieme fuzzy il massimo grado di verità possibile per un elemento.
+%Un fuzzy set si dice normale se la sua altezza è pari a uno.
+%
+%Un fuzzy set si dice unimodale se esiste un unico insieme in cui le variabili hanno valore di verità pari a 1.
 
 
 %%TODO qui?? forse da spostare...
@@ -46,7 +48,7 @@ dove:
 
 \begin{description}
  \item [X] è il nome della variabile.
- \item [T(X)] è un insieme di termini, detti anche valori linguistici.
+ \item [T(X)] è un insieme di termini, detti anche valori linguistici, che costituiscono il dominio di [X].
  \item [U] è il dominio della variabile di base $u$.
  \item [G] è una regola sintattica per generare l'interpretazione di X per ogni valore di u.
  \item [M] è una regola semantica che associa a X il suo significato.
@@ -62,7 +64,7 @@ Data una variabile $x$, è possibile definire più fuzzy set rispetto al suo dom
 
 Inoltre si parla di partizione fuzzy, se la somma delle funzioni di appartenenza di ogni fuzzy set in ogni punto del dominio è uguale a 1.
 
-La normale teoria degli insiemi è contenuta nella teoria degli insiemi fuzzy: Infatti un intervallo è un insieme fuzzy, con valore di verità di tutti gli elementi pari a 1. Anche i singoli elementi possono essere trattati, tramite il fuzzy set singleton, che ha valore di verità 1 per un solo elemento del dominio, e 0 per tutti gli altri.
+La normale teoria degli insiemi è contenuta nella teoria degli insiemi fuzzy. Infatti, un intervallo è un insieme fuzzy, con valore di verità di tutti gli elementi pari a 1. Anche i singoli elementi possono essere trattati, tramite il fuzzy set singleton, che ha valore di verità 1 per un solo elemento del dominio, e 0 per tutti gli altri.
 
 \subsection{Operazioni sui fuzzy set}
 
@@ -204,8 +206,8 @@ esistono due tipi di regole:
 \end{description}
 
 
-Un insieme di regole fuzzy forma una knowledgebase. Le regole della knowledgebase possono avere diversi pesi, in modo da rendere più importanti alcune regole specifiche, oppure evitare la preponderanza delle regole lunghe rispetto a quelle corte.
-L'inferenza sulla knowledgebase viene fatta come segue: 
+Un insieme di regole fuzzy forma una knowledge base. Le regole della knowledge base possono avere diversi pesi, in modo da rendere più importanti alcune regole specifiche, oppure evitare la preponderanza delle regole lunghe rispetto a quelle corte.
+L'inferenza sulla knowledge base viene fatta come segue: 
 
 \begin{enumerate}
  \item Dato un insieme di fatti noti, ossia variabili linguistiche di cui si conosce il valore, vengono selezionate solo le regole il cui antecedente contiene solo le variabili note.
@@ -288,7 +290,7 @@ l'equazione di una retta è quindi definita come:
 \end{equation*}
 
 Anche la retta quindi è definita a meno di un coefficiente moltiplicativo.
-La retta che contiene tutti i punti all'infinito è della linea all'infinito $l_\infty$.
+La retta che contiene tutti i punti all'infinito è detta linea all'infinito $l_\infty$.
 
 Nello spazio a due dimensioni è estremamente semplice calcolare la retta passante per due punti o il punto intersezione di due rette. Basta usare il prodotto vettoriale tra due elementi. Per calcolare la retta $l$ passante per due punti scriviamo:
 
@@ -471,7 +473,7 @@ Le similitudini sono trasformazioni prospettiche più generali delle isometrie. 
 Dove $s$ è il fattore di scala.
 
 \subsubsection{Affinità}
-Le affinità sono ancora più generali rispetto alle similitudini. Hanno 6 gradi di libertà nel piano e 12 nello spazio. Gli invarianti della trasformazione sono l parallelismo e il rapporto tra due segmenti paralleli.
+Le affinità sono ancora più generali rispetto alle similitudini. Hanno 6 gradi di libertà nel piano e 12 nello spazio. Gli invarianti della trasformazione sono il parallelismo e il rapporto tra due segmenti paralleli.
 
 \begin{equation*}
   H_A = \begin{pmatrix}
