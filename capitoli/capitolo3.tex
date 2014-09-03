@@ -405,7 +405,7 @@ La conica assoluta può essere espressa in maniera sintetica con la quadrica dua
 
 \subsection{Trasformazioni Proiettive}
 
-Si chiama trasformazione proiettiva una qualsiasi trasformazione lineare di coordinate di uno spazio proiettivo.
+Si chiama trasformazione proiettiva una qualsiasi trasformazione lineare di coordinate di uno spazio proiettivo. Una trasformazione proiettiva è detta anche omografia.
 Generalmente una trasformazione proiettiva è una trasformazione non lineare rispetto allo spazio euclideo che rappresenta tutti i punti che non sono all'infinito.
 Una trasformazione proiettiva di coordinate è data dalla formula:
 \begin{equation*}
@@ -424,25 +424,48 @@ Ci sono alcuni sottocasi di trasformazione propettica importanti e utili anche a
  \item Affinità
 \end{itemize}
 
-verranno discusse in seguito con i loro invarianti.
+Verranno discusse in seguito con i loro invarianti.
+Tutte le trasformazioni sono definite a meno di un fattore di scala. L'ultimo elemento della matrice può quindi essere normalizzato a 1.
 
 \subsubsection{Isometrie}
 
 Le isometrie sono le trasformazioni prospettiche più semplici. Esse sono sostanzialmente rototraslazioni, e quindi contengono come casi particolari le rotazioni e le traslazioni pure. Gli invarianti delle isometrie sono le lunghezze, gli angoli, la forma e la dimensione, la posizione relativa tra gli oggetti. Hanno 3 gradi di libertà nel piano e 6 nello spazio.
 
-una similitudine è descritta dalla matrice:
+Una isometria è descritta dalla matrice:
 
-%%TODO matrice 
+\begin{equation*}
+  H_I = \begin{pmatrix}
+   R & t \\
+   \overline{0} & 1 \\
+  \end{pmatrix}
+\end{equation*}
+
+$R$ è una matrice di rotazione, quindi è una matrice ortogonale, $3\times 3$ nello spazio e $2\times 2$ nel piano.
+$t$ è un vettore di traslazione, $2\times 1$ nel piano e $3\times 1$ nello spazio.
 
 \subsubsection{Similitudini}
 Le similitudini sono trasformazioni prospettiche più generali delle isometrie. Hanno un grado di libertà in più rispetto alle isometrie, essendo la scala degli oggetti non fissata. Gli invarianti sono il rapporto tra le lnghezze, gli angoli, la forma degli oggetti.
 
-%%TODO matrice 
+\begin{equation*}
+  H_S = \begin{pmatrix}
+   sR & t \\
+   \overline{0} & 1 \\
+  \end{pmatrix}
+\end{equation*}
+
+Dove $s$ è il fattore di scala.
 
 \subsubsection{Affinità}
 Le affinità sono ancora piùà generali rispetto alle similitudini. Hanno 6 gradi di libertà nel piano e 9 nello spazio. Gli invarianti della trasformazione sono l parallelismo e il rapporto tra due segmenti paralleli.
 
-%%TODO matrice 
+\begin{equation*}
+  H_A = \begin{pmatrix}
+   A & t \\
+   \overline{0} & 1 \\
+  \end{pmatrix}
+\end{equation*}
+
+Dove $A$ è una matrice qualsiasi,  $3\times 3$ nello spazio e $2\times 2$ nel piano.
 
 \subsection{Geometria della telecamera e calibrazione}
 
@@ -463,7 +486,30 @@ Possiamo allora scrivere $P$ nel seguente modo:
 \right]
 \end{equation*}
 
-Dove la matrice $K$ è la matrice dei parametri intrinseci della telecamera, detta anche matrice di calibrazione, $R$ e $t$ sono, rispettivamente, la matrice di rotazione ($3\times3$) e traslazione ($3\times1$) della camera rispetto alle coordinate  
-La calibrazione della camera, e quindi il calcolo di $K$ si basa sulle proprietà dell'immagine della conica assoluta, $\omega$.
-L'immagine della conica assoluta è 
+Dove la matrice $K$ è la matrice dei parametri intrinseci della telecamera, detta anche matrice di calibrazione, $R$ e $t$ sono, rispettivamente, la matrice di rotazione ($3\times3$) e traslazione ($3\times1$) della camera rispetto all'origine delle coordinate del mondo.
+
+La matrice $K$ è definita nel seguente modo:
+
+\begin{equation*}
+ K = \begin{pmatrix} f_x & 0 & t_x \\ 0 & f_y & t_y \\ 0 & 0 & 1 \\ \end{pmatrix} 
+\end{equation*}
+
+Dove $f_x$ e $f_y$ sono la distanza focale espressa in pixel lungo l'asse $x$ e l'asse $y$ rispettivamente, $t_x$ e $t_y$ sono le coordinate del principal point nel piano dell'immagine. \\
+
+La calibrazione della camera, e quindi il calcolo di $K$, si basa sulle proprietà dell'immagine della conica assoluta, $\omega$.
+L'immagine della conica assoluta è la proiezione della conica assoluta sul piano dell'immagine. L'immagine della conica assoluta gode di una interessante proprietà: dipende solamente da $K$ e non dalla posa delle telecamera, è quindi invariante rispetto alle traslazioni e alle rotazioni. Detta $H$ la generica omografia che mappa la conica assoluta nella sua immagine, possiamo scrivere:
+
+\begin{equation*}
+ \begin{split}
+  \omega &= H^{-T}\cdot\Omega_\infty\cdot H^{-1} = H^{-T}\cdot H^{-1} = \left( H\cdot H^T \right)^{-1} \\
+         &= \left( K\cdot R\cdot \left( K\cdot R \right)\right)^{-1} =  \left( K\cdot R\cdot R^T \cdot K^T \right)^{-1} \\
+         &= \left( K\cdot K^T \right)^{-1}
+ \end{split}
+\end{equation*}
+
+Il problema della calibrazione si riduce quindi a trovare l'immagine della conica assoluta e calcolare $K$ decomponendo $\omega$ tramite la decomposizione di Cholesky.
+
+Le camere reali soffrono di distorsioni ulteriori oltre a quelle prospettiche, che non sono descritte correttamente dalla geometria discussa. Queste sono la distorsione radiale e tangenziale, che sono espresse da dei coefficenti aggiuntivi, che servono per esprimere relazioni non lineari. Questi coefficenti non saranno descritti in quanto, sebbene fondamentali per analizzare l'immagine, non saranno usati in questa tesi, e il modello utilizzato potrebbe variare tra telecamere differenti.
+
+
 
