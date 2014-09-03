@@ -17,7 +17,7 @@ Ritorno al Futuro, parte II
 Si illustrano di seguito i concetti fondamentali alla comprensione della tesi.
 
 \section{Logica Fuzzy}
-La logica fuzzy è una logica multivalore che permette di esprimere non solo la verità o la falsità di una affermazione, ma anche il suo valore di verità, che può essere qualsiasi numero tra 0 (ossia l'afefrmazione è falsa) e 1 (ossia l'affermazione è vera).
+La logica fuzzy è una logica multi valore che permette di esprimere non solo la verità o la falsità di una affermazione, ma anche il suo valore di verità, che può essere qualsiasi numero tra 0 (ossia l'affermazione è falsa) e 1 (ossia l'affermazione è vera).
 
 Grazie a questa logica è possibile esprimere concetti che in una logica a due valori sono paradossali.
 Ad esempio, la frase ``sono un bugiardo'', che nella logica a due valori risulta paradossale, nella logica fuzzy essa può assumere valori consistenti.
@@ -27,7 +27,7 @@ La logica fuzzy è basata fortemente sul concetto di insieme fuzzy. Un insieme f
 I fuzzy set sono quindi definiti da una funzione di appartenenza $f$ definita su un dominio $D$, avente come codominio l'intervallo $[0,  1]$.  Formalmente un fuzzy et è definito come:
 
 \begin{equation*}
- f:D\leftarrow [0, 1]
+ f:D\rightarrow [0, 1]
 \end{equation*}
 
 Si definisce altezza di un insieme fuzzy il massimo grado di verità possibile per un elemento.
@@ -48,7 +48,7 @@ dove:
  \item [X] è il nome della variabile.
  \item [T(X)] è un insieme di termini, detti anche valori linguistici.
  \item [U] è il dominio della variabile di base $u$.
- \item [G] è una regola sintattica per generare l'interpretazione X per ogni valore di u.
+ \item [G] è una regola sintattica per generare l'interpretazione di X per ogni valore di u.
  \item [M] è una regola semantica che associa a X il suo significato.
 \end{description}
 
@@ -116,7 +116,7 @@ L'intersezione di insiemi fuzzy deve rispettare i seguenti assiomi:
 \end{enumerate}
 
 Non esiste un'unica funzione che rispetta questi assiomi. Ogni funzione che rispetta questi assiomi viene detta T-norm.
-Esempi di T-norm sono l'operatore minimo e il prdotto tra i valori di verità.
+Esempi di T-norm sono l'operatore minimo e il prodotto tra i valori di verità.
 
 \subsubsection{Unione}
 
@@ -199,7 +199,7 @@ Una proposizione è definita come un assegnamento di una etichetta a una variabi
 esistono due tipi di regole:
 \begin{description}
  \item [Regole linguistiche] note anche come regole di Mamdami, dove il conseguente è la congiunzione di più clausole linguistiche. Queste regole possono essere considerate come una funzione che mappa una configurazione di input in ingresso a una interpretazione simbolica dell'output desiderato. 
- \item [Regole di modello] note anche come regole di Takagi-Sugeno-Kosko. In questo tipo di regole le proposizioni nel conseguente sono del tipo: \verb|<VARIABLE> IS f(...)|. Questo tipo di regole legano un modello alla variabile di uscita. la funzione \verb|f| può essere definita in qualunque modo, e prende in input le variabili di base delle variabili linguistiche pesenti sul lato sinistro della regola.
+ \item [Regole di modello] note anche come regole di Takagi-Sugeno-Kosko. In questo tipo di regole le proposizioni nel conseguente sono del tipo: \verb|<VARIABLE> IS f(...)|. Questo tipo di regole legano un modello alla variabile di uscita. La funzione \verb|f| può essere definita in qualunque modo, e prende in input le variabili di base delle variabili linguistiche presenti sul lato sinistro della regola.
 
 \end{description}
 
@@ -208,11 +208,11 @@ Un insieme di regole fuzzy forma una knowledgebase. Le regole della knowledgebas
 L'inferenza sulla knowledgebase viene fatta come segue: 
 
 \begin{enumerate}
- \item Dato un insieme di fatti noti, ossia variabili linguisiche di cui si conosce il valore, vengono selezionate solo le regole il cui antecedente contiene solo le variabili note.
+ \item Dato un insieme di fatti noti, ossia variabili linguistiche di cui si conosce il valore, vengono selezionate solo le regole il cui antecedente contiene solo le variabili note.
  \item Viene calcolato il valore di verità del lato sinistro delle regole
  \item Se specificato, il valore di verità viene combinato con il peso della regola.
  \item Viene aggregato l'output da regole diverse che calcolano la stessa etichetta.
- \item Viene defuzzyficato, eventualmente, l'output simbolico calcolato, oppure viene compiuta una approssimazione linguistica, ossia viene calcolata l'etichetta in output che meglio approssima, decisa una metrica, l'output simbolico calcolato (che può contenere più etichette per la stessa variabile)
+ \item Viene defuzzificato, eventualmente, l'output simbolico calcolato, oppure viene compiuta una approssimazione linguistica, ossia viene calcolata l'etichetta in output che meglio approssima, decisa una metrica, l'output simbolico calcolato (che può contenere più etichette per la stessa variabile)
 \end{enumerate}
 
 Esistono vari tipi di defuzzificazione. L'operazione di defuzzificazione viene applicata all'insieme di insiemi fuzzy ricavati per ciascuna variabile linguistica. I metodi più noti sono:
@@ -230,9 +230,9 @@ Il metodo più usato in assoluto è il centro di massa applicato a singleton.
 \section{Geometria della telecamera}
 
 Verrà descritta brevemente la geometria della telecamera.
-Una telecamera è un dispositivo in grado di acquisire immagini del mondo. Essa è composta da una lente e un piano dell'immagine, in grado di acquisire l'immagine. Nel nostro modello consideriamo la lente come estremamente sottile, in modo da non considerare le distorsioni radiali e tangenziali dovute alla lente. La lente è necessara in quanto essa è in grado di convogliare tutta la luce proveniente da un determinato punto dello spazio in un'unico punto (oppure in un'area di punti) nel piano immagine.
+Una telecamera è un dispositivo in grado di acquisire immagini del mondo. Essa è composta da una lente e un piano dell'immagine, in grado di acquisire l'immagine. Nel nostro modello consideriamo la lente come estremamente sottile, in modo da non considerare le distorsioni radiali e tangenziali dovute alla lente. La lente è necessaria in quanto essa è in grado di convogliare tutta la luce proveniente da un determinato punto dello spazio in un unico punto (oppure in un'area di punti) nel piano immagine.
 
-Ciamiamo asse ottico l'asse perpendicolare al piano dell'immagine passante per il centro della lente. Si chiama Principal Point l'intersezione tra l'asse ottico e il piano dell'immagine.
+Chiamiamo asse ottico l'asse perpendicolare al piano dell'immagine passante per il centro della lente. Si chiama Principal Point l'intersezione tra l'asse ottico e il piano dell'immagine.
 Chiamiamo distanza focale la distanza tra la lente e il piano dell'immagine.
 
 \subsection{Geometria proiettiva}
@@ -247,7 +247,9 @@ Dato un punto nello spazio $P=(X,Y,Z)$, la sua proiezione nel piano dell'immagin
  \end{aligned}
 \end{equation*}
 
-Per semplificare il problema, viene usato un'altro sistema di coordinate in cui la relazione considerata è una relazione lineare.
+Con $f$ distanza focale della telecamera.
+
+Per semplificare il problema, viene usato un altro sistema di coordinate in cui la relazione considerata è una relazione lineare.
 Queste coordinate sono dette coordinate omogenee, e uno spazio che le utilizza viene detto spazio proiettivo.
 
 Le coordinate omogenee sono delle coordinate che per esprimere uno spazio a $n$ dimensioni, utilizzano $n+1$ coordinate. Le coordinate spaziali sono definite a meno di un fattore moltiplicativo, ovvero $P = \alpha\cdot P$.
@@ -261,7 +263,7 @@ Un punto $X$ del piano immagine è definito come:
   X=\colvec{3}{x}{y}{w}
 \end{equation*}
 
-E' possibile anche definire una rettta $l$ nel piano immagine sempre utilizzando il vettore tridimensionale:
+E' possibile anche definire una retta $l$ nel piano immagine sempre utilizzando il vettore tridimensionale:
 
 \begin{equation*}
   l=\colvec{3}{a}{b}{c}
@@ -288,6 +290,19 @@ l'equazione di una retta è quindi definita come:
 Anche la retta quindi è definita a meno di un coefficiente moltiplicativo.
 La retta che contiene tutti i punti all'infinito è della linea all'infinito $l_\infty$.
 
+Nello spazio a due dimensioni è estremamente semplice calcolare la retta passante per due punti o il punto intersezione di due rette. Basta usare il prodotto vettoriale tra due elementi. Per calcolare la retta $l$ passante per due punti scriviamo:
+
+\begin{equation*}
+ l = P_1 \times P_2
+\end{equation*}
+
+Per calcolare il punto di intersezione $P$ tra due rette:
+
+\begin{equation*}
+ P = l_1 \times l_2
+\end{equation*}
+
+
 E' possibile esprimere anche coniche nel piano proiettivo. Una conica $C$ è definita come:
 
 \begin{equation*}
@@ -303,7 +318,7 @@ Un punto appartiene a una conica se:
 
 Anche le coniche sono definite a meno di un coefficiente moltiplicativo.
 
-Infine è possibile esprimere coniche duali. Se le conichesono insieme di punti, le coniche duali sono insieme di linee.
+Infine è possibile esprimere coniche duali. Se le coniche sono insieme di punti, le coniche duali sono insieme di linee.
 Si può dimostrare che la conica duale $C^*$ alla conica $C$ è:
 \begin{equation*}
  C^*=C^{-1}
@@ -325,7 +340,7 @@ Lo spazio proiettivo a 2 dimensioni ha due punti notevoli detti punti circolari.
 
 I punti circolari appartengono a $l_\infty$.
 
-Questi due punti possono essere espressi in maniera compatta dalla conica duale ai punti cicolari, una conica degenere, che può essere calcolata come:
+Questi due punti possono essere espressi in maniera compatta dalla conica duale ai punti circolari, una conica degenere, che può essere calcolata come:
 
 \begin{equation*}
  C^*_\infty = I\cdot J^T + J\cdot I^T =\begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \\ \end{pmatrix}
@@ -388,16 +403,16 @@ Si può dimostrare che la quadrica duale $Q^*$ alla quadrica $Q$ è:
  Q^*=Q^{-1}
 \end{equation*}
 
-un piano appartiene alla quadrica duale se:
+Un piano appartiene alla quadrica duale se:
 
 \begin{equation*}
  \pi^T\cdot C^* \cdot \pi = 0
 \end{equation*}
 
-Lo spazio proiettivo a 3 dimensioni ha una conica notevole, detta conica assoluta, $\Omega$. La conica assoluta è l'intersezione di tutte le possibili sfere nel mondo reale. La conica assoluta è formata dall'unione di tutti i possibili punti circolari calcolati lungo tutti i possibili piani dello spazio.
+Lo spazio proiettivo a 3 dimensioni ha una conica notevole, detta conica assoluta, $\Omega_\infty$. La conica assoluta è l'intersezione di tutte le possibili sfere nel mondo reale. La conica assoluta è formata dall'unione di tutti i possibili punti circolari calcolati lungo tutti i possibili piani dello spazio.
 La conica assoluta è contenuta in $\pi_\infty$.
 
-La conica assoluta può essere espressa in maniera sintetica con la quadrica duale assoluta $\Omega^*$:
+La conica assoluta può essere espressa in maniera sintetica con la quadrica duale assoluta $\Omega^*_\infty$:
 
 \begin{equation*}
  \Omega^*_\infty = I\cdot J^T + J\cdot I^T =\begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 0 \\ \end{pmatrix}
@@ -412,9 +427,9 @@ Una trasformazione proiettiva di coordinate è data dalla formula:
  x' = \mathcal{H}(x) = H\cdot x
 \end{equation*}
 
-Nello spazio $\mathcal{P}^2$ le trasformazioni proiettive sono descritte da matrici $H$ $3\times3$, mentre nello spazio $\mathcal{P}^3$ le trasformazioni proiettive sono descritte da matrici $H$ $4\times4$.
+Nello spazio $\mathcal{P}^2$ le trasformazioni proiettive sono descritte da matrici $3\times3$, mentre nello spazio $\mathcal{P}^3$ le trasformazioni proiettive sono descritte da matrici $4\times4$.
 
-Ci sono alcuni sottocasi di trasformazione propettica importanti e utili anche ai fini di questa tesi:
+Ci sono alcuni sotto casi di trasformazione prospettica importanti e utili anche ai fini di questa tesi:
 
 \begin{itemize}
  \item Rotazioni
@@ -444,7 +459,7 @@ $R$ è una matrice di rotazione, quindi è una matrice ortogonale, $3\times 3$ n
 $t$ è un vettore di traslazione, $2\times 1$ nel piano e $3\times 1$ nello spazio.
 
 \subsubsection{Similitudini}
-Le similitudini sono trasformazioni prospettiche più generali delle isometrie. Hanno un grado di libertà in più rispetto alle isometrie, essendo la scala degli oggetti non fissata. Gli invarianti sono il rapporto tra le lnghezze, gli angoli, la forma degli oggetti.
+Le similitudini sono trasformazioni prospettiche più generali delle isometrie. Hanno un grado di libertà in più rispetto alle isometrie, essendo la scala degli oggetti non fissata. Gli invarianti sono il rapporto tra le lunghezze, gli angoli, la forma degli oggetti.
 
 \begin{equation*}
   H_S = \begin{pmatrix}
@@ -456,7 +471,7 @@ Le similitudini sono trasformazioni prospettiche più generali delle isometrie. 
 Dove $s$ è il fattore di scala.
 
 \subsubsection{Affinità}
-Le affinità sono ancora piùà generali rispetto alle similitudini. Hanno 6 gradi di libertà nel piano e 9 nello spazio. Gli invarianti della trasformazione sono l parallelismo e il rapporto tra due segmenti paralleli.
+Le affinità sono ancora più generali rispetto alle similitudini. Hanno 6 gradi di libertà nel piano e 12 nello spazio. Gli invarianti della trasformazione sono l parallelismo e il rapporto tra due segmenti paralleli.
 
 \begin{equation*}
   H_A = \begin{pmatrix}
@@ -470,7 +485,7 @@ Dove $A$ è una matrice qualsiasi,  $3\times 3$ nello spazio e $2\times 2$ nel p
 \subsection{Geometria della telecamera e calibrazione}
 
 La telecamera è uno strumento che trasforma dei punti nello spazio a 3 dimensioni in punti sull'immagine a 2 dimensioni. La telecamera dunque attua una trasformazione proiettiva $P$ tra i due spazi.
-L'equzione che mappa i punti tra i due spazi è la seguente:
+L'equazione che mappa i punti tra i due spazi è la seguente:
 \begin{equation*}
  \colvec{3}{x}{y}{w} = P\cdot\colvec{4}{X}{Y}{Z}{W}
 \end{equation*}
@@ -509,7 +524,7 @@ L'immagine della conica assoluta è la proiezione della conica assoluta sul pian
 
 Il problema della calibrazione si riduce quindi a trovare l'immagine della conica assoluta e calcolare $K$ decomponendo $\omega$ tramite la decomposizione di Cholesky.
 
-Le camere reali soffrono di distorsioni ulteriori oltre a quelle prospettiche, che non sono descritte correttamente dalla geometria discussa. Queste sono la distorsione radiale e tangenziale, che sono espresse da dei coefficenti aggiuntivi, che servono per esprimere relazioni non lineari. Questi coefficenti non saranno descritti in quanto, sebbene fondamentali per analizzare l'immagine, non saranno usati in questa tesi, e il modello utilizzato potrebbe variare tra telecamere differenti.
+Le camere reali soffrono di distorsioni ulteriori oltre a quelle prospettiche, che non sono descritte correttamente dalla geometria discussa. Queste sono la distorsione radiale e tangenziale, che sono espresse da dei coefficienti aggiuntivi, che servono per esprimere relazioni non lineari. Questi coefficienti non saranno descritti in quanto, sebbene fondamentali per analizzare l'immagine, non saranno usati in questa tesi, e il modello utilizzato potrebbe variare tra telecamere differenti.
 
 
 
