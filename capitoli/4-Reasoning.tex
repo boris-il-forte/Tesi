@@ -456,8 +456,3 @@ Per implementare questo algoritmo in pratica, abbiamo scelto di esplorare l'albe
 Una volta completata la classificazione di un cluster, si passa alla classificazione del cluster successivo, fino a terminare tutti i cluster. Poiché il grafo di reasoning è esplorato seguendo l'ordinamento topologico, tutte le superclassi e le dipendenze esterne di un cluster vengono analizzate prima del cluster stesso.
 
 Finito di esplorare il grafo delle dipendenze, tutte le classi etichettate con la keyword \verb|HIDDEN| vengono cancellate dall'output calcolato. Questo permette di creare classi strutturali per il classificatore, particolarmente utili se il classificatore è totalmente o parzialmente appreso tramite tecniche di machine learning, ma utilizzabili anche per definire classi comuni di feature e rendere più efficiente il riconoscimento, riducendo le feature da classificare all'interno di cluster complessi. Inoltre, le classi nascoste sono una caratteristica della quasi totalità dei classificatori fuzzy ad albero presenti nella letteratura~\cite{Yuan1995125}, dove solitamente solo le foglie sono visibili in output, come nei classici alberi di decisione.
-
-
-
-
-
