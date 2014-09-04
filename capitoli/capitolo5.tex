@@ -133,18 +133,20 @@ Predicate1(a)
 		\bnfprod{fuzzyFile}
 			{\bnfpn{fuzzyDefinitions}\bnfsp \bnfpn{ruleSet} } \\
 		\bnfprod{fuzzyDefinitions}
-			{\bnfpn{fuzzyClass }\bnfpn{fuzzyDefinitions}
-			\bnfor \bnfpn{fuzzySet}\bnfsp \bnfpn{fuzzyDefinitions}
-			\bnfor \bnfpn{fuzzyPredicate}\bnfsp \bnfpn{fuzzyDefinitions}
+			{\bnfpn{fuzzyClass }\bnfpn{fuzzyDefinitions} \\
+			& & \bnfor \bnfpn{fuzzySet}\bnfsp \bnfpn{fuzzyDefinitions} \\
+			& & \bnfor \bnfpn{fuzzyPredicate}\bnfsp \bnfpn{fuzzyDefinitions}
 			\bnfor \bnfes} \\
 		\bnfprod{fuzzyClass}
 			{\bnfts{FUZZIFY\_CLASS}\bnfsp \bnftd{ID}\bnfsp \bnfpn{fuzzyClassDefinitions}\bnfsp \bnfts{END\_FUZZIFY\_CLASS}} \\
 		\bnfprod{fuzzyClassDefinitions}
-			{\bnfpn{fuzzySet}\bnfsp \bnfpn{fuzzyClassDefinitions}
-			\bnfor \bnfpn{fuzzyPredicate}\bnfsp \bnfpn{fuzzyClassDefinitions}
+			{\bnfpn{fuzzySet}\bnfsp \bnfpn{fuzzyClassDefinitions} \\
+			& & \bnfor \bnfpn{fuzzyPredicate}\bnfsp \bnfpn{fuzzyClassDefinitions}
 			\bnfor \bnfes} \\
 		\bnfprod{fuzzyPredicate}
-			{\bnfts{FUZZIFY\_PREDICATE} \bnfsp \bnfpn{templateVar}\bnfsp \bnfpn{fuzzyPredicateList} \bnfsp \bnfpn{fuzzyTemplateSet} \bnfsp \bnfts{END\_FUZZIFY\_PREDICATE}} \\
+			{\bnfts{FUZZIFY\_PREDICATE} \bnfsp \bnfpn{templateVar}\bnfsp \\
+			& & \bnfpn{fuzzyPredicateList} \bnfsp \bnfpn{fuzzyTemplateSet} \bnfsp \\
+			& & \bnfts{END\_FUZZIFY\_PREDICATE}} \\
 		\bnfprod{fuzzyPredicateList}
 			{\bnfpn{fuzzyPredicateDef} \bnfsp \bnfpn{fuzzyPredicateList}
 			\bnfor \bnfpn{fuzzyPredicateDef}} \\
@@ -307,17 +309,18 @@ Se si utilizzano relazioni tra oggetti qualificate, si deve definire un predicat
 	\bnfprod{fuzzyClassifiers}
 		{\bnfpn{fuzzyClass} \bnfsp \bnfpn{fuzzyClassifiers} \bnfor \bnfpn{fuzzyClass}} \\
 	\bnfprod{fuzzyClass}
-		{\bnfts{CLASS} \bnfsp \bnftd{ID} \bnfsp \bnfpn{fuzzySuperclass} \bnfsp \bnfpn{hiddenFlag} \bnfsp \bnfpn{fuzzyClassElements} \bnfsp \bnfpn{fuzzyFeatures} \bnfsp \bnfts{END\_CLASS}} \\
+		{\bnfts{CLASS} \bnfsp \bnftd{ID} \bnfsp \bnfpn{fuzzySuperclass} \bnfsp \bnfpn{hiddenFlag} \\
+		& & \bnfsp \bnfpn{fuzzyClassElements} \bnfsp \bnfpn{fuzzyFeatures} \\
+		& & \bnfsp \bnfts{END\_CLASS}} \\
 	\bnfprod{fuzzySuperclass}
 		{\bnfts{extends} \bnfsp \bnftd{ID} \bnfor \bnfes} \\
 	\bnfprod{hiddenFlag}
 		{\bnfts{HIDDEN} \bnfor \bnfes} \\
 	\bnfprod{fuzzyClassElements}
-		{\bnfpn{constants} \bnfsp \bnfpn{variables}
-		\bnfor \bnfpn{variables} \bnfsp \bnfpn{constants}
-		\bnfor \bnfpn{constants} 
-		\bnfor \bnfpn{variables} 
-		\bnfor \bnfes} \\
+		{\bnfpn{constants} \bnfsp \bnfpn{variables} \\
+		& & \bnfor \bnfpn{variables} \bnfsp \bnfpn{constants} \\
+		& & \bnfor \bnfpn{constants} \\
+		& & \bnfor \bnfpn{variables} \bnfor \bnfes} \\
 	\bnfprod{constants}
 		{\bnfts{CONSTANTS} \bnfsp \bnfpn{constantList} \bnfsp \bnfpn{END\_CONSTANTS}} \\
 	\bnfprod{constantList}
@@ -331,10 +334,10 @@ Se si utilizzano relazioni tra oggetti qualificate, si deve definire un predicat
 		{\bnfpn{fuzzyFeature} \bnfsp \bnfts{;} \bnfsp \bnfpn{fuzzyFeatures}
 		\bnfor \bnfes} \\
 	\bnfprod{fuzzyFeature}
-		{\bnfpn{fuzzySimpleFeature}
-		\bnfor \bnfpn{fuzzySimpleRelation}
-		\bnfor \bnfpn{fuzzyComplexRelation}
-		\bnfor \bnfpn{fuzzyInverseRelation}} \\
+		{\bnfpn{fuzzySimpleFeature} \\
+		& & \bnfor \bnfpn{fuzzySimpleRelation} \\
+		& & \bnfor \bnfpn{fuzzyComplexRelation} \\
+		& & \bnfor \bnfpn{fuzzyInverseRelation}} \\
 	\bnfprod{fuzzySimpleFeature}
 		{\bnfpn{var} \bnfsp \bnfts{IS} \bnfsp \bnftd{ID}} \\
 	\bnfprod{fuzzySimpleRelation}

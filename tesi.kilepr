@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=capitoli/capitolo3.tex
+lastDocument=capitoli/capitolo5.tex
 masterDocument=
 name=Tesi
 pkg_extIsRegExp=false
@@ -234,12 +234,12 @@ order=12
 
 [item:capitoli/capitolo3.tex]
 archive=true
-column=104
+column=113
 encoding=UTF-8
 highlight=LaTeX
-line=473
+line=8
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [item:capitoli/capitolo4.tex]
@@ -247,20 +247,20 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=14
 mode=LaTeX
-open=false
-order=3
+open=true
+order=1
 
 [item:capitoli/capitolo5.tex]
 archive=true
-column=0
+column=3
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=151
 mode=LaTeX
-open=false
-order=4
+open=true
+order=2
 
 [item:capitoli/capitolo6.tex]
 archive=true
@@ -269,7 +269,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=54
 mode=LaTeX
-open=true
+open=false
 order=2
 
 [item:capitoli/capitolo7.tex]
@@ -324,13 +324,13 @@ order=-1
 
 [item:tesi.tex]
 archive=true
-column=19
+column=33
 encoding=UTF-8
 highlight=LaTeX
-line=13
+line=107
 mode=LaTeX
 open=true
-order=1
+order=0
 
 [view-settings,view=0,item:altro/bibliografia.bib]
 CursorColumn=31
@@ -387,10 +387,10 @@ JumpList=
 ViMarks=.,18,0,[,18,0,],18,0
 
 [view-settings,view=0,item:capitoli/capitolo3.tex]
-CursorColumn=104
-CursorLine=473
+CursorColumn=113
+CursorLine=8
 JumpList=
-ViMarks=.,473,103,[,473,102,],473,103
+ViMarks=.,8,112,[,8,104,],8,112
 
 [view-settings,view=0,item:capitoli/capitolo4.tex]
 CursorColumn=0
@@ -399,10 +399,10 @@ JumpList=
 ViMarks=.,39,25,[,39,25,],39,25
 
 [view-settings,view=0,item:capitoli/capitolo5.tex]
-CursorColumn=0
-CursorLine=127
+CursorColumn=3
+CursorLine=151
 JumpList=
-ViMarks=.,126,0,[,126,0,],126,0
+ViMarks=.,143,6,[,143,3,],143,6
 
 [view-settings,view=0,item:capitoli/capitolo6.tex]
 CursorColumn=0
@@ -435,7 +435,7 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:tesi.tex]
-CursorColumn=19
-CursorLine=13
+CursorColumn=33
+CursorLine=107
 JumpList=
 ViMarks=.,13,19,[,13,19,],13,19
