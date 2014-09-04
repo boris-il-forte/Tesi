@@ -15,21 +15,17 @@ Ritorno al Futuro, parte III
 
 \section{Introduzione}
 
-In questo capitolo esporremo il funzionamento del reasoner fuzzy. Il reasoner fuzzzy si basa su regole fuzzy del tipo introdotto da Mamdami~\cite{mamdani1975experiment}. 
+In questo capitolo esporremo il funzionamento del reasoner fuzzy. Il reasoner fuzzy si basa su regole fuzzy del tipo introdotto da Mamdami~\cite{mamdani1975experiment}. 
 Su questa base abbiamo implementato un classificatore fuzzy ad albero, che, data una struttura ad albero di classi di oggetti e eventuali relazioni tra di loro, accetta in ingresso delle feature, di cui sono note le caratteristiche, e le classifica.
 Per raggiungere questo scopo abbiamo implementato due linguaggi: uno per esprimere regole fuzzy, che permetta di esprimere le proprietà rispetto a classi di oggetti; l'altro per esprimere la struttura del classificatore, in grado di esprimere gerarchie di classi e relazioni tra esse.
 Inoltre abbiamo implementato un algoritmo di reasoning che permette di classificare un insieme di feature, restituendo non solo le classi a cui ciascuna feature appartiene, ma anche il grado di appartenenza di ciascuna feature alle stesse.
 L'algoritmo in particolare è studiato per risolvere dipendenze cicliche tra le classi e riuscire a classificare oggetti che dipendono mutuamente l'uno dall'altro.
 
 \section{Linguaggio Fuzzy}
-Il linguaggio per esprimere regole fuzzy sviluppato permette di esprimere non solo domini semplici e insiemi fuzzy su questi domini, ma anche domini complessi, chiamati classi e predicati, validi per qualunque dominio. \`E ispirato fortemente al linguaggio FCL, Fuzzy Control Language, da cui prende parte della sintassi.
-
-%%TODO Inserire la citazione a FCL (sulle slide del corso c'e' anche il riferimento alla normativa IEEE che FCL implementa)
+Il linguaggio per esprimere regole fuzzy sviluppato permette di esprimere non solo domini semplici e insiemi fuzzy su questi domini, ma anche domini complessi, chiamati classi e predicati, validi per qualunque dominio. \`E ispirato fortemente al linguaggio FCL, Fuzzy Control Language~\cite{FCL}, da cui prende parte della sintassi.
 
 Tutte le variabili utilizzate dal reasoner sono assunte come variabili intere con segno, possono quindi avere valori compresi tra \verb|INT_MIN| e \verb|INT_MAX|.
 Si assume che i numeri decimali siano rappresentati semplicemente come numeri a virgola fissa.
-
-%%TODO un po' di spiegazione? oppure in concetti fondamentali?
 
 \subsection{Classi e Variabili}
 Una classe si definisce tramite la keyword \verb|FUZZIFY_CLASS|, seguita dal nome della classe, e la sua definizione termina con la keyword \verb|END_FUZZIFY_CLASS|.
@@ -50,32 +46,30 @@ I parametri necessari si indicano tra parentesi, separati da virgole.
 I nomi delle classi e dei fuzzy set devono cominciare con la lettera maiuscola, mentre i nomi delle variabili possono essere anche minuscoli.
 
 
-Ad esempio per definire sulla variabile ``Input'' i fuzzy set ``Near'', ``Medium'' e ``Far'' si scrive:
+Ad esempio per definire sulla variabile ``Distance'' i fuzzy set ``Near'', ``Medium'' e ``Far'' si scrive:
 
 \begin{verbatim}
-FUZZIFY Input
+FUZZIFY Distance
  Near := tol(100, 200);
  Medium := tra(100, 200, 300, 400);
  Far := tor(300, 400);
 END_FUZZIFY
 \end{verbatim}
 
-Mentre per definire una classe chiamata ``TestClass'', con due membri ``a'' e ``b'', si può procedere come segue:
-
-%%TODO meglio definire una classe con semantica, come hai fatto per Input, che si capisce meglio che non set1 set2...
+Mentre per definire una classe chiamata ``Car'', con due membri ``size'' e ``weight'', si può procedere come segue:
 
 \begin{verbatim}
-FUZZIFY_CLASS TestClass
- FUZZIFY a
-  Set1 := tol(100, 200);
-  Set2 := tra(100, 200, 300, 400);
-  Set3 := tor(300, 400);
+FUZZIFY_CLASS Car
+ FUZZIFY size
+  Small := tol(100, 200);
+  Medium := tra(100, 200, 300, 400);
+  Big := tor(300, 400);
  END_FUZZIFY
  
- FUZZIFY b
-   Fuzzy1 := tol(100, 200);
-   Fuzzy2 := tri(100, 200, 300);
-   Fuzzy3 := tor(200, 300);
+ FUZZIFY weight
+   Light := tol(100, 200);
+   Average := tri(100, 200, 300);
+   Heavy := tor(200, 300);
  END_FUZZIFY
 END_FUZZIFY_CLASS
 \end{verbatim}
@@ -259,7 +253,14 @@ Per discriminare l'appartenenza di un oggetto a una determinata classe è possib
 La feature di base che è possibile esprimere è il livello di appartenenza a un determinato fuzzy set definito su una variabile di una superclasse o della classe stessa. 
 Per esprimere questo tipo di feature, basta scrivere il nome della variabile su cui si vuole discriminare, seguita dalla keyword \verb|is|, seguita dal nome del fuzzy set che si vuole utilizzare.
 
-%%TODO: fai esempio
+Ad esempio, per definire una istanza della classe ``Elephant'' discriminata rispetto a ``size'' possiamo scrivere:
+
+\begin{verbatim}
+ CLASS Elephant extends Animal
+  size is Huge;
+ END_CLASS
+\end{verbatim}
+
 
 Possono essere espresse anche feature che dipendono dalla relazione di una determinata istanza della classe con altre istanze di altre classi.
 In particolare è possibile esprimere:
@@ -272,29 +273,43 @@ In particolare è possibile esprimere:
 
 Tutti i tre tipi di relazioni possono essere qualificate, in modo da non avere il semplice contenimento o il matching esatto, ma rendere possibile un grado di matching fuzzy e di specificare in maniera più fine il contenimento, ad esempio discriminando destra/sinistra. Per farlo si utilizzano la keyword \verb|degree| per il matching e la keyword \verb|is| per il contenimento. Si veda la grammatica per la notazione relativa alla definizione di tali relazioni.
 
-Un esempio di classe contenente queste feature è il seguente:
-
-%%TODO: fai esempio con significato e commenta cosa significa
+Ad esempio si può utilizzare la relazione matching per definire la classe ``ConcentricCircle''
 \begin{verbatim}
-CLASS Example1
- VARIABLES
-  a1;
-  a2;
-  b;
-  c;
-  x;
-  y;
- END_VARIABLES
- 
- c IS FuzzySet1;
- Example2.x IS Predicate1 on (a1, a2);
- Example1.c match c degree MatchDregree;
- Example3.b match b;
- x is FuzzySetX on InverseRelationshpClass(a, b);
- y on InverseRelationshpClass(c, d);
- 
+CLASS ConcentricCircle extends Circle 
+ ConcentricCircle.x match x;
+ ConcentricCircle.y match y; 
 END_CLASS
 \end{verbatim}
+
+Le istanze di ``ConcentricCircle'' sono tutte le istanze di ``Circle'' con variabili ``x'' e ``y'' identiche. 
+
+\begin{verbatim}
+CLASS AlmostConcentricCircle extends Circle 
+ ConcentricCircle.x match x degree Perfect;
+ ConcentricCircle.x match x degree Perfect; 
+END_CLASS
+\end{verbatim}
+
+Le istanze di ``AlmostConcentricCircle'' sono tutte le istanze di ``Circle'' in cui la distanza  tra le variabili ``x'' e le variabili ``y'' verificano, con un certo grado di verità, maggiore di 0,  il predicato Perfect.
+
+Si possono invece utilizzare le relazioni di contenimento per definire le classi ``PointOnLeft'' e ``SegmentWithPoint''
+
+\begin{verbatim}
+CLASS SegmentWithPoint extends Segment
+  Point.x is on(min, max);
+END_CLASS
+\end{verbatim}
+
+Le istanze di ``SegmentWithPoint'' sono tutte le istanze di ``Segment'' per cui esiste una istanza di ``Point'' la cui variabile ``x'' ha valori contenuti tra le variabili ``min'' e ``max'' di ``Segment''.
+
+\begin{verbatim}
+CLASS PointOnLeft extends Point 
+  x is Left on Segment(min, max);
+END_CLASS
+\end{verbatim}
+
+Le istanze di ``PointOnLeft'' sono tutte le istanze di ``Point'' la cui variabile ``x'' verifica il predicato ``Left'' definito sull'intervallo che ha come estremi le variabili ``min'' e ``max'' della classe ``Segment''.
+
 
 \subsection{Utilizzo della knowledge base}
 Il classificatore necessita di una knowledge base per definire il significato dei fuzzy set definiti. 

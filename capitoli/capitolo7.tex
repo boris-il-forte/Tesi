@@ -53,18 +53,15 @@ Le track inviate al riconoscimento di alto livello comprendono due informazioni:
 
 L'ultimo problema riguardante l'integrazione, il più problematico, è riuscire a discriminare quali oggetti riconosciuti sono già presenti nella lista delle track.
 
-Questo problema può essere risolto a due livelli. Ad alto livello, è possibile capire che due oggetti tracciati nella mappa occupano lo stesso spazio, e quindi sono lo stesso oggetto. Questa soluzione è la soluzione ottimale, ma richiede un maggior numero di informazioni e un costo computazionale maggiore. 
-Tuttavia è possibile affrontare parzialmente il problema a basso livello, escludendo in maniera semplice gli oggetti riconosciuti. 
-%%% TODO Non chiaro quanto sopra
-
-L'euristica che abbiamo sviluppato si basa sul calcolo della posizione del centro di massa degli oggetti riconosciuti e delle track, rispetto ai loro bounding box.
+Questo problema può essere risolto a due livelli. Ad alto livello, è possibile capire che due oggetti tracciati nella mappa occupano lo stesso spazio, e quindi sono lo stesso oggetto. Questa è la soluzione ottimale, ma richiede un grande numero di informazioni e ha un costo computazionale elevato. 
+Tuttavia è possibile affrontare a basso livello il problema, almeno parzialmente, escludendo in maniera semplice gli oggetti riconosciuti, con una euristica che abbiamo sviluppato. 
+Questa si basa sul calcolo della posizione del centro di massa degli oggetti riconosciuti e delle track, rispetto ai loro bounding box.
 Se un oggetto riconosciuto ha il suo centro di massa all'interno di un bounding box di una track attiva, o, viceversa, se una track attiva ha il suo centro di massa nel bounding box dell'oggetto riconosciuto, tale oggetto è considerato già seguito, e non viene aggiunto alla lista delle track.
 
 Come si può vedere dalla figura, %%TODO figura
 l'euristica copre abbastanza bene quasi tutti i casi, a parte quando si tratta di oggetti composti da più oggetti, o di oggetti che si trovano di fronte ad altri oggetti. Per questi casi sono necessari due ragionamenti ad alto livello differenti: riuscire a capire che un oggetto è semanticamente composto da alcune parti; riuscire a capire che i due oggetti non occupano lo stesso spazio. Per entrambi i ragionamenti non bastano le informazioni estratte dalla singola immagine.
 
 \section{Integrazione con la mappa}
-%%TODO non è implementato nulla di quello che c'è scritto in questa sezione. devo toglierlo? l'idea c'è...
 L'euristica descritta nel paragrafo precedente dimostra di comportarsi molto bene nelle situazioni reali, tuttavia subentrano alcuni problemi quando il tracking degli oggetti presenta dei mancati riconoscimenti. Questo causa spesso la sovrapposizione di più track dello stesso oggetto. Questo problema si può risolvere solamente integrando l'algoritmo di tracking con la mappa degli oggetti riconosciuti. Tramite la mappa è facile accorgersi che lo stesso oggetto è seguito più volte, poiché occupa la stessa posizione assoluta dell'oggetto seguito in precedenza.
 
 Il tracking degli oggetti è un compito abbastanza oneroso computazionalmente. Se la posizione del robot è nota, anche in maniera imprecisa, non è necessario mantenere attivo l'algoritmo di tracking per tutti gli oggetti. Inoltre, l'algoritmo usato è soggetto a falsi positivi; potendo filtrare le track che non possono essere attive, perché non si trovano nell'area vista dal robot in un determinato istante, il tasso di falsi positivi cala drasticamente.

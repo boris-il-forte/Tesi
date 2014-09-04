@@ -24,6 +24,8 @@ Il sistema implementato è pensato principalmente per estrarre quadrilateri e cl
 
 Il riconoscimento avviene su più livelli: prima vengono analizzate le feature più facili da riconoscere. In seguito, per ogni feature riconosciuta viene effettuata un'analisi ad alto livello.
 
+Il sistema è stato sviluppato tenendo a mente che il riconoscimento deve essere in tempo reale, o comunque, abbastanza velocemente per poter essere utilizzato da un robot in fase di navigazione.
+
 \section{Individuazione delle feature geometriche}
 
 Le feature geometriche sono individuate da algoritmi specifici. Tuttavia è stata definita una struttura di base, rappresentata dalla classe \verb|feature|che implementa l'interfaccia tra il classificatore e l'algoritmo di riconoscimento nell'immagine.
@@ -112,17 +114,17 @@ I cluster che non hanno abbastanza punti al loro interno vengono scartati e cons
 \section{Integrazione con il reasoning}
 Una volta riconosciute le feature interessanti, vengono calcolati i descrittori di tali feature. I descrittori delle feature vengono inseriti nella FeatureMap, per poter comunicare la feature riconosciuta al classificatore fuzzy.
 Viene effettuata la rotazione delle coordinate in modo da avere i quadrilateri riconosciuti il più possibile orientati verticalmente. Questo facilita il compito del reasoner, in quanto attualmente l'operatore ``on'' supporta solo intervalli semplici e non aree o intervalli generici (si veda \autoref{cap:reasoning}).
-Le richieste di classificazione vengono, per quanto possibile, inviate contemporaneamente al reasoner, in modo da rendere possibile l'analisi delle relazioni tra gli oggetti riconosciuti. Viene poi popolata, con i dati provenienti dal reasoner, la ClassificationMap. Questo è reso possibile perché ogni feature inviata è associata a un indice univoco.
+Le richieste di classificazione delle feature vengono, per quanto possibile, inviate contemporaneamente al reasoner, in modo da rendere possibile l'analisi delle relazioni tra gli oggetti riconosciuti. Viene poi popolata, con i dati provenienti dal reasoner, la ClassificationMap. Questo è reso possibile perché ogni feature inviata è associata a un indice univoco.
 %%TODO Questo e' un po' confuso. Magari 2 parole in piu' aiuterebbero
 
 
 \section{Livelli di riconoscimento}
-Il riconoscimento degli oggetti non è effettuato tramite una singola analisi dell'immagine, ma viene effettuato su più livelli, sfruttando tutte le informazioni possibili.
+Il riconoscimento degli oggetti non è effettuato tramite una singola analisi dell'immagine, ma viene effettuato su più livelli, sfruttando tutte le informazioni possibili. 
+%%TODO spiega meglio 2 livelli
 
 Il riconoscimento di basso livello estrae possibili feature dall'immagine intera, in modo che le feature riconosciute possano essere seguite dal tracker. Poiché è importante escludere i falsi positivi il più possibile, e poiché è più complesso analizzare una intera immagine senza conoscere a priori la posizione degli oggetti interessanti, il riconoscimento di basso livello è molto restrittivo. L'euristica utilizzata per riconoscere i quadrilateri nell'immagine è quella che sfrutta le proprietà della combinazione convessa.
 Per rendere la computazione più semplice e rapida, non vengono estratti cluster dall'immagine, e le uniche feature analizzate dal reasoner sono i quadrilateri che rappresentano possibili rettangoli.
 
-Una volta riconosciuti i possibili rettangoli interessanti, gli oggetti vengono quindi seguiti dal tracker. Grazie alle informazioni del tracker, descritte nel \autoref{cap:tracking}, è possibile effettuare un'analisi degli oggetti più localizzata. Questo permette un'analisi dell'immagine più semplice, ed è quindi possibile utilizzare tecniche meno discriminative e più robuste. Usiamo quindi l'euristica più semplice (tutto è un quadrilatero) e estraiamo cluster solo in prossimità della regione di interesse, in modo da risparmiare potenza computazionale sia durante l'estrazione delle feature, sia durante il reasoning, eliminando gli oggetti incorrelati. Questa ultima fase quindi è in grado di analizzare feature complesse come gli oggetti composti da più parti, ad esempio le porte.
-%%TODO anche questa ultima frase e' forse tropo sintetica e non si capisce cosa fa
+Una volta riconosciuti i possibili rettangoli interessanti, gli oggetti vengono quindi seguiti dal tracker. Grazie alle informazioni del tracker, descritte nel \autoref{cap:tracking}, è possibile effettuare un'analisi degli oggetti più localizzata. In questa fase è possibile un'analisi dell'immagine più semplice, e quindi si utilizzano tecniche meno discriminative e più robuste. Usiamo quindi l'euristica più semplice (tutto è un quadrilatero) e estraiamo cluster solo in prossimità della regione di interesse, in modo da risparmiare potenza computazionale sia durante l'estrazione delle feature, sia durante il reasoning, eliminando gli oggetti incorrelati. Dato che, in questa ultima fase sono riconosciute più feature, è possibile analizzare feature complesse come gli oggetti composti da più parti, ad esempio le porte.
 
-%%TODO Mettere all'inizio il fatto che si vuole fare tutto quello che si fa in tempo reale, per poterlo usare in navigazione sul robot reale.
+
