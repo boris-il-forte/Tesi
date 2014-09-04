@@ -104,8 +104,7 @@ L'euristica proposta si basa sulle considerazioni fatte sopra, supponendo che a 
 \subsection{Cluster}
 
 I cluster vengono riconosciuti estraendo i keypoint dall'immagine tramite l'algoritmo FAST~\cite{rosten_2006_machine}.
-
-%% TODO due parole su cos'e' un keypoint. Non e' necessario descrivere FAST, ma magari, a livello di DBSCAN qui sotto...
+Un keypoint è un punto notevole dell'immagine. Ogni algoritmo di estrazione di keypoint ha delle politiche differenti, ma generalmente rappresentano possibili angoli nell'immagine, ovvero punti con una particolare conformazione del gradiente dell'intensità dei pixel.
 
 Una volta estratti i keypoint, vengono estratti i cluster interessanti tramite l'algoritmo DBSCAN~\cite{ester1996density}.
 DBSCAN è un algoritmo che si basa sulla distanza tra i punti. Due punti vengono considerati vicini se la distanza tra di loro è minore di una determinata soglia. Vengono quindi inseriti in un unico cluster tutti i punti che sono raggiungibili tramite la relazione di vicinanza. Ciò significa che tutti i vicini di un punto sono inseriti nello stesso cluster, e allo stesso modo i vicini dei vicini, ricorsivamente.

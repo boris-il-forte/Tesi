@@ -19,8 +19,55 @@ Ritorno al Futuro, parte I
 \vspace{0.5cm}
 
 \section{Introduzione}
+In questo capitolo descriveremo l'architettura del sistema, sia dal punto di vista logico, descrivendo la metodologia alla base della soluzione presentata, sia dal punto di vista architetturale, descrivendo nello specifico come è implementato il sistema, come comunicano i moduli implementati e quali tecnologie sono state utilizzate.
 
-In questo capitolo descriveremo l'architettura del sistema implementato. Il sistema è stato progettato in maniera modulare per una serie di motivi: questo tipo di architettura permette di riutilizzare i moduli sviluppati, di estendere semplicemente il sistema con altri moduli, di sostituire eventualmente un intero modulo con un altro che compia le stesse funzioni, di comunicare in maniera semplice con altri sistemi. 
+Il sistema implementato è pensato per risolvere il problema della localizzazione ad alto livello, cercando di riconoscere oggetti nell'immagine, anziché feature estratte dall'immagine come keypoint, linee o altri tipi di descrittori a basso livello, che possono essere facilmente confusi. Utilizzare oggetti noti nell'immagine, permette di estrarre conoscenza ulteriore sulle caratteristiche spaziali dell'ambiente, infatti le dimensioni dell'oggetto possono essere note, almeno in maniera approssimata. Inoltre il nostro approccio permette di creare mappe semantiche sulle quali è possibile fare inferenza di vario tipo, inferenza che può essere sfruttata anche per migliorare la navigazione stessa.
+
+\section{Architettura Logica}
+Per risolvere il problema descritto, abbiamo ritenuto necessario avere i seguenti moduli:
+
+\begin{itemize}
+ \item Un reasoner in grado di analizzare di dati e classificare feature.
+ \item Un algoritmo di individuazione dei possibili oggetti interessanti.
+ \item Un algoritmo di tracking che segua gli oggetti interessanti.
+ \item Un algoritmo di riconoscimento degli oggetti individuati come interessanti, cercando di raffinare la classificazione.
+ \item Un algoritmo che utilizzi le feature ad alto livello estratte per localizzare il robot nella mappa
+\end{itemize}
+
+La struttura logica del sistema implementato è rappresentata in \autoref{fig:locica-sistema}.
+
+\begin{figure}[ht]
+  \includegraphics[width=\textwidth]{diagrammi/SchemaLogico}
+  \caption{Schema logico del sistema}
+  \label{fig:locica-sistema}
+\end{figure}
+
+\subsection{Individuazione degli oggetti}
+L'individuazione degli oggetti è la base di partenza per l'estrazione dei punti di riferimento su cui si basa la localizzazione.
+\`E in grado di analizzare una immagine generica e di estrarre i possibili oggetti significativi. Non è di grande importanza avere un riconoscimento con un alto tasso di recupero, ma è necessario che sia il più preciso possibile, per discriminare le feature interessanti dal rumore.
+Non è necessario che il riconoscimento di basso livello sia in grado di distinguere efficacemente le diverse classi di feature cercate, poiché l'analisi approfondita della feature verrà effettuata in altri sottosistemi.
+Questo sottosistema dipende fortemente dal sistema di reasoning.
+
+\subsection{Reasoner}
+Il reasoner è il cuore del sistema, infatti è in grado di analizzare dati rumorosi e incerti e classificare istanze di possibili oggetti trovati dagli algoritmi di estrazione delle feature. Per poter svolgere questo compito in maniera efficace, e per poter affrontare in maniera rigorose le incertezze, si è deciso di utilizzare un reasoner basato sulla logica fuzzy.
+Per poter classificare oggetti il reasoner è in grado di ricevere informazione a partire da una knowledgebase, che contiene sia le classi che descrivono gli oggetti, sia le informazioni per interpretare in maniera simbolica i descrittori delle feature, che sono dati numerici. 
+Poiché gli oggetti nel mondo reale sono definiti in base alle relazioni con gli altri oggetti, il reasoner è in grado di analizzare queste relazioni per permettere di compiere classificazioni avanzate.
+
+\subsection{Tracker}
+Il tracker deve essere in grado di seguire oggetti complessi, che possono uscire dall'immagine o essere parzialmente coperti. Per questo abbiamo implementato il tracker utilizzando un algoritmo di tracking a lungo termine. Grazie a questo tipo di algoritmi non è necessario avere un alto tasso di recupero per il sistema di individuazione degli oggetti, in quanto l'oggetto inseguito viene individuato automaticamente e con un buon tasso di confidenza nell'immagine. Grazie al tracker a lungo termine, possiamo associare con alta confidenza una determinata track a un punto di riferimento nell'algoritmo di localizzazione.
+Poiché lo scopo del sistema è di utilizzare la massima informazione possibile in maniera intelligente, l'algoritmo di tracking è in grado di ricevere informazione dalla mappa e processarla per aumentare le sue performance.
+
+
+\subsection{Riconoscimento degli oggetti}
+Lo scopo di questo sottosistema è quello di implementare un algoritmo di riconoscimento di oggetti ad alto livello. Sfrutta l'informazione proveniente dal tracker per limitare l'analisi di immagine a una regione di interesse il più ristretta possibile per aumentare le prestazioni sia computazionali che di riconoscimento. L'informazione estratta da questo nodo può essere utilizzata per etichettare i punti di riferimento nella mappa o per aiutare la localizzazione, fornendo informazioni ulteriori all'algoritmo di localizzazione.
+
+\subsection{Localizzazione}
+La localizzazione è effettuata utilizzando tutta l'informazione estraibile dai sensori e dal resto del sistema.
+Il sottosistema che si occupa della localizzazione è in grado quindi di leggere i dati dai sensori del robot e utilizzare i dati estratti dal sistema di riconoscimento delle feature per creare una mappa e cercare di localizzarsi nella maniera più robusta possibile.
+Il sistema di localizzazione è pensato per poter utilizzare sia l'informazione proveniente dal tracker, sia l'informazione proveniente dal riconoscimento degli oggetti.
+
+\section{Architettura Software}
+Il sistema è stato progettato in maniera modulare per una serie di motivi: questo tipo di architettura permette di riutilizzare i moduli sviluppati, di estendere semplicemente il sistema con altri moduli, di sostituire eventualmente un intero modulo con un altro che compia le stesse funzioni, di comunicare in maniera semplice con altri sistemi. 
 
 Per raggiungere questo scopo, si è deciso quindi di utilizzare il middleware ROS (Robot Operating System)~\cite{quigley2009ros}.
 ROS è un middleware che, oltre ad offrire molti strumenti utili per lo sviluppo di complesse applicazioni robotiche, implementa due pattern architetturali importanti, entrambi usati nel nostro lavoro: il pattern publish-subscribe e il pattern client-server.
@@ -34,7 +81,7 @@ I dati estratti dall'unità di misura inerziale devono poter essere riferiti al 
 Per rendere l'algoritmo portabile, si utilizza a libreria tf di ROS. La libreria tf gestisce le trasformazioni da un sistema di coordinate all'altro, pubblicando un albero di trasformazioni nel topic ``tf''.
 Negli header dei messaggi standard di ROS è definito il campo ``frame\_id'', che descrive il nome del sistema di coordinate rispetto al quale è riferito il contenuto del messaggio. Grazie a questo, è possibile riferire i dati della IMU rispetto alle coordinate dell'immagine, purché sia nota la trasformazione tra i due frame.
 
-\section{Diagramma del sistema}
+\subsection{Diagramma del sistema}
 
 L'architettura del sistema implementato è descritta in \autoref{fig:architettura-sistema}. \\
 \begin{figure}[ht]
@@ -55,7 +102,7 @@ Il diagramma rappresenta i nodi del sistema, segue una breve descrizione di ogni
 \end{description}
 
 
-\section{Comunicazione tra i nodi}
+\subsection{Comunicazione tra i nodi}
 
 Il sistema sviluppato sfrutta per la comunicazione tra i nodi sia il paradigma client-server, per l'interazione con il reasoner, sia il paradigma publish-subscribe, in tutti gli altri casi.
 Il reasoner offre 4 servizi:
@@ -78,7 +125,7 @@ le informazioni riguardanti gli oggetti riconosciuti e seguiti dal sistema sono 
 
 Il riconoscimento di feature viene descritto nel \autoref{cap:riconoscimento}, il tracking delle feature riconosciute nel \autoref{cap:tracking}, e infine l'analisi ad alto livello viene effettuata nel \autoref{cap:mapping}.
 
-\section{Parametri degli algoritmi}
+\subsection{Parametri degli algoritmi}
 
 Gli algoritmi utilizzati nel sistema, in particolare gli algoritmi di visione, hanno alcuni parametri che è possibile tarare per adattare il sistema a qualsiasi tipo di robot utilizzato.
 Per gestire i parametri, abbiamo utilizzato il server dei parametri di ROS.
