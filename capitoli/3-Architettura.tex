@@ -19,19 +19,19 @@ Ritorno al Futuro, parte I
 \vspace{0.5cm}
 
 \section{Introduzione}
-In questo capitolo descriveremo l'architettura del sistema, sia dal punto di vista logico, descrivendo la metodologia alla base della soluzione presentata, sia dal punto di vista architetturale, descrivendo nello specifico come è implementato il sistema, come comunicano i moduli implementati e quali tecnologie sono state utilizzate.
+In questo capitolo descriveremo l'architettura del sistema, sia dal punto di vista logico, descrivendo la struttura della soluzione presentata, sia dal punto di vista dei moduli software, descrivendo nello specifico come è implementato il sistema, come comunicano i moduli implementati e quali tecnologie sono state utilizzate.
 
-Il sistema implementato è pensato per risolvere il problema della localizzazione ad alto livello, cercando di riconoscere oggetti nell'immagine, anziché feature estratte dall'immagine come keypoint, linee o altri tipi di descrittori a basso livello, che possono essere facilmente confusi. Utilizzare oggetti noti nell'immagine, permette di estrarre conoscenza ulteriore sulle caratteristiche spaziali dell'ambiente, infatti le dimensioni dell'oggetto possono essere note, almeno in maniera approssimata. Inoltre il nostro approccio permette di creare mappe semantiche sulle quali è possibile fare inferenza di vario tipo, inferenza che può essere sfruttata anche per migliorare la navigazione stessa.
+Il sistema implementato è pensato per risolvere il problema della localizzazione ad alto livello, cercando di riconoscere oggetti nell'immagine, anziché feature estratte dall'immagine come keypoint, linee o altri tipi di descrittori a basso livello, che possono essere facilmente confusi. Utilizzare oggetti noti nell'immagine, permette di estrarre conoscenza ulteriore sulle caratteristiche spaziali dell'ambiente, dato che le dimensioni dell'oggetto possono essere note, almeno in maniera approssimata. Inoltre, il nostro approccio permette di creare mappe semantiche sulle quali è possibile fare inferenze di vario tipo, inferenze che possono essere sfruttate anche per migliorare la navigazione stessa.
 
 \section{Architettura Logica}
-Per risolvere il problema descritto, abbiamo ritenuto necessario avere i seguenti moduli:
+Per risolvere il problema descritto, abbiamo ritenuto necessario sviluppare i seguenti moduli:
 
 \begin{itemize}
- \item Un reasoner in grado di analizzare di dati e classificare feature.
+ \item Un reasoner in grado di analizzare dati e classificare feature.
  \item Un algoritmo di individuazione dei possibili oggetti interessanti.
  \item Un algoritmo di tracking che segua gli oggetti interessanti.
  \item Un algoritmo di riconoscimento degli oggetti individuati come interessanti, cercando di raffinare la classificazione.
- \item Un algoritmo che utilizzi le feature ad alto livello estratte per localizzare il robot nella mappa
+ \item Un algoritmo che utilizzi le feature ad alto livello estratte per localizzare il robot nella mappa.
 \end{itemize}
 
 La struttura logica del sistema implementato è rappresentata in \autoref{fig:logica-sistema}.
@@ -44,25 +44,27 @@ La struttura logica del sistema implementato è rappresentata in \autoref{fig:lo
 
 \subsection{Individuazione degli oggetti}
 L'individuazione degli oggetti è la base di partenza per l'estrazione dei punti di riferimento su cui si basa la localizzazione.
-\`E in grado di analizzare una immagine generica e di estrarre i possibili oggetti significativi. Non è di grande importanza avere un riconoscimento con un alto tasso di recupero, ma è necessario che sia il più preciso possibile, per discriminare le feature interessanti dal rumore.
-Non è necessario che il riconoscimento di basso livello sia in grado di distinguere efficacemente le diverse classi di feature cercate, poiché l'analisi approfondita della feature verrà effettuata in altri sottosistemi.
+\`E in grado di analizzare un'immagine generica e di estrarre i possibili oggetti significativi. Non è di grande importanza avere un riconoscimento con un alto tasso di recupero, ma è necessario che sia il più preciso possibile, per discriminare le feature interessanti dal rumore.
+Non è necessario che il riconoscimento di basso livello 
+%%TODO questo lo indichi "di basso livello", ma da quel che dici non e' chiaro perche'.
+sia in grado di distinguere efficacemente le diverse classi di feature cercate, poiché l'analisi approfondita della feature verrà effettuata da altri sottosistemi.
 L'individuazione degli oggetti dipende fortemente dal sistema di reasoning.
 Questo sottosistema è descritto nel \autoref{cap:riconoscimento}.
 
 \subsection{Reasoner}
-Il reasoner è il cuore del sistema, infatti è in grado di analizzare dati rumorosi e incerti e classificare istanze di possibili oggetti trovati dagli algoritmi di estrazione delle feature. Per poter svolgere questo compito in maniera efficace, e per poter affrontare in maniera rigorose le incertezze, si è deciso di utilizzare un reasoner basato sulla logica fuzzy.
-Per poter classificare oggetti il reasoner è in grado di ricevere informazione a partire da una knowledgebase, che contiene sia le classi che descrivono gli oggetti, sia le informazioni per interpretare in maniera simbolica i descrittori delle feature, che sono dati numerici. 
+Il reasoner è il cuore del sistema ed è in grado di analizzare dati rumorosi e incerti e classificare istanze di possibili oggetti trovati dagli algoritmi di estrazione delle feature. Per poter svolgere questo compito in maniera efficace, e per poter affrontare in maniera rigorosa le incertezze, si è deciso di utilizzare un reasoner basato sulla logica fuzzy.
+Per poter classificare oggetti il reasoner è in grado di utilizzare una knowledge base che contiene sia le classi che descrivono gli oggetti, sia le informazioni per interpretare in maniera simbolica i descrittori delle feature, che sono dati numerici. 
 Poiché gli oggetti nel mondo reale sono definiti in base alle relazioni con gli altri oggetti, il reasoner è in grado di analizzare queste relazioni per permettere di compiere classificazioni avanzate.
 Il reasoner è descritto nel \autoref{cap:reasoning}.
 
 \subsection{Tracker}
-Il tracker deve essere in grado di seguire oggetti complessi, che possono uscire dall'immagine o essere parzialmente coperti. Per questo abbiamo implementato il tracker utilizzando un algoritmo di tracking a lungo termine. Grazie a questo tipo di algoritmi non è necessario avere un alto tasso di recupero per il sistema di individuazione degli oggetti, in quanto l'oggetto inseguito viene individuato automaticamente e con un buon tasso di confidenza nell'immagine. Grazie al tracker a lungo termine, possiamo associare con alta confidenza una determinata track a un punto di riferimento nell'algoritmo di localizzazione.
-Poiché lo scopo del sistema è di utilizzare la massima informazione possibile in maniera intelligente, l'algoritmo di tracking è in grado di ricevere informazione dalla mappa e processarla per aumentare le sue performance.
+Il tracker deve essere in grado di tracciare oggetti complessi, che possono uscire dall'immagine o essere parzialmente coperti. Per questo abbiamo implementato il tracker utilizzando un algoritmo di tracking a lungo termine. Grazie a questo tipo di algoritmi non è necessario avere un alto tasso di recupero per il sistema di individuazione degli oggetti, in quanto l'oggetto inseguito viene individuato automaticamente e con un buon tasso di confidenza nell'immagine. Grazie al tracker a lungo termine, possiamo associare con alta confidenza una determinata track a un punto di riferimento nell'algoritmo di localizzazione.
+Poiché lo scopo del sistema è di utilizzare la massima informazione possibile in maniera intelligente, l'algoritmo di tracking è in grado di ricevere informazione dalla mappa e processarla per aumentare le sue prestazioni.
 L'algoritmo di tracking è descritto nel \autoref{cap:tracking}.
 
 
 \subsection{Riconoscimento degli oggetti}
-Lo scopo di questo sottosistema è quello di implementare un algoritmo di riconoscimento di oggetti ad alto livello. Sfrutta l'informazione proveniente dal tracker per limitare l'analisi di immagine a una regione di interesse il più ristretta possibile, per aumentare le prestazioni sia computazionali sia di riconoscimento. L'informazione estratta da questo nodo può essere utilizzata per etichettare i punti di riferimento nella mappa o per aiutare la localizzazione, fornendo informazioni ulteriori all'algoritmo di localizzazione.
+Lo scopo di questo sottosistema è quello di implementare un algoritmo di riconoscimento di oggetti ad alto livello. Sfrutta l'informazione proveniente dal tracker per limitare l'analisi di immagine a una regione di interesse la più ristretta possibile, per aumentare le prestazioni sia computazionali sia di riconoscimento. L'informazione estratta da questo nodo può essere utilizzata per etichettare i punti di riferimento nella mappa o per aiutare la localizzazione, fornendo informazioni ulteriori all'algoritmo di localizzazione.
 Il riconoscimento degli oggetti è descritto nel \autoref{cap:riconoscimento}.
 
 \subsection{Localizzazione}
