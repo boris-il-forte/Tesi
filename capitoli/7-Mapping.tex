@@ -20,7 +20,7 @@ Questa libreria gestisce nativamente una grande varietà di sensori, tra cui la 
 Il nostro algoritmo utilizza gli oggetti riconosciuti come punti di rifermento nella mappa e localizza il robot rispetto ad essi. 
 Per ottenere questo risultato seguiamo un approccio Full SLAM: viene tenuta traccia di un serie di pose della videocamera e dei punti di riferimento riconosciuti. Da ogni posa del robot è possibile inquadrare un determinato numero di punti di riferimento. Una volta aggiunti una serie di pose e una serie di punti di riferimento, viene ottimizzato simultaneamente l'insieme di pose e la posizione dei punti di riferimento nella mappa, utilizzando il metodo di Gauss-Newton.
 
-Descriveremo nel seguito i dettagli dell'algoritmo tilizzato. Si veda l'\autoref{app:concetti} per i concetti fondamentali necessari alla comprensione dei prossimi paragrafi.
+Descriveremo nel seguito i dettagli dell'algoritmo utilizzato. Si veda l'\autoref{app:concetti} per i concetti fondamentali necessari alla comprensione dei prossimi paragrafi.
 
 
 \section{Modello di errore}
@@ -88,10 +88,22 @@ Definiamo l'errore di riproiezione dell'i-esimo punto come:
 
 Anche in questo caso la metrica utilizzata per minimizzare l'errore di predizione è quella dei minimi quadrati.
 
-\section{Stima delle posizioni}
+\section{Stima}
 
+\begin{figure}[ht]
+  \includegraphics[width=\textwidth]{diagrammi/FactorGraph}
+  \caption{Esempio di un factor graph con nodi che rappresentano le pose (cerchi), e archi che rappresentano i dati della imu (triangoli) e del magnetometro (rombi). Inoltre sono presenti archi rappresentanti i punti di riferimento (quadrati) }
+  \label{fig:FactorGraph}
+\end{figure}
 
+La stima delle pose della telecamera e della posizione degli oggetti viene fatta tramite un algoritmo batch di bundle adjustment.
+Questo algoritmo si basa su tecniche di inferenza Bayesiane, non lineari, sui factor graph che rappresentano la probabilità congiunta delle variabili di stato, date le misure dei sensori e le feature riconosciute.
+Il factor graph è un ipergrafo, in cui ogni nodo rappresenta una possibile posa, mentre ogni arco rappresenta un vincolo di misurazione tra due o più ipernodi. Un esempio di factor graph per questo problema è descritto in \autoref{fig:FactorGraph}.
 
+Per calcolare la stima dei parametri, viene lanciato un algoritmo di ottimizzazione basato sul metodo di Gauss-Newton che stimi il massimo a posteriori della distribuzione di probabilità rappresentata dal factor graph, ovvero la configurazione di tutte le variabili di stato che massimizzano la loro probabilità congiunta, date tutte le misure dei sensori e dei punti di riferimento.
 
+Nel caso più semplice, ossia con la sola informazione proveniente dalle track, Le variabili di stato da stimare sono rappresentate semplicemente dal centro di massa delle track, ossia dal centro di massa dei possibili oggetti riconosciuti, e dalla posa della telecamera in ogni istante considerato.
+
+Nel caso di oggetti, le variabili di stato da stimare sono più complesse. Infatti è necessario stimare non solo la posizione relativa dei punti nell'oggetto, ma anche la posa dello stesso, rappresentata dalla matrice $H$; oltre alle pose della telecamera in ogni istante di tempo considerato.
 
 

@@ -1,0 +1,26 @@
+digraph G {
+graph [rankdir=BT];
+0[label=Rectangle];
+1[label=Cluster];
+2[label=WhiteBoard];
+3[label=LargeWhiteBoard];
+4[label=Cabinet];
+5[label=CabinetDoor];
+6[label=PossibleDoor];
+7[label=Door];
+8[label=Handle];
+9[label=Circle];
+10[label=ConcentricCircle];
+2->0 ;
+3->0 ;
+4->0 ;
+5->0 ;
+6->0 ;
+7->6 ;
+7->8 [style=dashed];
+8->1 ;
+8->7 [style=dashed];
+10->9 ;
+10->10 [style=dashed];
+}
+
