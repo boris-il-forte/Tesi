@@ -12,3 +12,86 @@ Ritorno al Futuro, parte III
 }
 \end{quotation}
 \vspace{0.5cm}
+
+\section{Introduzione}
+Per risolvere il problema della costruzione della mappa si è deciso di utilizzare un approccio basato sulla fusione multisensoriale. Abbiamo deciso di basare l'implementazione del sistema di localizzazione sulla libreria ROAMFREE, Robust Odometry Applying Multisensor Fusion to Reduce Estimation Errors~\cite{conf/icinco/CucciM13}.
+Questa libreria gestisce nativamente una grande varietà di sensori, tra cui la IMU e il magnetometro, e si occupa di integrare questi dati per ottenere una odometria robusta. La libreria Inoltre permette di integrare sistemi di estrazione di feature, anche differenti e di stimare la posizione degli oggetti considerati.
+
+Il nostro algoritmo utilizza gli oggetti riconosciuti come punti di rifermento nella mappa e localizza il robot rispetto ad essi. 
+Per ottenere questo risultato seguiamo un approccio Full SLAM: viene tenuta traccia di un serie di pose della videocamera e dei punti di riferimento riconosciuti. Da ogni posa del robot è possibile inquadrare un determinato numero di punti di riferimento. Una volta aggiunti una serie di pose e una serie di punti di riferimento, viene ottimizzato simultaneamente l'insieme di pose e la posizione dei punti di riferimento nella mappa, utilizzando il metodo di Gauss-Newton.
+
+Descriveremo nel seguito i dettagli dell'algoritmo tilizzato. Si veda l'\autoref{app:concetti} per i concetti fondamentali necessari alla comprensione dei prossimi paragrafi.
+
+
+\section{Modello di errore}
+Per poter stimare la posizione dei punti di riferimento è necessario definire una misura dell'errore dell'osservazione degli stessi da parte del sistema di estrazione di feature. Il modello usato, trattandosi di una telecamera monoculare, si basa sull'errore di riproiezione della feature nell'immagine.
+
+Abbiamo definito due modelli di errore: uno per analizzare i dati provenienti dal tracker, e un'altro per analizzare i dati provenienti dal riconoscimento ad alto livello.
+
+\subsection{Errore sulle track}
+Calcoliamo l'errore sulle track come l'errore di riproiezione del centro di massa della track nell'immagine.
+Definiamo la previsione della posizione del centro di massa della track $\hat{z}$ nel seguente modo:
+
+\begin{equation*}
+ \hat{z} = \colvec{3}{x}{y}{w} = P\colvec{4}{X}{Y}{Z}{W}
+\end{equation*}
+
+Definiamo $\hat{z}'$ come:
+
+\begin{equation*}
+ \hat{z}' = \colvec{3}{x/w}{y/w}{1}
+\end{equation*}
+
+Sia inoltre $z$ l'osservazione proveniente dal tracker del centro di massa della track considerata, definita come:
+
+\begin{equation*}
+ z = \colvec{3}{x_{img}}{y_{img}}{1}
+\end{equation*}
+
+Definiamo l'errore di riproiezione come:
+
+\begin{equation*}
+ e = \hat{z}' - z + \eta
+\end{equation*}
+
+Dove $\eta$ è un rumore bianco gaussiano a media nulla.
+La metrica utilizzata per minimizzare l'errore di predizione è quella dei minimi quadrati.
+
+\subsection{Errore sugli oggetti}
+La funzione di errore sugli oggetti è più complessa, questo perchè deve tenere traccia delle informazioni semantiche note dell'oggetto, nel nostro caso la forma.
+
+Poichè l'oggetto è formato da un insieme di punti che definiscono la sua forma, definiamo un sistema di coordinate specifico per ciascun oggetto, e chiamiamo $H$ l'isometria che mappa i punti dell'oggetto nei punti dello spazio a tre dimensioni; $H$ definisce quindi la posa dell'oggetto rispetto allo spazio.
+Definiamo dunque ogni punto dell'oggetto nel sistema di coordinate dell'oggetto stesso, in modo da poter gestire in maniera semplice le informazioni metriche provenienti dal riconoscimento.
+Definiamo la previsione della posizione dell' i-esimo punto dell'oggetto $\hat{z}_i$ nel seguente modo:
+
+\begin{equation*}
+ \hat{z}_i =  P\cdot H\cdot\colvec{4}{X}{Y}{Z}{W}
+\end{equation*}
+
+Definiamo come nel caso precedente $\hat{z}'$:
+
+\begin{equation*}
+ \hat{z}' = \colvec{3}{x/w}{y/w}{1}
+\end{equation*}
+
+l'osservazione dell'i-esimo $z_i$ punto è definita come nel caso precedente:
+
+\begin{equation*}
+ z = \colvec{3}{x_{img}}{y_{img}}{1}
+\end{equation*}
+
+Definiamo l'errore di riproiezione dell'i-esimo punto come:
+
+\begin{equation*}
+ e_i = \hat{z}'_i - z_i + \eta
+\end{equation*}
+
+Anche in questo caso la metrica utilizzata per minimizzare l'errore di predizione è quella dei minimi quadrati.
+
+\section{Stima delle posizioni}
+
+
+
+
+
+
