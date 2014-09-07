@@ -44,10 +44,8 @@ La struttura logica del sistema implementato è rappresentata in \autoref{fig:lo
 
 \subsection{Individuazione degli oggetti}
 L'individuazione degli oggetti è la base di partenza per l'estrazione dei punti di riferimento su cui si basa la localizzazione.
-\`E in grado di analizzare un'immagine generica e di estrarre i possibili oggetti significativi. Non è di grande importanza avere un riconoscimento con un alto tasso di recupero, ma è necessario che sia il più preciso possibile, per discriminare le feature interessanti dal rumore.
-Non è necessario che il riconoscimento di basso livello 
-%%TODO questo lo indichi "di basso livello", ma da quel che dici non e' chiaro perche'.
-sia in grado di distinguere efficacemente le diverse classi di feature cercate, poiché l'analisi approfondita della feature verrà effettuata da altri sottosistemi.
+\`E in grado di analizzare un'immagine generica e di estrarre i possibili oggetti significativi.
+Non è necessario che il riconoscimento di basso livello sia in grado di distinguere efficacemente le diverse classi di feature cercate, poiché l'analisi approfondita della feature verrà effettuata da altri sottosistemi; questa fase del riconoscimento è progettata per estrarre poca informazione, abbastanza per individuare le feature geometriche di base interessanti.
 L'individuazione degli oggetti dipende fortemente dal sistema di reasoning.
 Questo sottosistema è descritto nel \autoref{cap:riconoscimento}.
 
