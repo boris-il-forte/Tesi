@@ -2,6 +2,43 @@
 \label{app:esempio}
 \thispagestyle{empty}
 
-\noindent Un esempio di impiego del sistema realizzato.
+\begin{quotation}
+{\footnotesize
+\noindent{\emph{Doc: Scusa, la rozzezza di questo modello ma non ho avuto il tempo di farlo in scala e di dipingerlo. \\
+Marty: Va bene, va bene.
+} }
+\begin{flushright}
+Ritorno al Futuro, parte III
+\end{flushright}
+}
+\end{quotation}
+\vspace{0.5cm}
 
-%%TODO scrivere oppure togliere di mezzo
+Mostriamo in questo capitolo il sistema hardware e software utilizzato per testare i concetti, gli algoritmi e le metodologie presentate in questa tesi.
+
+\section{Robot}
+Il robot preso in considerazione per i nostri test sperimentali è un quadrotor. Abbiamo utilizzato l'A.R. Drone, prodotto da Parrot. 
+Il quadrotor utilizzato è dotato di una telecamera HD con risoluzione $640\times 480$, tuttavia nella tesi sono state utilizzate immagini a $320\times 240$, a 30 frame al secondo.
+La qualità delle immagini è scadente, e sono affette da pesanti problemi di refresh.
+Il robot possiede anche una unità di misura inerziale economica e un magnetometro.
+Inoltre il robot possiede una telecamera inferiore, di risoluzione $320\times 240$, la cui qualità dell'immagine è molto peggiore rispetto alla telecamera frontale, che tuttavia non è stata sfruttata per lo svolgimento di questa tesi.
+
+\'E stato scelto di utilizzare questo quadrotor per alcuni validi motivi:
+\begin{itemize}
+ \item L'hardware è a basso costo, e il quadrotor si trova in commercio a un prezzo relativamente basso.
+ \item Il robot in questione ha 6 gradi di libertà nello spazio, questo rende possibile lo studio di un sistema di localizzazzione e mapping in 3 dimensioni.
+ \item Il robot è già integrato con ROS.
+\end{itemize}
+
+
+\section{Hardware e software di controllo}
+Per controllare il quadrotor e lanciare l'algoritmo di controllo è stato utilizzato un portatile dotato di processore Intel Core i7-4500U, e 4GB di RAM DDR3.
+Il portatile utilizzato si occupava, oltre che di gestire l'algoritmo di controllo, di visualizzare output di debug.
+Per il controllo del drone è stato utilizzato il driver \textit{ardrone\_autonomy}, disponibile nei repository di ROS.
+Per muovere il quadrotor è stato utilizzato un joystic, integrato con ROS tramite il nodo \textit{joy}, anchesso presente nei repository ufficiali di ROS.
+Per impartire comandi dal joystick al quadrotor ci si è avvalsi di un controllore già implementato nel package  \textit{ardrone\_tutorials}, che fornisce anche una finestra che mostra l'immagine presa direttamente dalla telecamera del drone.
+
+\section{Classificatore utilizzato}
+
+%%TODO classificatore
+

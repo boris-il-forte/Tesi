@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=capitoli/7-Mapping.tex
+lastDocument=tesi.tex
 masterDocument=
 name=Tesi
 pkg_extIsRegExp=false
@@ -194,53 +194,53 @@ order=-1
 
 [item:appendici/B-manuale.tex]
 archive=true
-column=139
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=39
+line=37
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=4
 
 [item:appendici/C-Esempio.tex]
 archive=true
-column=40
+column=9
 encoding=UTF-8
 highlight=LaTeX
-line=6
-mode=LaTeX
-open=false
-order=-1
-
-[item:capitoli/1-Introduzione.tex]
-archive=true
-column=14
-encoding=UTF-8
-highlight=LaTeX
-line=12
+line=42
 mode=LaTeX
 open=true
 order=2
 
-[item:capitoli/2-StatoArte.tex]
+[item:capitoli/1-Introduzione.tex]
 archive=true
-column=28
+column=192
 encoding=UTF-8
 highlight=LaTeX
-line=11
+line=6
 mode=LaTeX
-open=false
-order=4
+open=true
+order=0
+
+[item:capitoli/2-StatoArte.tex]
+archive=true
+column=0
+encoding=UTF-8
+highlight=LaTeX
+line=4
+mode=LaTeX
+open=true
+order=1
 
 [item:capitoli/3-Architettura.tex]
 archive=true
-column=31
+column=461
 encoding=UTF-8
 highlight=LaTeX
-line=103
+line=80
 mode=LaTeX
-open=false
-order=5
+open=true
+order=3
 
 [item:capitoli/4-Reasoning.tex]
 archive=true
@@ -274,32 +274,32 @@ order=1
 
 [item:capitoli/7-Mapping.tex]
 archive=true
-column=94
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=22
+line=21
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:capitoli/8-Risultati.tex]
 archive=true
-column=0
+column=331
 encoding=UTF-8
 highlight=LaTeX
-line=12
+line=20
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [item:capitoli/9-Conclusioni.tex]
 archive=true
-column=0
+column=22
 encoding=UTF-8
 highlight=LaTeX
-line=12
+line=10
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:settings/frontesp.sty]
@@ -324,13 +324,13 @@ order=-1
 
 [item:tesi.tex]
 archive=true
-column=20
+column=18
 encoding=UTF-8
 highlight=LaTeX
-line=36
+line=27
 mode=LaTeX
-open=false
-order=1
+open=true
+order=5
 
 [view-settings,view=0,item:altro/bibliografia.bib]
 CursorColumn=27
@@ -363,34 +363,34 @@ JumpList=
 ViMarks=.,1,9,[,1,7,],1,9
 
 [view-settings,view=0,item:appendici/B-manuale.tex]
-CursorColumn=139
-CursorLine=39
+CursorColumn=0
+CursorLine=37
 JumpList=
 ViMarks=.,52,55,[,52,47,],52,55
 
 [view-settings,view=0,item:appendici/C-Esempio.tex]
-CursorColumn=40
-CursorLine=6
+CursorColumn=9
+CursorLine=42
 JumpList=
-ViMarks=.,6,39,[,6,7,],6,39
+ViMarks=.,42,8,[,42,8,],42,8
 
 [view-settings,view=0,item:capitoli/1-Introduzione.tex]
-CursorColumn=14
-CursorLine=12
+CursorColumn=192
+CursorLine=6
 JumpList=
-ViMarks=.,37,13,[,37,13,],37,24
+ViMarks=.,6,190,[,6,190,],6,191
 
 [view-settings,view=0,item:capitoli/2-StatoArte.tex]
-CursorColumn=28
-CursorLine=11
+CursorColumn=0
+CursorLine=4
 JumpList=
 ViMarks=
 
 [view-settings,view=0,item:capitoli/3-Architettura.tex]
-CursorColumn=31
-CursorLine=103
+CursorColumn=461
+CursorLine=80
 JumpList=
-ViMarks=.,41,13,[,41,13,],41,18
+ViMarks=.,47,321,[,47,311,],47,321
 
 [view-settings,view=0,item:capitoli/4-Reasoning.tex]
 CursorColumn=0
@@ -411,22 +411,22 @@ JumpList=
 ViMarks=.,69,0,[,69,0,],69,0
 
 [view-settings,view=0,item:capitoli/7-Mapping.tex]
-CursorColumn=94
-CursorLine=22
+CursorColumn=0
+CursorLine=21
 JumpList=
-ViMarks=.,6,175,[,6,31,],6,175
+ViMarks=.,94,34,[,94,10,],94,34
 
 [view-settings,view=0,item:capitoli/8-Risultati.tex]
-CursorColumn=0
-CursorLine=12
+CursorColumn=331
+CursorLine=20
 JumpList=
-ViMarks=
+ViMarks=.,38,374,[,38,374,],38,380
 
 [view-settings,view=0,item:capitoli/9-Conclusioni.tex]
-CursorColumn=0
-CursorLine=12
+CursorColumn=22
+CursorLine=10
 JumpList=
-ViMarks=
+ViMarks=.,12,27,[,12,0,],12,27
 
 [view-settings,view=0,item:settings/frontesp.sty]
 CursorColumn=8
@@ -435,7 +435,7 @@ JumpList=
 ViMarks=.,4,33,[,4,33,],4,84
 
 [view-settings,view=0,item:tesi.tex]
-CursorColumn=20
-CursorLine=36
+CursorColumn=18
+CursorLine=27
 JumpList=
 ViMarks=.,36,19,[,36,12,],36,19
