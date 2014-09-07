@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1.3
-lastDocument=altro/ringraziamenti.tex
+lastDocument=capitoli/7-Mapping.tex
 masterDocument=
 name=Tesi
 pkg_extIsRegExp=false
@@ -164,12 +164,12 @@ order=7
 
 [item:altro/ringraziamenti.tex]
 archive=true
-column=194
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=10
+line=13
 mode=LaTeX
-open=true
+open=false
 order=0
 
 [item:altro/sommario.tex]
@@ -214,13 +214,13 @@ order=-1
 
 [item:capitoli/1-Introduzione.tex]
 archive=true
-column=324
+column=14
 encoding=UTF-8
 highlight=LaTeX
-line=25
+line=12
 mode=LaTeX
-open=false
-order=3
+open=true
+order=2
 
 [item:capitoli/2-StatoArte.tex]
 archive=true
@@ -274,33 +274,33 @@ order=1
 
 [item:capitoli/7-Mapping.tex]
 archive=true
-column=0
+column=94
 encoding=UTF-8
 highlight=LaTeX
-line=105
+line=22
 mode=LaTeX
-open=false
-order=2
+open=true
+order=3
 
 [item:capitoli/8-Risultati.tex]
 archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=12
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=0
 
 [item:capitoli/9-Conclusioni.tex]
 archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=12
 mode=LaTeX
-open=false
-order=-1
+open=true
+order=1
 
 [item:settings/frontesp.sty]
 archive=true
@@ -329,7 +329,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=36
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [view-settings,view=0,item:altro/bibliografia.bib]
@@ -345,8 +345,8 @@ JumpList=
 ViMarks=.,4,9,[,4,9,],4,9
 
 [view-settings,view=0,item:altro/ringraziamenti.tex]
-CursorColumn=194
-CursorLine=10
+CursorColumn=0
+CursorLine=13
 JumpList=
 ViMarks=.,10,193,[,10,193,],10,193
 
@@ -375,8 +375,8 @@ JumpList=
 ViMarks=.,6,39,[,6,7,],6,39
 
 [view-settings,view=0,item:capitoli/1-Introduzione.tex]
-CursorColumn=324
-CursorLine=25
+CursorColumn=14
+CursorLine=12
 JumpList=
 ViMarks=.,37,13,[,37,13,],37,24
 
@@ -411,20 +411,20 @@ JumpList=
 ViMarks=.,69,0,[,69,0,],69,0
 
 [view-settings,view=0,item:capitoli/7-Mapping.tex]
-CursorColumn=0
-CursorLine=105
+CursorColumn=94
+CursorLine=22
 JumpList=
-ViMarks=.,105,0,[,105,0,],105,0
+ViMarks=.,6,175,[,6,31,],6,175
 
 [view-settings,view=0,item:capitoli/8-Risultati.tex]
 CursorColumn=0
-CursorLine=0
+CursorLine=12
 JumpList=
 ViMarks=
 
 [view-settings,view=0,item:capitoli/9-Conclusioni.tex]
 CursorColumn=0
-CursorLine=0
+CursorLine=12
 JumpList=
 ViMarks=
 
