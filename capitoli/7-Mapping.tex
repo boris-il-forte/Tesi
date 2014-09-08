@@ -55,7 +55,7 @@ Definiamo l'errore di riproiezione come:
 \end{equation*}
 
 Dove $\eta$ è un rumore bianco gaussiano a media nulla.
-La metrica utilizzata per minimizzare l'errore di predizione è quella dei minimi quadrati.
+La metrica utilizzata per minimizzare l'errore di predizione è l'errore quadratico.
 
 \subsection{Errore sugli oggetti}
 La funzione di errore sugli oggetti è più complessa, questo perché deve tenere traccia delle informazioni semantiche note dell'oggetto, nel nostro caso la forma.
@@ -86,7 +86,7 @@ Definiamo l'errore di riproiezione dell'i-esimo punto come:
  e_i = \hat{z}'_i - z_i + \eta
 \end{equation*}
 
-Anche in questo caso la metrica utilizzata per minimizzare l'errore di predizione è quella dei minimi quadrati.
+Anche in questo caso la metrica utilizzata per minimizzare l'errore di predizione è l'errore quadratico.
 
 \section{Stima}
 
@@ -100,7 +100,13 @@ La stima delle pose della telecamera e della posizione degli oggetti viene fatta
 Questo algoritmo si basa su tecniche di inferenza Bayesiane, non lineari, sui factor graph che rappresentano la probabilità congiunta delle variabili di stato, date le misure dei sensori e le feature riconosciute.
 Il factor graph è un ipergrafo, in cui ogni nodo rappresenta una possibile posa, mentre ogni arco rappresenta un vincolo di misurazione tra due o più ipernodi. Un esempio di factor graph per questo problema è descritto in \autoref{fig:FactorGraph}.
 
-Per calcolare la stima dei parametri, viene lanciato un algoritmo di ottimizzazione basato sul metodo di Gauss-Newton che stimi il massimo a posteriori della distribuzione di probabilità rappresentata dal factor graph, ovvero la configurazione di tutte le variabili di stato che massimizzano la loro probabilità congiunta, date tutte le misure dei sensori e dei punti di riferimento.
+Per calcolare la stima dei parametri, viene utilizzata la stimatore di massima verosimiglianza. Sia $\Sigma$ la matrice di covarianza dell'errore e sia $\Omega = \Sigma^{-1}$; il logaritmo della verosimiglianza della misura viene calcolata nel seguente modo:
+\begin{equation*}
+ \log\mathcal{L}=\sum e^{T}\Omega^{-1}e
+\end{equation*}
+
+Utilizziamo il logaritmo della verosimiglianza anzichè la verosimiglianza della misura a causa dell'espressione più semplice e facile da massimizzare rispetto alla verosimiglianza, ricordando che applicando una funzione monotona, il valore che massimizza la funzione non varia.
+Si utilizza quindi un algoritmo di ottimizzazione basato sul metodo di Gauss-Newton per trovare l'ottimo della distribuzione di probabilità rappresentata dal factor graph, ovvero la configurazione di tutte le variabili di stato che massimizzano la loro probabilità congiunta, date tutte le misure dei sensori e dei punti di riferimento.
 
 Nel caso più semplice, ossia con la sola informazione proveniente dalle track, Le variabili di stato da stimare sono rappresentate semplicemente dal centro di massa delle track, ossia dal centro di massa dei possibili oggetti riconosciuti, e dalla posa della telecamera in ogni istante considerato.
 
