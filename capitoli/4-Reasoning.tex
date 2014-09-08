@@ -48,17 +48,17 @@ I nomi delle classi e dei fuzzy set devono cominciare con la lettera maiuscola, 
 
 Ad esempio per definire sulla variabile ``Distance'' i fuzzy set ``Near'', ``Medium'' e ``Far'' si scrive:
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyKnowledgebase]
 FUZZIFY Distance
  Near := tol(100, 200);
  Medium := tra(100, 200, 300, 400);
  Far := tor(300, 400);
 END_FUZZIFY
-\end{verbatim}
+\end{lstlisting}
 
 Mentre per definire una classe chiamata ``Car'', con due membri ``size'' e ``weight'', si può procedere come segue:
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyKnowledgebase]
 FUZZIFY_CLASS Car
  FUZZIFY size
   Small := tol(100, 200);
@@ -72,7 +72,7 @@ FUZZIFY_CLASS Car
    Heavy := tor(200, 300);
  END_FUZZIFY
 END_FUZZIFY_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 
 \subsection{Regole Fuzzy}
@@ -92,9 +92,9 @@ Un assegnamento di una variabile è composto dal nome della variabile, seguita d
 
 Un esempio di regola fuzzy è la seguente:
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyKnowledgebase]
 if (Input1 is Low) and (Input2 is Medium) then (Output is High); 
-\end{verbatim}
+\end{lstlisting}
 
 
 
@@ -102,7 +102,7 @@ if (Input1 is Low) and (Input2 is Medium) then (Output is High);
 Si possono anche definire predicati unari. Un predicato unario si definisce tramite la keyword \verb|FUZZIFY_PREDICATE|, seguita dal nome della variabile che si userà nel predicato (che deve necessariamente cominciare con un punto interrogativo). La definizione di un predicato unario termina con la keyword \verb|END_FUZZIFY_PREDICATE|. All'interno di un predicato si devono definire i fuzzy set della variabile usata dal predicato. Più predicati possono essere definiti sulla stessa variabile di input, per farlo basta definire ciascun predicato con un un nome (che cominci con la lettera maiuscola), seguito dal token ``:='', seguito da una formula logica ben formata, che può usare la variabile di predicato definita, terminata dal token ``;''.
 
 Ad esempio per definire due predicati, ``Predicate1'' e ``Predicate2'', si può procedere come segue:
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyKnowledgebase]
 FUZZIFY_PREDICATE ?x
  Predicate1 := (?x is Set1) or (?x is Set2);
  Predicate2 := (?x is Set1) and (?x is Set2);
@@ -113,7 +113,7 @@ FUZZIFY_PREDICATE ?x
  END_FUZZIFY
 
 END_FUZZIFY_PREDICATE
-\end{verbatim}
+\end{lstlisting}
 
 I predicati si chiamano usando il loro nome e aggiungendo tra parentesi la variabile sulla quale si vuole valutare il predicato. ad esempio se si vuole valutare il predicato ``Predicate1'' sulla variabile ``a'' si scriverà:
 \begin{verbatim}
@@ -236,14 +236,14 @@ Non è necessario ridefinire le variabili delle superclassi nelle loro sottoclas
 
 Un esempio di definizione di classe è il seguente:
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyClassifier]
 CLASS Example extends SuperClass  HIDDEN
  VARIABLES
   var1;
   var2;
  END_VARIABLES
 END_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 
 \subsection{Feature e relazioni tra classi}
@@ -255,11 +255,11 @@ Per esprimere questo tipo di feature, basta scrivere il nome della variabile su 
 
 Ad esempio, per definire una istanza della classe ``Elephant'' discriminata rispetto a ``size'' possiamo scrivere:
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyClassifier]
  CLASS Elephant extends Animal
   size is Huge;
  END_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 
 Possono essere espresse anche feature che dipendono dalla relazione di una determinata istanza della classe con altre istanze di altre classi.
@@ -274,39 +274,39 @@ In particolare è possibile esprimere:
 Tutti i tre tipi di relazioni possono essere qualificate, in modo da non avere il semplice contenimento o il matching esatto, ma rendere possibile un grado di matching fuzzy e di specificare in maniera più fine il contenimento, ad esempio discriminando destra/sinistra. Per farlo si utilizzano la keyword \verb|degree| per il matching e la keyword \verb|is| per il contenimento. Si veda la grammatica per la notazione relativa alla definizione di tali relazioni.
 
 Ad esempio si può utilizzare la relazione matching per definire la classe ``ConcentricCircle''
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyClassifier]
 CLASS ConcentricCircle extends Circle 
  ConcentricCircle.x match x;
  ConcentricCircle.y match y; 
 END_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 Le istanze di ``ConcentricCircle'' sono tutte le istanze di ``Circle'' con variabili ``x'' e ``y'' identiche. 
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyClassifier]
 CLASS AlmostConcentricCircle extends Circle 
  ConcentricCircle.x match x degree Perfect;
  ConcentricCircle.x match x degree Perfect; 
 END_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 Le istanze di ``AlmostConcentricCircle'' sono tutte le istanze di ``Circle'' in cui la distanza  tra le variabili ``x'' e le variabili ``y'' verificano, con un certo grado di verità, maggiore di 0,  il predicato Perfect.
 
 Si possono invece utilizzare le relazioni di contenimento per definire le classi ``PointOnLeft'' e ``SegmentWithPoint''
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyClassifier]
 CLASS SegmentWithPoint extends Segment
   Point.x is on(min, max);
 END_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 Le istanze di ``SegmentWithPoint'' sono tutte le istanze di ``Segment'' per cui esiste una istanza di ``Point'' la cui variabile ``x'' ha valori contenuti tra le variabili ``min'' e ``max'' di ``Segment''.
 
-\begin{verbatim}
+\begin{lstlisting}[language=fuzzyClassifier]
 CLASS PointOnLeft extends Point 
   x is Left on Segment(min, max);
 END_CLASS
-\end{verbatim}
+\end{lstlisting}
 
 Le istanze di ``PointOnLeft'' sono tutte le istanze di ``Point'' la cui variabile ``x'' verifica il predicato ``Left'' definito sull'intervallo che ha come estremi le variabili ``min'' e ``max'' della classe ``Segment''.
 
