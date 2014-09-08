@@ -8,8 +8,6 @@ graph [rankdir=BT];
 5[label=CabinetDoor];
 6[label=PossibleDoor];
 7[label="Door&Handle"];
-8[label=Circle];
-9[label=ConcentricCircle];
 2->0 ;
 3->0 ;
 4->0 ;
@@ -17,6 +15,5 @@ graph [rankdir=BT];
 6->0 ;
 7->1 ;
 7->6 ;
-9->8 ;
 }
 

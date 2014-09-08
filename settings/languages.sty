@@ -1,0 +1,42 @@
+\lstdefinelanguage{fuzzyClassifier}
+{
+  morekeywords={class,
+      end_class,
+      variables,
+      end_variables,
+      constants,
+      end_constants,
+      is,
+      on,
+      match,
+      degree,
+      extends,
+      important,
+      hidden},
+  sensitive=false,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+}
+
+\lstdefinelanguage{fuzzyKnowledgebase}
+{
+  morekeywords={fuzzify_class,
+      end_fuzzify_class,
+      fuzzify,
+      end_fuzzify,
+      fuzzify_predicate,
+      end_fuzzify_predicate},
+  sensitive=false,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+}
+
+\lstset{
+basicstyle=\small, 
+keywordstyle=\color{black}\bfseries,
+identifierstyle=,
+commentstyle=\color{black}\itshape,
+stringstyle=\ttfamily, 
+showstringspaces=false}
