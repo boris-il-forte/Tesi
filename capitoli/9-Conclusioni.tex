@@ -15,3 +15,29 @@ Ritorno al Futuro, parte III
 }
 \end{quotation}
 \vspace{0.5cm}
+
+In questa tesi abbiamo dimostrato che è possibile sviluppare un sistema SLAM che sia basato sul riconoscimento degli oggetti, anziché su feature geometriche di basso livello come angoli e linee. Abbiamo inoltre dimostrato che non è necessario utilizzare procedure di apprendimento dispendiose e grandi dataset per riconoscere oggetti, ma è sufficiente riuscire a estrarre abbastanza informazione per dare una descrizione concettuale dell'oggetto, tramite formule logiche; tutto questo mantenendo limitato il numero di risorse computazionali richieste.
+Riconoscere oggetti invece che feature di basso livello ha molti grossi vantaggi:
+\begin{itemize}
+ \item In generale, non vengono confusi l'uno dall'altro, questo rende più semplice implementare algoritmi di chiusura dei cicli.
+ \item Contengono molta più informazione che può essere sfruttata rispetto alle feature geometriche di basso livello, questo permette di avere molti vincoli sulla posizione dei punti nello spazio.
+ \item Permettono di compiere ragionamenti semantici: 
+  \begin{itemize}
+   \item \`E possibile capire il tipo di stanza in cui ci si trova.
+   \item \`E possibile adattarsi ai cambiamenti di apparenza o forma degli oggetti, ad esempio una porta che si apre.
+   \item \`E possibile inferire ulteriore informazione, come ad esempio la presenza di una parete sullo stesso piano di una porta.
+   \item \`E possibile impostare politiche di navigazione semantiche, impostare politiche ad hoc a seconda della vicinanza a specifici oggetti.
+  \end{itemize}
+\end{itemize}
+
+Uno dei contributi più significativi della tesi è lo sviluppo di un nuovo modello di classificatori ad albero. Il corrente stato dell'arte sugli alberi di decisione e sugli alberi di decisione fuzzy non prende in considerazione le eventuali relazioni semantiche tra gli oggetti in input al classificatore, non permettendo di sfruttare le relazioni tra gli oggetti per rendere più robusta la classificazione.
+Abbiamo definito alcune possibili relazioni tra gli oggetti, e un algoritmo di reasoning in grado di sfruttarle. Abbiamo anche considerato oggetti che sono definiti solo in base alla loro reciproca relazione e risolto il problema della loro classificazione.
+
+Abbiamo verificato l'utilità degli algoritmi di tracking a lungo termine nel campo della localizzazione, analizzandone vantaggi e svantaggi, e proponendo delle soluzioni per il loro uso pratico, grazie all'integrazione con la mappa costruita.
+
+Questa tesi lascia comunque aperti molti problemi. Possiamo pensare a molte estensioni dell'attuale sistema:
+In primo luogo si può pensare di estendere e migliorare il riconoscimento delle feature di basso livello. Una alternativa interessante potrebbe essere sfruttare le reti neurali convoluzionali per l'estrazione rapida ed efficiente di feature a basso livello come forme e caratteristiche geometriche e usare algoritmi di clustering (k-means, fuzzy c-means) per determinare il colore delle feature. Inoltre si potrebbe sfruttare le proprietà geometriche degli oggetti per calcolare la rettificazione metrica della feature, ottenendo così una stima migliore del fattore di forma.
+Inoltre si potrebbe estendere il reasoner per aggiungere altri tipi di relazioni tra gli oggetti, diverse da quelle considerate da questa tesi, o estendere la capacità del reasoner di gestire spazi di variabili a più dimensioni.
+Infine, si potrebbe pensare di lavorare sugli algoritmi di tracking e localizzazione per aumentare le loro prestazioni, sfruttando le informazioni reciproche per aumentare le prestazioni di riconoscimento e di costo computazionale.
+
+Altri aspetti restano completamente inesplorati, come eventuale reasoning concettuale sulla stanza e rilevazione di altri oggetti, uno stack di navigazione basato sugli oggetti riconosciuti, il controllo della scala attuale della mappa per discriminare gli oggetti individuati grazie alla loro dimensione. In particolare una volta riconosciuti una classe di oggetti come porte e finestre, dovrebbe essere possibile riconoscere i muri della stanza.

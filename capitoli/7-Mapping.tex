@@ -26,7 +26,7 @@ Descriveremo nel seguito i dettagli dell'algoritmo utilizzato. Si veda l'\autore
 \section{Modello di errore}
 Per poter stimare la posizione dei punti di riferimento è necessario definire una misura dell'errore dell'osservazione degli stessi da parte del sistema di estrazione di feature. Il modello usato, trattandosi di una telecamera monoculare, si basa sull'errore di riproiezione della feature nell'immagine.
 
-Abbiamo definito due modelli di errore: uno per analizzare i dati provenienti dal tracker, e un'altro per analizzare i dati provenienti dal riconoscimento ad alto livello.
+Abbiamo definito due modelli di errore: uno per analizzare i dati provenienti dal tracker, e un altro per analizzare i dati provenienti dal riconoscimento ad alto livello.
 
 \subsection{Errore sulle track}
 Calcoliamo l'errore sulle track come l'errore di riproiezione del centro di massa della track nell'immagine.
@@ -58,9 +58,9 @@ Dove $\eta$ è un rumore bianco gaussiano a media nulla.
 La metrica utilizzata per minimizzare l'errore di predizione è quella dei minimi quadrati.
 
 \subsection{Errore sugli oggetti}
-La funzione di errore sugli oggetti è più complessa, questo perchè deve tenere traccia delle informazioni semantiche note dell'oggetto, nel nostro caso la forma.
+La funzione di errore sugli oggetti è più complessa, questo perché deve tenere traccia delle informazioni semantiche note dell'oggetto, nel nostro caso la forma.
 
-Poichè l'oggetto è formato da un insieme di punti che definiscono la sua forma, definiamo un sistema di coordinate specifico per ciascun oggetto, e chiamiamo $H$ l'isometria che mappa i punti dell'oggetto nei punti dello spazio a tre dimensioni; $H$ definisce quindi la posa dell'oggetto rispetto allo spazio.
+Poiché l'oggetto è formato da un insieme di punti che definiscono la sua forma, definiamo un sistema di coordinate specifico per ciascun oggetto, e chiamiamo $H$ l'isometria che mappa i punti dell'oggetto nei punti dello spazio a tre dimensioni; $H$ definisce quindi la posa dell'oggetto rispetto allo spazio.
 Definiamo dunque ogni punto dell'oggetto nel sistema di coordinate dell'oggetto stesso, in modo da poter gestire in maniera semplice le informazioni metriche provenienti dal riconoscimento.
 Definiamo la previsione della posizione dell' i-esimo punto dell'oggetto $\hat{z}_i$ nel seguente modo:
 
@@ -92,7 +92,7 @@ Anche in questo caso la metrica utilizzata per minimizzare l'errore di predizion
 
 \begin{figure}[ht]
   \includegraphics[width=\textwidth]{diagrammi/FactorGraph}
-  \caption[Esempio di Factor Graph]{Esempio di un factor graph con nodi che rappresentano le pose (cerchi), e archi che rappresentano i dati della imu (triangoli) e del magnetometro (rombi). Inoltre sono presenti archi rappresentanti i punti di riferimento (quadrati) }
+  \caption[Esempio di Factor Graph]{Esempio di un factor graph con nodi che rappresentano le pose (cerchi), e archi che rappresentano i dati della IMU (triangoli) e del magnetometro (rombi). Inoltre sono presenti archi rappresentanti i punti di riferimento (quadrati) }
   \label{fig:FactorGraph}
 \end{figure}
 
