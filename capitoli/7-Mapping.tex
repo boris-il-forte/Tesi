@@ -105,7 +105,7 @@ Per calcolare la stima dei parametri, viene utilizzata la stimatore di massima v
  \log\mathcal{L}=\sum e^{T}\Omega^{-1}e
 \end{equation*}
 
-Utilizziamo il logaritmo della verosimiglianza anzichè la verosimiglianza della misura a causa dell'espressione più semplice e facile da massimizzare rispetto alla verosimiglianza, ricordando che applicando una funzione monotona, il valore che massimizza la funzione non varia.
+Utilizziamo il logaritmo della verosimiglianza anziché la verosimiglianza della misura a causa dell'espressione più semplice e facile da massimizzare rispetto alla verosimiglianza, ricordando che applicando una funzione monotona, il valore che massimizza la funzione non varia.
 Si utilizza quindi un algoritmo di ottimizzazione basato sul metodo di Gauss-Newton per trovare l'ottimo della distribuzione di probabilità rappresentata dal factor graph, ovvero la configurazione di tutte le variabili di stato che massimizzano la loro probabilità congiunta, date tutte le misure dei sensori e dei punti di riferimento.
 
 Nel caso più semplice, ossia con la sola informazione proveniente dalle track, Le variabili di stato da stimare sono rappresentate semplicemente dal centro di massa delle track, ossia dal centro di massa dei possibili oggetti riconosciuti, e dalla posa della telecamera in ogni istante considerato.
