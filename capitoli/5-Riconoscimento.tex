@@ -59,24 +59,24 @@ Viene considerato palo una coppia di linee con un fattore di forma estremamente 
 
 \begin{algorithm}[ht]
 \caption{QuadrilateralDetector}
-\begin{algorithmic}[1] 
 \label{alg:quad-det}
-\FOR{$i \in \lbrace 0, VerticalLinesNumber -1 \rbrace$}
-  \STATE $v_{1} \leftarrow V[i]$
-  \STATE $v_{2} \leftarrow V[i+1]$
-  \IF{$v_{1}$ and $v_{2}$ are not poles}
-    \FORALL{$(h_{1},h_{2}) \in H \times H$}
-      \STATE $x \leftarrow$ findInterception($h_{1}$, $v_{1}$);
-      \STATE $y \leftarrow$ findInterception($h_{1}$, $v_{2}$);
-      \STATE $z \leftarrow$ findInterception($h_{2}$, $v_{2}$);
-      \STATE $w \leftarrow$ findInterception($h_{2}$, $v_{1}$);
-      \IF{$x,y,z,w$ are the vertices of a quadrilateral $q$}
-	\STATE $Q = Q \cup \lbrace q \rbrace$
-      \ENDIF
-    \ENDFOR
-  \ENDIF
-\ENDFOR
-\RETURN Q
+\begin{algorithmic}[1] 
+\For{$i \in \lbrace 0, VerticalLinesNumber -1 \rbrace$}
+  \State $v_{1} \leftarrow V[i]$
+  \State $v_{2} \leftarrow V[i+1]$
+  \If{$v_{1}$ and $v_{2}$ are not poles}
+    \ForAll{$(h_{1},h_{2}) \in H \times H$}
+      \State $x \leftarrow$ findInterception($h_{1}$, $v_{1}$);
+      \State $y \leftarrow$ findInterception($h_{1}$, $v_{2}$);
+      \State $z \leftarrow$ findInterception($h_{2}$, $v_{2}$);
+      \State $w \leftarrow$ findInterception($h_{2}$, $v_{1}$);
+      \If{$x,y,z,w$ are the vertices of a quadrilateral $q$}
+	\State $Q = Q \cup \lbrace q \rbrace$
+      \EndIf
+    \EndFor
+  \EndIf
+\EndFor
+\Return Q
 \end{algorithmic}
 \end{algorithm}
 

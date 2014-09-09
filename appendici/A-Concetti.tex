@@ -519,5 +519,105 @@ Il problema della calibrazione si riduce quindi a trovare l'immagine della conic
 
 Le camere reali soffrono di distorsioni ulteriori oltre a quelle prospettiche, che non sono descritte correttamente dalla geometria discussa. Queste sono la distorsione radiale e tangenziale, che sono espresse da dei coefficienti aggiuntivi, che servono per esprimere relazioni non lineari. Questi coefficienti non saranno descritti in quanto, sebbene fondamentali per analizzare l'immagine, non sono stati usati in questa tesi, e il modello utilizzato potrebbe variare tra telecamere differenti.
 
+\section{Algoritmi di estrazione Feature}
 
+Presentiamo qui i principali algoritmi usati da questa tesi.
+
+\subsection{Canny Edge detector}
+L'algoritmo di Canny è in grado di estrarre i bordi da una immagine in scala di grigi. L'immagine risultante è una immagine binaria che per ogni pixel indica o meno la presenza dei bordi. L'algoritmo si basa sulle seguenti fasi:
+\begin{enumerate}
+ \item Riduzione del rumore tramite un kernel gaussiano.
+ \item Estrazione dei bordi tramite un operatore differenziale (ad esempio l'operatore di Sobel).
+ \item Soppressione dei non massimi, ossia tutti i punti che non sono massimi globali, ovvero i punti in cui la derivata seconda del gradiente si annulla, vengono scartati.
+ \item Sogliatura del gradiente con isteresi: date due soglie, se il punto ha gradiente maggiore della soglia alta viene accettato, se il punto è inferiore alla soglia bassa viene scartato, se il punto è compreso tra due soglie e adiacente a un punto accettato, viene accettato.
+\end{enumerate}
+
+Questo algoritmo necessita di tre parametri: la dimensione del kernel gaussiano e le due soglie per il gradiente.
+
+\subsection{Trasformata di Hough}
+
+La trasformata di Hough è un algoritmo in grado di estrarre linee da un immagine dei bordi.
+La trasformata di Hough si basa sulla trasformazione da coordinate cartesiane a coordinate polari dell'equazione della retta, ossia l'equazione:
+
+\begin{equation*}
+ y=m\cdot x + q
+\end{equation*}
+
+Viene trasformata in:
+
+\begin{equation*}
+ \rho = x\cdot \cos(\theta) + y\cdot \sin(\theta)
+\end{equation*}
+
+Si può quindi descrivere le rette con i parametri $\rho$ e $\theta$ utilizzando un intervallo limitato di valori. Si procede dunque a discretizzare in celle lo spazio dei parametri con precisione diversa per  $\rho$ e $\theta$. Ogni punto vota tutte le celle che descrivono (approssimativamente) una retta passante su di esso. I picchi nello spazio delle celle sono le rette individuate.
+
+Una versione più efficiente di questo algoritmo è la trasformata di Hough probabilistica, si veda l'\autorefA{alg:PPHT}.
+
+\begin{algorithm}[ht]
+\caption{Progressive Probabilistic Hough Transform}
+\label{alg:PPHT}
+\begin{algorithmic}[1] 
+\While{image is not empty}
+ \State{Select a random single pixel $P$}
+ \State{Update accumulator with the votes of $P$}
+ \State{$image \leftarrow image \ \lbrace P \rbrace$}
+ \If{highest peak modified > threshold} 
+  \State{Look along a corridor specified by the peak in the accumulator} 
+  \State{Find the longest segment $l$ with gaps not exceeding a given threshold.}
+  \State{Remove the pixels in the segment from input image}
+  \State{“Unvote” from the accumulator all the pixels from the line that have previously voted.}
+  \If{The line is longer than the minimum lenght}
+    \State{$Lines \leftarrow Lines \cup l$}
+  \EndIf
+  \EndIf
+\EndWhile
+\Return Lines
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{DBSCAN}
+
+DBSCAN è un algoritmo di clustering. Dato un insieme di dati e definita una misura di distanza, raggruppa i punti in un cluster basandosi sulla densità. Vengono quindi separate le aree in cui si trova una maggiore concentrazione di punti. I parametri dell'algoritmo sono il numero minimo di vicini perché il punto non sia considerato rumore, e la massima distanza tra due punti per considerarli vicini. Il funzionamento è descritto nell'\autorefA{alg:DBSCAN}.
+         
+\begin{algorithm}[ht]
+\caption{DBSCAN}
+\label{alg:DBSCAN}
+\begin{algorithmic}[1] 
+\Function{DBSCAN}{D, eps, MinPts}
+  \State{$C \leftarrow 0$}
+  \ForAll{$P \in D$}
+    \State{$Visited \leftarrow Visited \cup P$}
+    \State{$N \leftarrow$ \Call{regionQuery}{P, eps}}
+    \If{cardinality of N < MinPts}
+    \State{$Noise \leftarrow Noise \cup P$}
+    \Else
+      \State{$C \leftarrow C + 1$}
+      \State{\Call{expandCluster}{P, N, C, eps, MinPts}}
+    \EndIf
+  \EndFor
+  
+\EndFunction
+
+\Function{expandCluster}{P, N, C, eps, MinPts} 
+  \State{$C \leftarrow C \cup P$}
+  \ForAll{$P' \in N$}
+    \If{$P' \not\in Visited$}
+      \State{$Visited \leftarrow Visited \cup P'$}
+      \State{$N' \leftarrow$ \Call{regionQuery}{P', eps}}
+      \If{cardinality of N' >= MinPts}
+	\State{$N \leftarrow N \cup N'$}
+      \EndIf
+    \EndIf
+    \If{$\forall C\, P\not\in C$}
+      \State{$C \leftarrow C \cup P'$}
+    \EndIf
+  \EndFor
+\EndFunction
+
+\Function{regionQuery}{P, eps}
+  \Return{all points within P's eps-neighborhood (including P)}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 

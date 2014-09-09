@@ -58,8 +58,13 @@ Tuttavia è possibile affrontare a basso livello il problema, almeno parzialment
 Questa si basa sul calcolo della posizione del centro di massa degli oggetti riconosciuti e delle track, rispetto ai loro bounding box.
 Se un oggetto riconosciuto ha il suo centro di massa all'interno di un bounding box di una track attiva, o, viceversa, se una track attiva ha il suo centro di massa nel bounding box dell'oggetto riconosciuto, tale oggetto è considerato già seguito, e non viene aggiunto alla lista delle track.
 
-Come si può vedere dalla figura, %%TODO figura
-l'euristica copre abbastanza bene quasi tutti i casi, a parte quando si tratta di oggetti composti da più oggetti, o di oggetti che si trovano di fronte ad altri oggetti. Per questi casi sono necessari due ragionamenti ad alto livello differenti: riuscire a capire che un oggetto è semanticamente composto da alcune parti; riuscire a capire che i due oggetti non occupano lo stesso spazio. Per entrambi i ragionamenti non bastano le informazioni estratte dalla singola immagine.
+\begin{figure}[ht]
+  \includegraphics[width=\textwidth]{diagrammi/Euristica}
+  \caption[Euristica del tracker]{I possibili posizionamenti delle due track: A. due oggetti differenti e distanti, B. due oggetti differenti abbastanza vicini, con parte del bounding box in comune, C. un oggetto contenente o con di fronte un altro oggetto, D. e F. lo stesso oggetto con due bounding box differenti, E. due oggetti differenti sovrapposti, lo stesso oggetto individuato male oppure un oggetto con una sua parte}
+  \label{fig:euristica}
+\end{figure}
+
+Come si può vedere dalla \autoref{fig:euristica}, l'euristica copre abbastanza bene quasi tutti i casi, a parte quando si tratta di oggetti composti da più oggetti, o di oggetti che si trovano di fronte ad altri oggetti. Per questi casi sono necessari due ragionamenti ad alto livello differenti: riuscire a capire che un oggetto è semanticamente composto da alcune parti; riuscire a capire che i due oggetti non occupano lo stesso spazio. Per entrambi i ragionamenti non bastano le informazioni estratte dalla singola immagine.
 
 \section{Integrazione con la mappa}
 L'euristica descritta nel paragrafo precedente dimostra di comportarsi molto bene nelle situazioni reali, tuttavia subentrano alcuni problemi quando il tracking degli oggetti presenta dei mancati riconoscimenti. Questo causa spesso la sovrapposizione di più track dello stesso oggetto. Questo problema si può risolvere solamente integrando l'algoritmo di tracking con la mappa degli oggetti riconosciuti. Tramite la mappa è facile accorgersi che lo stesso oggetto è seguito più volte, poiché occupa la stessa posizione assoluta dell'oggetto seguito in precedenza.
