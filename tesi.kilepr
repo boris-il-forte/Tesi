@@ -284,10 +284,10 @@ order=0
 
 [item:capitoli/8-Risultati.tex]
 archive=true
-column=115
+column=22
 encoding=UTF-8
 highlight=LaTeX
-line=76
+line=71
 mode=LaTeX
 open=true
 order=1
@@ -417,10 +417,10 @@ JumpList=
 ViMarks=.,107,228,[,107,228,],107,228
 
 [view-settings,view=0,item:capitoli/8-Risultati.tex]
-CursorColumn=115
-CursorLine=76
+CursorColumn=22
+CursorLine=71
 JumpList=
-ViMarks=.,76,114,[,76,90,],76,114
+ViMarks=.,76,10,[,76,10,],76,10
 
 [view-settings,view=0,item:capitoli/9-Conclusioni.tex]
 CursorColumn=22
