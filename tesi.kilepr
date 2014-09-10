@@ -264,10 +264,10 @@ order=0
 
 [item:capitoli/6-Tracking.tex]
 archive=true
-column=0
+column=35
 encoding=UTF-8
 highlight=LaTeX
-line=60
+line=62
 mode=LaTeX
 open=true
 order=0
@@ -284,10 +284,10 @@ order=0
 
 [item:capitoli/8-Risultati.tex]
 archive=true
-column=0
+column=115
 encoding=UTF-8
 highlight=LaTeX
-line=30
+line=76
 mode=LaTeX
 open=true
 order=1
@@ -324,12 +324,12 @@ order=-1
 
 [item:tesi.tex]
 archive=true
-column=57
+column=31
 encoding=UTF-8
 highlight=LaTeX
-line=21
+line=38
 mode=LaTeX
-open=false
+open=true
 order=3
 
 [view-settings,view=0,item:altro/bibliografia.bib]
@@ -405,8 +405,8 @@ JumpList=
 ViMarks=.,61,0,[,61,0,],61,19
 
 [view-settings,view=0,item:capitoli/6-Tracking.tex]
-CursorColumn=0
-CursorLine=60
+CursorColumn=35
+CursorLine=62
 JumpList=
 ViMarks=.,62,426,[,62,426,],62,426
 
@@ -417,10 +417,10 @@ JumpList=
 ViMarks=.,107,228,[,107,228,],107,228
 
 [view-settings,view=0,item:capitoli/8-Risultati.tex]
-CursorColumn=0
-CursorLine=30
+CursorColumn=115
+CursorLine=76
 JumpList=
-ViMarks=.,38,18,[,38,18,],38,18
+ViMarks=.,76,114,[,76,90,],76,114
 
 [view-settings,view=0,item:capitoli/9-Conclusioni.tex]
 CursorColumn=22
@@ -435,7 +435,7 @@ JumpList=
 ViMarks=.,4,33,[,4,33,],4,84
 
 [view-settings,view=0,item:tesi.tex]
-CursorColumn=57
-CursorLine=21
+CursorColumn=31
+CursorLine=38
 JumpList=
-ViMarks=.,31,22,[,31,22,],31,22
+ViMarks=.,39,0,[,39,0,],39,0
