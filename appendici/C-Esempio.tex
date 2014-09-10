@@ -35,7 +35,7 @@ Inoltre il robot possiede una telecamera inferiore, di risoluzione $320\times 24
 Per controllare il quadrotor e lanciare l'algoritmo di controllo è stato utilizzato un portatile dotato di processore Intel Core i7-4500U, e 4GB di RAM DDR3.
 Il portatile utilizzato si occupava, oltre che di gestire l'algoritmo di controllo, di visualizzare output di debug.
 Per il controllo del drone è stato utilizzato il driver \textit{ardrone\_autonomy}, disponibile nei repository di ROS.
-Per muovere il quadrotor è stato utilizzato un joystic, integrato con ROS tramite il nodo \textit{joy}, anchesso presente nei repository ufficiali di ROS.
+Per muovere il quadrotor è stato utilizzato un joystick, integrato con ROS tramite il nodo \textit{joy}, anchesso presente nei repository ufficiali di ROS.
 Per impartire comandi dal joystick al quadrotor ci si è avvalsi di un controllore già implementato nel package  \textit{ardrone\_tutorials}, che fornisce anche una finestra che mostra l'immagine presa direttamente dalla telecamera del drone.
 
 \section{Classificatore utilizzato}
@@ -175,7 +175,7 @@ FUZZIFY_CLASS Handle
 END_FUZZIFY_CLASS
 \end{lstlisting}
 
-Il grafo delle dipendenze generato da questo classificatore è mostrato in \autoref{fig:grafo-dipendenze} mentre il grafo di reasoning in \autoref{fig:grafo-reasoning}. Nel grafo delle dipendenze le freccie continue rappresentano relazioni di sottoclasse, mentre le freccie tratteggiate rappresentano una relazione di dipendenza.
+Il grafo delle dipendenze generato da questo classificatore è mostrato in \autoref{fig:grafo-dipendenze} mentre il grafo di reasoning in \autoref{fig:grafo-reasoning}. Nel grafo delle dipendenze le frecce continue rappresentano relazioni di sottoclasse, mentre le frecce tratteggiate rappresentano una relazione di dipendenza.
 
 \begin{figure}[ht]
   \includegraphics[width=\textwidth]{diagrammi/classifier}

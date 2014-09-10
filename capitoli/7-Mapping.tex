@@ -15,10 +15,10 @@ Ritorno al Futuro, parte III
 
 \section{Introduzione}
 Per risolvere il problema della costruzione della mappa si è deciso di utilizzare un approccio basato sulla fusione multisensoriale. Abbiamo deciso di basare l'implementazione del sistema di localizzazione sulla libreria ROAMFREE, Robust Odometry Applying Multisensor Fusion to Reduce Estimation Errors~\cite{conf/icinco/CucciM13}.
-Questa libreria gestisce nativamente una grande varietà di sensori, tra cui la IMU e il magnetometro, e si occupa di integrare questi dati per ottenere una odometria robusta. La libreria Inoltre permette di integrare sistemi di estrazione di feature, anche differenti e di stimare la posizione degli oggetti considerati.
+Questa libreria gestisce nativamente una grande varietà di sensori, tra cui la IMU e il magnetometro, e si occupa di integrare questi dati per ottenere una odometria robusta. Inoltre, la libreria permette di integrare sistemi di estrazione di feature, anche differenti e di stimare la posizione degli oggetti considerati.
 
 Il nostro algoritmo utilizza gli oggetti riconosciuti come punti di rifermento nella mappa e localizza il robot rispetto ad essi. 
-Per ottenere questo risultato seguiamo un approccio Full SLAM: viene tenuta traccia di un serie di pose della videocamera e dei punti di riferimento riconosciuti. Da ogni posa del robot è possibile inquadrare un determinato numero di punti di riferimento. Una volta aggiunti una serie di pose e una serie di punti di riferimento, viene ottimizzato simultaneamente l'insieme di pose e la posizione dei punti di riferimento nella mappa, utilizzando il metodo di Gauss-Newton.
+Per ottenere questo risultato, seguiamo un approccio Full SLAM: viene tenuta traccia di un serie di pose della videocamera e dei punti di riferimento riconosciuti. Da ogni posa del robot è possibile inquadrare un determinato numero di punti di riferimento. Una volta aggiunti una serie di pose e una serie di punti di riferimento, viene ottimizzato simultaneamente l'insieme di pose e la posizione dei punti di riferimento nella mappa, utilizzando il metodo di Gauss-Newton.
 
 Descriveremo nel seguito i dettagli dell'algoritmo utilizzato. Si veda l'\autoref{app:concetti} per i concetti fondamentali necessari alla comprensione dei prossimi paragrafi.
 
@@ -100,7 +100,7 @@ La stima delle pose della telecamera e della posizione degli oggetti viene fatta
 Questo algoritmo si basa su tecniche di inferenza Bayesiane, non lineari, sui factor graph che rappresentano la probabilità congiunta delle variabili di stato, date le misure dei sensori e le feature riconosciute.
 Il factor graph è un ipergrafo, in cui ogni nodo rappresenta una possibile posa, mentre ogni arco rappresenta un vincolo di misurazione tra due o più ipernodi. Un esempio di factor graph per questo problema è descritto in \autoref{fig:FactorGraph}.
 
-Per calcolare la stima dei parametri, viene utilizzata la stimatore di massima verosimiglianza. Sia $\Sigma$ la matrice di covarianza dell'errore e sia $\Omega = \Sigma^{-1}$; il logaritmo della verosimiglianza della misura viene calcolata nel seguente modo:
+Per calcolare la stima dei parametri, viene utilizzato lo stimatore di massima verosimiglianza. Sia $\Sigma$ la matrice di covarianza dell'errore e sia $\Omega = \Sigma^{-1}$; il logaritmo della verosimiglianza della misura viene calcolato nel seguente modo:
 \begin{equation*}
  \log\mathcal{L}=\sum e^{T}\Omega^{-1}e
 \end{equation*}
