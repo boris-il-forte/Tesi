@@ -28,22 +28,21 @@ Un'altra possibile causa di cattiva interpretazione dell'immagine è la deformaz
   \label{fig:detection}
 \end{figure}
 
-
 \begin{figure}[ht]
+  \centering
   \includegraphics{immagini/risultati/recognition1}
   \caption[Riconoscimento della porta]{Riconosciuta una porta con la sua maniglia}
   \label{fig:recognition1}
 \end{figure}
 
 \begin{figure}[ht]
+  \centering
   \includegraphics{immagini/risultati/recognition2}
   \caption[Riconoscimento della lavagna]{Riconosciuta la lavagna}
   \label{fig:recognition2}
 \end{figure}
 
-
-
-
+\clearpage
 
 \section{Reasoning}
 L'algoritmo di reasoning è fortemente dipendente dalla knowledge base implementata. Grazie alla logica fuzzy, se istruito con una knowledge base adatta al contesto, risulta estremamente efficiente e robusto al rumore. Il costo computazionale è estremamente variabile, dipende infatti dal classificatore utilizzato, e dal numero delle istanze da classificare. Se il numero delle istanze è basso, il classificatore riesce a calcolare l'output in tempi dell'ordine di grandezza del millisecondo, su un processore Intel Core i7-4500U.
@@ -55,6 +54,8 @@ In generale, il problema dell'algoritmo di reasoning è la natura combinatoria d
  \item Implementando all'interno del reasoner degli indici di feature basati sui descrittori coinvolti nelle relazioni cicliche, in modo da poter compiere una ricerca basata sul loro valore.
 \end{itemize}
 Ci è sembrato che le prime due soluzioni fossero più pratiche e semplici da seguire, e quindi le abbiamo implementate nel nostro sistema, lasciando a futuri sviluppi la proposta dell'indicizzazione.
+
+\clearpage
 
 \section{Tracking}
 L'algoritmo di tracking usato ha prestazioni estremamente buone. Il tasso di recupero dell'algoritmo è maggiore del 90\%, anche se questo dipende parzialmente dalle caratteristiche dell'oggetto seguito. Il bounding box disegnato non è tuttavia sempre e comunque preciso, soprattutto quando si tratta di seguire oggetti da posizione angolate, dove la deformazione prospettica diventa più significativa. Maggiorando il bounding box, tuttavia, si ottengono risultati buoni anche quando il punto di vista è moderatamente angolato, poiché l'oggetto risulta essere contenuto completamente nel bounding box considerato.
