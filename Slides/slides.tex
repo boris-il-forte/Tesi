@@ -7,66 +7,24 @@
 %
 
 
-\documentclass[mathserif,t,screen]{beamer}
+\documentclass[c]{beamer}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
 
 \usepackage{enumerate}
 \usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
-\usepackage{mathrsfs}
 \usepackage{MnSymbol}
-\usepackage{multirow} 
-\usepackage{tabls}
 
-\usepackage{macros}
 
-\usepackage{tweaklist}
-\renewcommand{\itemhook}{\setlength{\topsep}{0pt}%
-  \setlength{\itemsep}{1pt}}
-
-\usepackage{kbordermatrix}
-\setlength{\kbrowsep}{0pt}
-
-\newcommand{\p}{\phantom{-}1}
-\newcommand{\m}{-1}
-
-\newcommand{\IconChecked}{\includegraphics[width=1.15cm]{gfx/checklist_cut}}
-\newlength{\CheckedLength}
-\setlength{\CheckedLength}{\labelwidth}\addtolength{\CheckedLength}{\labelsep}
-\newcommand{\done}{\hspace*{-.365cm}\hspace*{\CheckedLength}\makebox[0cm][r]{\IconChecked}%
- \hspace*{-.125cm}}
-
-\newcommand{\startproof}{\textit{Proof. }}
-
-\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
-
-\newcommand{\eqdef}{\overset{\textup{def}}{=}}
 
 \usetheme{polimienglish}
  
 \title[Cognitive SLAM]{Cognitive SLAM:}
-
-
 \subtitle{Knowledge-Based Simultaneous Localization and Mapping}
 
-% location and date of the talk. The part in [] will be displayed on
-% the bottom of every slide, the part between {} on the first page
 \author[Davide Tateo]{\textbf{Davide Tateo}\\
-Relatore: \textbf{Andrea Bonarini}
-}
+Relatore: \textbf{Andrea Bonarini}}
 
-
-% \institute[POLIMI]{\textbf{DEPARTMENT OF ELECTRONICS AND INFORMATION}\\
-% \url{http://www.dei.polimi.it}
-% \vskip0.1cm
-% \textbf{AIRLab} Artificial Intelligence and Robotics Laboratory\\
-% \url{http://www.airlab.elet.polimi.it}}
-
-% location and date of the talk. The part in [] will be displayed on
-% the bottom of every slide, the part between {} on the first page
 \date[03/10/2014]{3 Ottobre 2014}
 
 \begin{document}
@@ -77,68 +35,95 @@ Relatore: \textbf{Andrea Bonarini}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
+\frametitle{Sommario}
 \tableofcontents
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\section{Il Problema}
 \begin{frame}
-\frametitle{Lists and spacing}
+\frametitle{Il Problema}
 
+Problema:
 \begin{itemize}
-\addtolength{\itemsep}{.2cm}
+ \item Localizzazzione di robot autonomi in complessi ambienti indoor
+ \item Utilizzo della conoscenza di un esperto per estrarre informazione dall'ambiente
+\end{itemize}
 
-\item A
-
-\item B
-
-  \begin{itemize}
-    \addtolength{\itemsep}{.1cm}
-
-  \item[1.] one
-\pause
-  \item[2.] two
-
-  \end{itemize}
-
-\item C
-
+Obbiettivi:
+\begin{itemize}
+ \item Estrazione di feature ad alto livello (oggetti)
+ \item Tracking a lungo termine degli oggetti
+ \item Localizzazzione basata su oggetti come landmark 
 \end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\section{Stato dell'Arte}
 \begin{frame}
-\frametitle{Columns and onslide}
+\frametitle{Stato dell'Arte}
 
 
-\begin{columns}[t]
-\column{3cm}
-Column 1 
+\begin{columns}[c]
+\column{0.5\textwidth}
+Sensori:
+\begin{itemize}
+ \item Sonar
+ \item Laser
+ \item Videocamere
+ \item RGB-D
+ \item IMU
+ \item Magnetometro
+ \end{itemize}
 
-\onslide<3>{
-\bigskip
-\bigskip
- Appears with third column}
-\pause{}
-\column{3cm}
-Column 2 
-\pause
-\column{3cm}
-Column 3 
+Feature:
+\begin{itemize}
+ \item Punti
+ \item Linee
+\end{itemize}
+
+Algoritmi:
+\begin{itemize}
+ \item EKF-SLAM
+ \item FastSLAM
+\end{itemize}
+
+\column{0.5\textwidth}
+
 \end{columns}
 
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Struttura logica del sistema}
 
 \begin{frame}
-\frametitle{Include eps graphics}
 
-\bigskip
-\centering{\includegraphics[height=2cm]{gfx/polimi-logo}}
+\frametitle{Struttura logica del sistema}
+
+\begin{columns}[c]
+ \column{.6\textwidth}
+ \begin{itemize}
+  \item Sistema modulare
+ \begin{itemize}
+  \item Reasoning
+  \item Individuazione degli oggetti
+  \item Riconoscimento degli oggetti
+  \item Tracking
+  \item Localizzazione
+ \end{itemize}
+  \item Utilizzo di knowledge base
+  \item Tracking a lungo termine feature
+  \item Approccio Full-SLAM
+ \end{itemize}
+ 
+ 
+ \column{.4\textwidth}
+ \centering{\includegraphics[width=\textwidth]{immagini/logico}}
+ 
+ \end{columns}
 
 \end{frame}
 
@@ -146,43 +131,29 @@ Column 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Example of Proposition}
+\frametitle{Reasoning}
 
-
-\begin{prop}[Name of Proposition]
-This is a proposition
 \begin{itemize}
-\item[(i)] observation 1
-\item[(ii)]observation 2
+\item Utilizzo della logica fuzzy per affrontare incertezze
+ \begin{itemize}
+  \item Incertezza sensori
+  \item Incertezza modello
+ \end{itemize}
+\item Classificazione degli oggetti tramite classificatore fuzzy ad albero
+
+\item Definizione di due linguaggi formali:
+ \begin{itemize}
+  \item Classificatore (modello oggetti)
+  \item Knowledgebase (symbol grounding)
+ \end{itemize}
+
+\item Algoritmo di reasoning
+ \begin{itemize}
+  \item Classificazione gerarchica
+  \item Relazioni tra gli oggetti
+ \end{itemize}
 \end{itemize}
-\end{prop}
 
-\bigskip
-\bigskip
-Alternative style
-\bigskip
-\medskip
-
-\begin{beamerboxesrounded}[shadow=true]{Name of Proposition}
-This is another preposition
-\end{beamerboxesrounded}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-\frametitle{Example of Theorem}
-
-\begin{thm}[Th Name]
-\label{thlabel} This is a theorem
-\end{thm}
-\bigskip
-\startproof
-\begin{displaymath}
-  a = b = c
-\end{displaymath}
-\qed
 
 
 \end{frame}
@@ -190,15 +161,71 @@ This is another preposition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Some icons}
-
-\begin{itemize}
-\addtolength{\itemsep}{.2cm}
-\item \done done
-\item \hspace{.18cm} todo
-\end{itemize}
-
+\frametitle{Individuazione e riconoscimento}
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Tracking e Mapping}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Architettura del sistema}
+\begin{frame}
+\frametitle{Architettura del sistema}
+
+\begin{itemize}
+\item Middleware: ROS - Robot Operating System
+\begin{itemize}
+ \item Publish-Subscribe
+ \item Client-Server
+ \item Interfacce sensori
+\end{itemize}
+
+\item Fusione Multisensoriale: ROAMFREE - Robust Odometry Applying Multisensor Fusion to Reduce Estimation Errors
+\begin{itemize}
+ \item IMU, magnetometro
+ \item Track
+ \item Oggetti
+\end{itemize}
+
+\item Analisi di immagine: OpenCV 2
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Architettura del sistema}
+
+\centering{\includegraphics[height=0.8\paperheight]{immagini/sistema}}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Risultati}
+\begin{frame}
+\frametitle{Risultati}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusioni}
+\begin{frame}
+\frametitle{Conclusioni}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
+

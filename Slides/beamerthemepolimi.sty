@@ -35,7 +35,6 @@
 \RequirePackage{helvet}
 
 \setbeamertemplate{navigation symbols}{}
-%\setbeamersize{description width=5cm}
 
 % ``Reflex blue i RGB, pr. 5. juli 2006''
 \definecolor{polimiblue}{rgb}{0.0549,0.173,0.557}
@@ -51,25 +50,9 @@
 \setbeamercolor{background canvas}{parent=normal text}
 \setbeamercolor{background}{parent=background canvas}
 
-%\addtolength{\abovecaptionskip}{3cm}
-%\addtolength{\belowcaptionskip}{3cm}
-%\addtolength{\textfloatsep}{3cm}
-%\addtolength{\floatsep}{3cm}
-%\addtolength{\intextsep}{3cm}
-
 \setbeamerfont{footline}{size=\tiny}
 \setbeamerfont{normal text}{size=\tiny}
 
-%\tiny		5	5	
-%\scriptsize	7	7	
-%\footnotesize	8	8	
-%\small		9	9	
-%\normalsize	10	10	
-%\large		12	12	
-%\Large		14	14.40	
-%\LARGE		18	17.28	
-%\huge		20	20.74	
-%\Huge		24	24.88
 
 \setbeamersize{text margin left=0.5cm,text margin right=0.5cm}
 
@@ -106,25 +89,32 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-% Kode for å få til pene bokser
 \setbeamertemplate{blocks}[]
 \setbeamercolor{block title}{fg=white,bg=polimiblue}
 \setbeamercolor{block title example}{parent=block title}
 \setbeamercolor{block body}{parent=normal text,%
   use=block title,bg=polimiboksbakgrunn}
 \setbeamercolor{block body example}{parent=block body}
-% NB:
-% Rektangulære bokser får litt for mye spacing når de er inni
-% kolonner. Dette er innrapportert som beamerbug [2005/10/27]
+
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Tegner opp footer, den blå bakgrunnen i footer kommer fra bakgrunnsbilde.
+% Footer
 \defbeamertemplate*{footline}{polimi theme}
 {
-  % stay in vertical mode here, thus no \leavevmode.
+  \hbox{%
+    \begin{beamercolorbox}[ht=50mm,dp=2mm,right,rightskip=5.75cm]{footline}%
+      \usebeamerfont{footline}\insertshortauthor,~\insertshorttitle%
+    \end{beamercolorbox}%
+  }
+  \vskip-.11cm
+}
+
+% Footer no logo
+\defbeamertemplate{footline}{polimi theme nologo}
+{
   \hbox{%
     \begin{beamercolorbox}[ht=50mm,dp=2mm,right,rightskip=5.75cm]{footline}%
       \usebeamerfont{footline}\insertshortauthor,~\insertshorttitle%
@@ -134,29 +124,8 @@
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Alternativ versjon av footer som gjør at POLIMI-logoen ikke tas med.
-%
-% For å aktivere denne, legg til kommandoen
-%    \setbeamertemplate{footline}[polimi theme nologo]
-% et sted i tex-fila di.
-%
-% NB: POLIMI info-avdelingen godtar ikke denne varianten.
-%
-\defbeamertemplate{footline}{polimi theme nologo}
-{
-  % stay in vertical mode here, thus no \leavevmode.
-  \hbox{%
-    \begin{beamercolorbox}[ht=50mm,dp=2mm,right,rightskip=5.75cm]{footline}%
-      \usebeamerfont{footline}\insertshortauthor,~\insertshortdate%
-    \end{beamercolorbox}%
-  }
-  \vskip-.11cm
-}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Tegner opp footer for forsida, \polimititlepage styrer bruk av denne.
+%% footer titlepage
 \defbeamertemplate{footline}{polimi theme titlepage}
 {
   
@@ -164,7 +133,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Setter opp teksten på forsida (tittel på foredrag, foredragsholder etc..
+% Title page
 \defbeamertemplate*{title page}{polimi}[1][]
 {%
 %  \begin{flushleft}
@@ -205,7 +174,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Header på hver slide
+% Header Slides
 \defbeamertemplate*{frametitle}{polimi theme}[1][left]
 {
   \@tempdima=\textwidth%
@@ -238,7 +207,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Noen generelle innstillinger
+%% Colors and lists
 
 %\definecolor{blue1}{rgb}{1,0,0}
 \definecolor{blue1}{cmyk}{.43,.18,0,.57}
@@ -267,8 +236,8 @@
 \setbeamercolor*{footline}{fg=blue1}
 
 \defbeamertemplate*{itemize item}{polimi}{$\filledsquare$}
-\defbeamertemplate*{itemize subitem}{polimi}{$\filledsquare$}
-\defbeamertemplate*{itemize subsubitem}{polimi}{$\filledsquare$}
+\defbeamertemplate*{itemize subitem}{polimi}{$\bullet$}
+\defbeamertemplate*{itemize subsubitem}{polimi}{$\circ$}
 
 \defbeamertemplate*{enumerate item}{polimi}{}
 \defbeamertemplate*{enumerate subitem}{polimi}{}
@@ -276,7 +245,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Fonter
+%% Fonts
 
 \setbeamerfont{title}{size=\normalsize,series=\bfseries}
 \setbeamerfont{subtitle}{size=\small}
@@ -293,6 +262,11 @@
 \setbeamerfont{block body}{size=\footnotesize}
 
 \setbeamerfont{page}{size=\footnotesize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TOC
+
+\setbeamertemplate{section in toc}[sections numbered]
 
 
 \mode
