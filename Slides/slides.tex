@@ -1,0 +1,204 @@
+% Adaptation of the POLIMI beamer template based on Politecnico di
+% Milano - Department of Electronics and Computer Science - 
+% powerpoint template. Original NTNU beamer template by Håvard Berland - http://www.pvv.ntnu.no/~berland/ntnubeamer/ 
+%
+% author: Luigi Malagò <luigi.malago@gmail.com> 
+% 01-01-2014
+%
+
+
+\documentclass[mathserif,t,screen]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{MnSymbol}
+\usepackage{multirow} 
+\usepackage{tabls}
+
+\usepackage{macros}
+
+\usepackage{tweaklist}
+\renewcommand{\itemhook}{\setlength{\topsep}{0pt}%
+  \setlength{\itemsep}{1pt}}
+
+\usepackage{kbordermatrix}
+\setlength{\kbrowsep}{0pt}
+
+\newcommand{\p}{\phantom{-}1}
+\newcommand{\m}{-1}
+
+\newcommand{\IconChecked}{\includegraphics[width=1.15cm]{gfx/checklist_cut}}
+\newlength{\CheckedLength}
+\setlength{\CheckedLength}{\labelwidth}\addtolength{\CheckedLength}{\labelsep}
+\newcommand{\done}{\hspace*{-.365cm}\hspace*{\CheckedLength}\makebox[0cm][r]{\IconChecked}%
+ \hspace*{-.125cm}}
+
+\newcommand{\startproof}{\textit{Proof. }}
+
+\newcommand{\norm}[1]{\left|\left|#1\right|\right|}
+
+\newcommand{\eqdef}{\overset{\textup{def}}{=}}
+
+\usetheme{polimienglish}
+ 
+\title[Cognitive SLAM]{Cognitive SLAM:}
+
+
+\subtitle{Knowledge-Based Simultaneous Localization and Mapping}
+
+% location and date of the talk. The part in [] will be displayed on
+% the bottom of every slide, the part between {} on the first page
+\author[Davide Tateo]{\textbf{Davide Tateo}\\
+Relatore: \textbf{Andrea Bonarini}
+}
+
+
+% \institute[POLIMI]{\textbf{DEPARTMENT OF ELECTRONICS AND INFORMATION}\\
+% \url{http://www.dei.polimi.it}
+% \vskip0.1cm
+% \textbf{AIRLab} Artificial Intelligence and Robotics Laboratory\\
+% \url{http://www.airlab.elet.polimi.it}}
+
+% location and date of the talk. The part in [] will be displayed on
+% the bottom of every slide, the part between {} on the first page
+\date[03/10/2014]{3 Ottobre 2014}
+
+\begin{document}
+
+\polimititlepage
+\addtocounter{framenumber}{-1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Lists and spacing}
+
+\begin{itemize}
+\addtolength{\itemsep}{.2cm}
+
+\item A
+
+\item B
+
+  \begin{itemize}
+    \addtolength{\itemsep}{.1cm}
+
+  \item[1.] one
+\pause
+  \item[2.] two
+
+  \end{itemize}
+
+\item C
+
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Columns and onslide}
+
+
+\begin{columns}[t]
+\column{3cm}
+Column 1 
+
+\onslide<3>{
+\bigskip
+\bigskip
+ Appears with third column}
+\pause{}
+\column{3cm}
+Column 2 
+\pause
+\column{3cm}
+Column 3 
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Include eps graphics}
+
+\bigskip
+\centering{\includegraphics[height=2cm]{gfx/polimi-logo}}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Example of Proposition}
+
+
+\begin{prop}[Name of Proposition]
+This is a proposition
+\begin{itemize}
+\item[(i)] observation 1
+\item[(ii)]observation 2
+\end{itemize}
+\end{prop}
+
+\bigskip
+\bigskip
+Alternative style
+\bigskip
+\medskip
+
+\begin{beamerboxesrounded}[shadow=true]{Name of Proposition}
+This is another preposition
+\end{beamerboxesrounded}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Example of Theorem}
+
+\begin{thm}[Th Name]
+\label{thlabel} This is a theorem
+\end{thm}
+\bigskip
+\startproof
+\begin{displaymath}
+  a = b = c
+\end{displaymath}
+\qed
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Some icons}
+
+\begin{itemize}
+\addtolength{\itemsep}{.2cm}
+\item \done done
+\item \hspace{.18cm} todo
+\end{itemize}
+
+
+\end{frame}
+
+\end{document}
