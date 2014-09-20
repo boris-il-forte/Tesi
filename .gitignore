@@ -1,3 +1,9 @@
 *.aux 
 *.backup
 tesi.*
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+
