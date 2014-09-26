@@ -22,15 +22,8 @@
 \polimititlepage[airlab]
 \addtocounter{framenumber}{-1}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-\frametitle{Sommario}
-\tableofcontents
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Il Problema}
+\section*{Il Problema}
 \begin{frame}
 \frametitle{Il Problema}
 
@@ -40,13 +33,20 @@ Problema:
  \item Utilizzo della conoscenza di un esperto per estrarre informazione dall'ambiente
 \end{itemize}
 
-Obbiettivi:
+Obiettivi:
 \begin{itemize}
  \item Estrazione di feature ad alto livello (oggetti)
  \item Tracking a lungo termine degli oggetti
  \item Localizzazione basata su oggetti come landmark 
 \end{itemize}
 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Sommario}
+\tableofcontents
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -157,6 +157,17 @@ Algoritmi:
 
 \begin{frame}
 \frametitle{Individuazione e riconoscimento}
+\begin{itemize}
+ \item Basati sulle proprietà geometriche dell'immagine
+ \begin{itemize}
+  \item Linee (trasformata di Hough)
+  \item Cluster (DBSCAN)
+  \item Rettangoli
+ \end{itemize}
+ \item Posa del robot per filtrare le linee orizzontali e verticali
+ \item Euristiche per riconoscere i quadrati dalle linee
+ \item Classificazione delle feature tramite classificatore fuzzy ad albero
+\end{itemize}
 
 \end{frame}
 
@@ -166,8 +177,10 @@ Algoritmi:
 \frametitle{Tracking}
 
 CMT: Consensus-based Matching and Tracking of Keypoints
+\begin{columns}[c, onlytextwidth]
+\column{.55\textwidth}
 \begin{itemize}
- \item Algortimo di tracking a lungo termine
+ \item Algoritmo di tracking a lungo termine
  \item Basato su keypoints
  \begin{itemize}
   \item BRISK per estrarre e descrivere keypoints
@@ -181,7 +194,12 @@ CMT: Consensus-based Matching and Tracking of Keypoints
  \item Clustering e politica di consenso per determinare il centro di massa
 
 \end{itemize}
+\column{.4\textwidth}
+\centering{\includegraphics[width=\textwidth]{immagini/voting}} \\
+\vskip 0.5cm
+\centering{\includegraphics[width=\textwidth]{immagini/consensus}}
 
+\end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,8 +211,10 @@ CMT: Consensus-based Matching and Tracking of Keypoints
  \item Stima dei landmark basata sull'errore di riproiezione
  \item Approccio full-slam
  \item Sensor fusion per migliorare l'odometria e stimare la scala
+ \item Factor graph per stimare pose e landmark
 \end{itemize}
 
+\centering{\includegraphics[width=\textwidth]{immagini/FactorGraph}}
 
 \end{frame}
 
@@ -205,13 +225,19 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 
 \begin{block}{Errore sulle track}
  \begin{equation*}
-  L^I =  K\cdot \left[  R^C_W | t^C_M  \right] \cdot L^W
+  \hat{L}^I =  K\cdot \left[  R^C_W \middle| t^C_W  \right] \cdot L^W
+ \end{equation*}
+ \begin{equation*}
+  e = \hat{L}^I - L^I + \eta
  \end{equation*}
 \end{block}
-
+\vskip 1cm
 \begin{block}{Errore sugli oggetti}
  \begin{equation*}
-  L^I =  K\cdot \left[  R^C_W | t^C_M  \right] \cdot L^W
+  \hat{L}^I_i =  K\cdot \left[  R^C_W \middle| t^C_W  \right] \cdot H^W_O \cdot L^O
+ \end{equation*}
+ \begin{equation*}
+  e_i = \hat{L}^I_i - L^I_i + \eta
  \end{equation*}
 \end{block}
 
@@ -242,6 +268,8 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 \end{itemize}
 
 \item Analisi di immagine: OpenCV 2
+
+\item Parser del classificatore: Flex e Bison
 \end{itemize}
 
 \end{frame}
@@ -260,8 +288,31 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 
 \section{Risultati}
 \begin{frame}
-\frametitle{Risultati}
+\frametitle{Risultati - Individuazione}
+\centering{\includegraphics[width=\textwidth]{immagini/risultati/detection}}
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Risultati - Riconoscimento}
+\begin{columns}[c, onlytextwidth]
+ \column{0.5\textwidth}
+ \centering{\includegraphics[width=\textwidth]{immagini/risultati/recognition1}}
+ \column{0.5\textwidth}
+ \centering{\includegraphics[width=\textwidth]{immagini/risultati/recognition2}}
+\end{columns}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Risultati - Tracking}
+\centering{\includegraphics[height=0.45\paperheight]{immagini/risultati/tracker1}} \\
+\vskip -0.5cm
+\centering{\includegraphics[height=0.45\paperheight]{immagini/risultati/tracker2}}
 \end{frame}
 
 
@@ -270,10 +321,30 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 \section{Conclusioni}
 \begin{frame}
 \frametitle{Conclusioni}
+\begin{itemize}
+ \item Sistema di localizzazione basato sugli oggetti
+ \item Riconoscimento degli oggetti effettuato grazie alle loro caratteristiche geometriche
+ \item Mappe semantiche dell'ambiente
+ \item Possibilità di fare inferenza sull'ambiente
+ \item Utilizzo di tutta l'informazione estraibile da sensori a basso costo
+ \item Costo computazionale ragionevole 
+\end{itemize}
+
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+
+\vskip 0.4\paperheight
+
+  \centering{\Huge Domande?}
+  \vskip 3cm
+  \begin{flushright}
+     \footnotesize Powered by \LaTeX
+  \end{flushright}
+\end{frame}
 
 \end{document}
 
