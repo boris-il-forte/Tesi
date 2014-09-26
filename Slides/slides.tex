@@ -163,9 +163,62 @@ Algoritmi:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Tracking e Mapping}
+\frametitle{Tracking}
+
+CMT: Consensus-based Matching and Tracking of Keypoints
+\begin{itemize}
+ \item Algortimo di tracking a lungo termine
+ \item Basato su keypoints
+ \begin{itemize}
+  \item BRISK per estrarre e descrivere keypoints
+  \item Optical flow per trackare i keypoints estratti
+ \end{itemize}
+ \item Stima di:
+  \begin{itemize}
+  \item scala
+  \item rotazione
+ \end{itemize}
+ \item Clustering e politica di consenso per determinare il centro di massa
+
+\end{itemize}
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Mapping}
+
+\begin{itemize}
+ \item Stima dei landmark basata sull'errore di riproiezione
+ \item Approccio full-slam
+ \item Sensor fusion per migliorare l'odometria e stimare la scala
+\end{itemize}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Mapping}
+
+\begin{block}{Errore sulle track}
+ \begin{equation*}
+  L^I =  K\cdot \left[  R^C_W | t^C_M  \right] \cdot L^W
+ \end{equation*}
+\end{block}
+
+\begin{block}{Errore sugli oggetti}
+ \begin{equation*}
+  L^I =  K\cdot \left[  R^C_W | t^C_M  \right] \cdot L^W
+ \end{equation*}
+\end{block}
+
+
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
