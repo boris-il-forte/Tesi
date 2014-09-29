@@ -6,6 +6,7 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{enumerate}
+\usepackage{multimedia}
 
 
 \usetheme{polimi}
@@ -174,6 +175,15 @@ Algoritmi:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
+\frametitle{Individuazione e riconoscimento}
+
+\centering{\includegraphics[width=\textwidth]{immagini/canny}} \\
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
 \frametitle{Tracking}
 
 CMT: Consensus-based Matching and Tracking of Keypoints
@@ -181,10 +191,10 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 \column{.55\textwidth}
 \begin{itemize}
  \item Algoritmo di tracking a lungo termine
- \item Basato su keypoints
+ \item Basato su keypoint
  \begin{itemize}
-  \item BRISK per estrarre e descrivere keypoints
-  \item Optical flow per trackare i keypoints estratti
+  \item BRISK per estrarre e descrivere keypoint
+  \item Optical flow per trackare i keypoint estratti
  \end{itemize}
  \item Stima di:
   \begin{itemize}
@@ -208,7 +218,7 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 \frametitle{Mapping}
 
 \begin{itemize}
- \item Minimizzazzione dell'errore di riproiezione
+ \item Minimizzazione dell'errore di riproiezione
  \item Stima dei landmark e pose simultanea (Approccio full-slam)
  \item Sensor fusion per integrare informazioni dagli altri sensori
  \item Stima di massima verosimiglianza su factor graph
@@ -315,6 +325,55 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 \centering{\includegraphics[height=0.45\paperheight]{immagini/risultati/tracker2}}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Risultati - Costo computazionale}
+
+Test effettuati su un processore i7-4500U, 4GB di ram:
+
+\begin{itemize}
+ \item individuazione e riconoscimento degli oggetti real time (in media 20/25 fps)
+ \item tracking real time, frame rate medio dipendente dal numero di track seguite in parallelo (1 $\sim$20 fps, 10 $\sim$5 fps) 
+ \item Mapping effettuato con tecniche batch (bundle adjustment).
+ \item Localizzazione su mappa nota possibile in real time.
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Risultati - Costo computazionale}
+Le prestazioni del sistema sono ampiamente migliorabili:
+\begin{itemize}
+ \item Algoritmi più efficienti di estrazione delle feature
+ \item Feature estratte solo su keyframe
+ \item Integrazione con la mappa
+\end{itemize}
+ 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Risultati - Video individuazione e tracking}
+\movie[width=\textwidth, height = 0.8\paperheight, poster, autostart]{}{video/tracking.avi}
+ 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Risultati - Video riconoscimento}
+\begin{columns}[c, onlytextwidth]
+ \column{0.5\textwidth}
+ \movie[width=\textwidth, height = 0.8\paperheight, poster, autostart]{}{video/canny.avi}
+ \column{0.5\textwidth}
+ \movie[width=\textwidth, height = 0.8\paperheight, poster, autostart]{}{video/recognition.avi}
+\end{columns}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -327,7 +386,8 @@ CMT: Consensus-based Matching and Tracking of Keypoints
  \item Mappe semantiche dell'ambiente
  \item Possibilità di fare inferenza sull'ambiente
  \item Utilizzo dell'informazione estraibile da più sensori a basso costo
- \item Costo computazionale ragionevole 
+ \item Sistema real-time di riconoscimento di feature
+ \item Mapping con tecniche batch
 \end{itemize}
 
 
