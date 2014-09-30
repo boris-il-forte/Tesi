@@ -219,7 +219,7 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 
 \begin{itemize}
  \item Minimizzazione dell'errore di riproiezione
- \item Stima dei landmark e pose simultanea (Approccio full-slam)
+ \item Stima dei landmark e pose simultanea (aproccio full-SLAM)
  \item Sensor fusion per integrare informazioni dagli altri sensori
  \item Stima di massima verosimiglianza su factor graph
 \end{itemize}
@@ -244,7 +244,7 @@ CMT: Consensus-based Matching and Tracking of Keypoints
 \vskip 1cm
 \begin{block}{Errore sugli oggetti}
  \begin{equation*}
-  \hat{L}^I_i =  K\cdot \left[  R^C_W \middle| t^C_W  \right] \cdot H^W_O \cdot L^O
+  \hat{L}^I_i =  K\cdot \left[  R^C_W \middle| t^C_W  \right] \cdot H^W_O \cdot L^O_i
  \end{equation*}
  \begin{equation*}
   e_i = \hat{L}^I_i - L^I_i + \eta
